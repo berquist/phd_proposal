@@ -34,23 +34,40 @@ Most calculations can use some fancy DFT functional with a triple-zeta basis set
 
 ** Machine learning
 
+*** What is the difference between supervised, semi-supervised, and unsupervised learning?
+
+*** Which kind of supervised learning does this proposal constitute?
+
 ** Python
 
 ** Unsorted
 
 *** What is curly (sp) SMILES?
+
 *** What is the difference between machine learning and deep learning?
+
 *** What is the difference between optical rotation and specific rotation?
+
 *** Where to obtain experimental IR spectra?
+
 **** OSDB (Open Spectral Database)
      It looks like most molecules present here contain links to original spectra from the NIST Webbook, AIST, (others?).
+
 *** Where to obtain experimental optical rotation values?
+
 **** https://brunl01.users.greyc.fr/CHEMISTRY/
+
+
 ***** Who created this? What organization is this?
+
 ***** How should this be cited?
+
 *** Where to obtain experimental specific rotation values?
+
 *** How to choose molecules for training set?
+
 *** How to choose molecules for test set?
+
 *** What is the best data representation for storing stereochemical information?
 
 * TODO
