@@ -1,0 +1,39 @@
+#+title: Proposal notes
+#+author: Eric Berquist
+#+email: erb74@pitt.edu
+
+The current plan is to write my graduate research proposal on
+determination of molecular absolute configuration using machine
+learning, specifically determining the relationship between
+experimental optical/specific rotation and molecular structure.
+
+* Features for machine learning
+
+Most calculations can use some fancy DFT functional with a triple-zeta basis set, unless otherwise noted.
+
+ - Representation: chemical formula
+ - Representation: chemical name
+ - Representation: SMILES string
+ - Representation: InChI string
+ - Raw IR spectra (experimental)
+ - Raw IR spectra (calculated)
+ - Difference IR spectra between enantiomers (experimental)
+ - Difference IR spectra between enantiomers (calculated)
+ - Optical rotation (experimental)
+ - Specific rotation (experimental)
+
+* Questions
+
+** Machine learning
+
+** Python
+
+** Unsorted
+
+ - What is curly (sp) SMILES?
+ - What is the difference between machine learning and deep learning?
+ - What is the difference between optical rotation and specific rotation?
+ - Where to obtain experimental IR spectra?
+   - OSDB (Open Spectral Database)
+ - Where to obtain experimental optical rotation values?
+ - Where to obtain experimental specific rotation values?
