@@ -7,7 +7,7 @@ determination of molecular absolute configuration using machine
 learning, specifically determining the relationship between
 experimental optical/specific rotation and molecular structure.
 
-* Features for machine learning
+* Machine learning: features
 
 Most calculations can use some fancy DFT functional with a triple-zeta basis set, unless otherwise noted.
 
@@ -22,7 +22,15 @@ Most calculations can use some fancy DFT functional with a triple-zeta basis set
  - Optical rotation (experimental)
  - Specific rotation (experimental)
 
+* Machine learning: targets
+
+ - Absolute configuration at each stereocenter
+
 * Questions
+
+** Proposal
+
+*** Proposals are granted based upon the likelihood of their success; this is high-risk, high-reward. How can I guarantee that this will work? Worded differently, what will I do if this doesn't work?
 
 ** Machine learning
 
@@ -30,10 +38,21 @@ Most calculations can use some fancy DFT functional with a triple-zeta basis set
 
 ** Unsorted
 
- - What is curly (sp) SMILES?
- - What is the difference between machine learning and deep learning?
- - What is the difference between optical rotation and specific rotation?
- - Where to obtain experimental IR spectra?
-   - OSDB (Open Spectral Database)
- - Where to obtain experimental optical rotation values?
- - Where to obtain experimental specific rotation values?
+*** What is curly (sp) SMILES?
+*** What is the difference between machine learning and deep learning?
+*** What is the difference between optical rotation and specific rotation?
+*** Where to obtain experimental IR spectra?
+**** OSDB (Open Spectral Database)
+     It looks like most molecules present here contain links to original spectra from the NIST Webbook, AIST, (others?).
+*** Where to obtain experimental optical rotation values?
+**** https://brunl01.users.greyc.fr/CHEMISTRY/
+***** Who created this? What organization is this?
+***** How should this be cited?
+*** Where to obtain experimental specific rotation values?
+*** How to choose molecules for training set?
+*** How to choose molecules for test set?
+*** What is the best data representation for storing stereochemical information?
+
+* TODO
+
+*** Read Alan Aspuru-Guzik's papers on machine learning for predicting DFT energies
