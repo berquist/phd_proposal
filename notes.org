@@ -17,8 +17,12 @@ Most calculations can use some fancy DFT functional with a triple-zeta basis set
  - Representation: InChI string
  - Raw IR spectra (experimental)
  - Raw IR spectra (calculated)
+   - peak positions
+   - intensities
  - Difference IR spectra between enantiomers (experimental)
  - Difference IR spectra between enantiomers (calculated)
+   - peak positions
+   - intensities
  - Optical rotation (experimental)
  - Specific rotation (experimental)
 
@@ -50,7 +54,7 @@ Most calculations can use some fancy DFT functional with a triple-zeta basis set
 
 *** Where to obtain experimental IR spectra?
 
-**** OSDB (Open Spectral Database)
+**** [[http://osdb.info/][OSDB (Open Spectral Database)]]
      It looks like most molecules present here contain links to original spectra from the NIST Webbook, AIST, (others?).
 
 *** Where to obtain experimental optical rotation values?
@@ -70,6 +74,16 @@ Most calculations can use some fancy DFT functional with a triple-zeta basis set
 
 *** What is the best data representation for storing stereochemical information?
 
+*** How to invert chirality
+From an [[http://sourceforge.net/p/avogadro/feature-requests/126/][Avogadro feature request]]:
+
+We should have an extension which inverts the chirality of selected atoms or molecules.
+
+The code is actually easy -- pick two atoms bonded to a chiral carbon center, and translate each of them using the "skeletontree" code. This will swap positions of the two groups.
+(Actually, thinking about it, you probably want to change the bond angle to -1.0*angle.)
+
 * TODO
 
 *** Read Alan Aspuru-Guzik's papers on machine learning for predicting DFT energies
+
+* Timeline
