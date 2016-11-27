@@ -4,3 +4,10 @@
 # Python
 __pycache__
 *.pyc
+
+# LaTeX
+abstract/*.aux
+abstract/*.fdb_latexmk
+abstract/*.fls
+abstract/*.log
+abstract/*.out
