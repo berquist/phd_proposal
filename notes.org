@@ -1,0 +1,54 @@
+#+title: Proposal notes
+#+author: Eric Berquist
+#+email: erb74@pitt.edu
+
+* <2016-11-27 Sun 09:52>
+
+** Representation of non-scalar values
+
+All of Anatole von Lilienfeld's current work is for predicting /scalar values/, such as the isotropic polarizability, HOMO-LUMO gap, dipole moment norm, and others. How are we going to work with peak positions (harmonic vibrational frequencies), which must be represented as a vector?
+
+The current representation allows a vector of scalars for the reference data \(p\) and the coefficients \(c\).
+
+Transforming this representation to vectors of vectors (matrices) to give \(P\) and \(C\) should work.
+
+** Creation of benchmark data
+
+The benchmark data is not experimental, but comes from B3LYP/6-31G(2df,p) calculations. They have performed extensive validation of the data against G4MP2, G4, and CBS-Q3 energetics.
+
+*** Would moving to a "better" density functional/basis set allow for smaller molecular test sets?
+
+*** Is there a possibility of comparing to experiment?
+
+** ...
+
+#+BEGIN_QUOTE
+We note that our model for \(V_{oc}\) shows a very good correlation. This can be rationalized considering the principal dependence of \(V_{oc}\) on intramolecular properties, which are apparently well reflected in the employed molecular descriptors. The \(J_{sc}\) model behaves similarly well although \(J_{sc}\) is also linked to bulk effects. For the fill factor -- a quantity primarily determined by morphology and device characteristics -- we could, in contrast, only obtain poor models.
+#+END_QUOTE
+
+** Definitions
+
+- [[https://en.wikipedia.org/wiki/Loss_function][Loss function (Wikipedia)]]: negative of an {objective, reward, profit, utility, fitness} function to be minimized {maximized}.
+- [[https://en.wikipedia.org/wiki/Latent_variable][Latent variable (Wikipedia)]]: ...
+- [[http://scikit-learn.org/stable/modules/kernel_ridge.html][Kernel ridge regression (scikit-learn)]]: ...
+- [[https://en.wikipedia.org/wiki/Covariance][Covariance (Wikipedia)]]: ...
+
+
+** =pml-intro-22may12.pdf=
+
+Page 16:
+
+#+BEGIN_QUOTE
+Such models often have better predictive accuracy than association rules, although they may be less interpretable. This is typical of the difference between data mining and machine learning: in data mining, there is more emphasis on interpretable models, whereas in machine learning, there is more emphasis on accurate models.
+#+END_QUOTE
+
+[[https://en.wikipedia.org/wiki/Linear_regression][Linear regression]], page xx:
+
+\[
+y(x) &= w^{T}x + \varepsilon = \sum_{j=1}^{D} w_{j}x_{j} + \varepsilon \\
+y(x) &= mx + b
+\]
+
+where \(w^{T}x\) represents the inner or *scalar product* between the input vector \(x\) and the model's *weight vector* \(w\), and \varepsilon is the *residual error* between our linear predictions and the true response. In statistics, it is more common to denote the regression weights by \beta.
+
+*** TODO How to do equivalent of LaTeX align environment?
