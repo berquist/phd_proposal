@@ -8,6 +8,8 @@ import copy
 import scipy
 import scipy.io
 
+from tqdm import tqdm
+
 import nn
 
 
@@ -56,7 +58,7 @@ nnavg = copy.deepcopy(nnsgd)
 # Train the neural network
 # --------------------------------------------
 nr = 1000000
-for i in range(1, nr + 1):
+for i in tqdm(range(1, nr + 1)):
 
     # learning rate
     if i > 0: lr = 0.001
