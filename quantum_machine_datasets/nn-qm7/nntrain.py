@@ -31,7 +31,7 @@ dataset = scipy.io.loadmat('qm7.mat')
 # --------------------------------------------
 # Extract training data
 # --------------------------------------------
-P = dataset['P'][range(0, split) + range(split + 1, 5)].flatten()
+P = dataset['P'][list(range(0, split)) + list(range(split + 1, 5))].flatten()
 X = dataset['X'][P]
 T = dataset['T'][0, P]
 
@@ -55,7 +55,8 @@ nnavg = copy.deepcopy(nnsgd)
 # --------------------------------------------
 # Train the neural network
 # --------------------------------------------
-for i in range(1, 1000001):
+nr = 1000000
+for i in range(1, nr + 1):
 
     # learning rate
     if i > 0: lr = 0.001
