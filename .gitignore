@@ -7,10 +7,14 @@ __pycache__
 *.pkl
 
 # LaTeX
-abstract/*.aux
-abstract/*.fdb_latexmk
-abstract/*.fls
+*.aux
+*.bbl
+*.fdb_latexmk
+*.fls
 abstract/*.log
 abstract/*.out
+
+notes.pdf
+notes.tex
 
 proposal/proposal.tex

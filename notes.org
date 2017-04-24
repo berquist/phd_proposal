@@ -1,6 +1,7 @@
 #+title: Proposal notes
 #+author: Eric Berquist
 #+email: erb74@pitt.edu
+#+latex_header: \usepackage[margin=1in]{geometry}
 
 * <2016-11-27 Sun 09:52>
 
@@ -44,11 +45,51 @@ Such models often have better predictive accuracy than association rules, althou
 
 [[https://en.wikipedia.org/wiki/Linear_regression][Linear regression]], page xx:
 
-\[
+\begin{align}
 y(x) &= w^{T}x + \varepsilon = \sum_{j=1}^{D} w_{j}x_{j} + \varepsilon \\
 y(x) &= mx + b
-\]
+\end{align}
 
 where \(w^{T}x\) represents the inner or *scalar product* between the input vector \(x\) and the model's *weight vector* \(w\), and \varepsilon is the *residual error* between our linear predictions and the true response. In statistics, it is more common to denote the regression weights by \beta.
 
-*** TODO How to do equivalent of LaTeX align environment?
+*** DONE How to do equivalent of LaTeX align environment?
+    CLOSED: [2017-02-08 Wed 21:55]
+
+Just use =\begin{align},\end{align}= as normal.
+
+* <2017-02-08 Wed 19:17>
+
+#+begin_quote
+- What are the details of the gap? It's not clear what you are trying to say when you state, "only atomic forces, enough for optimized geometries but not spectroscopic observables."
+
+- The appearance of quantum chemistry was fairly sudden. Maybe a quick definition of quantum chemistry and its role within chemistry as a whole would be helpful. As a result, the gap in knowledge/potential challenges was muddled slightly.
+
+- The "payoff" was difficult to discern. It was said that understanding the two avenues is "crucial", but it might need to be more specific.
+
+This first paragraph of proposal is overall very good in structure but to be honest, it doesn’t excite me too much as a chemist. It clearly identifies the research area of using machine learning in chemistry and points out its importance for the development of quantum chemistry. It also briefly illustrates the application of machine learning into chemistry and states its problem and limitations. Then it moves onto the significance of understanding the process to quantum chemistry. It has all the required components and it is a complete first paragraph of proposal. It also follows the formatting requirement.
+
+The first several sentences with introductions to machine learning are not clear enough for me as a chemist with limited computer science background. In my opinion, the relationship between machine learning and algorithms cannot be described with the word ‘instead’. The logic between these sentences is not smooth and this doesn’t help me understand this broad area very well. Also, probably more descriptions are needed to reveal the significance of the proposed work. The word ‘crucial’ is too general in my opinion and more details should be provided to help readers understand why it is important.
+#+end_quote
+
+** Technical points
+
+- How do we define "enormous amounts", and how do we define "high-quality", both regarding theoretical/computational data?
+- Why can't internal coordinates be used for ML descriptors?
+- Why use cosine in distance cutoffs and not an exponential (decay)?
+- Why not use/do feature scaling/normalization to avoid "numerical difficulties in the fits due to the range of values over many orders of magnitude" when using the Coulomb matrix?
+
+** Broad/general points
+
+- Can unsupervised learning provide insight about the training data itself? Or, can we use unsupervised learning to determing what ML "finds important" about chemical systems?
+- Could one goal be the convenient packaging of tools? It would enable end-user science
+- The objective needs to be changed from "can we apply this tool (machine learning) to quantum chemistry" to "can we calculate complex ... at desktop cost with quantum chemistry accuracy", or something more scientific and less technical/tool oriented
+
+I understand that in general, chemistry publications by theorists tend to go for low-hanging fruit, but I wonder if the papers and perspectives from the past few years are tackling problems that are "too small" intellectually (not training set-wise, certainly) and not using the "latest and greatest" from industry.
+
+Writing with a scientific goal in mind rather than seeing if the tool works (have hammer, everything looks like a nail) will be more convincing to a general audience.
+
+The collective scientific community has a massive amount of computing power available to it, with much of it used by computational chemistry, though it remains inaccessable to the non-computational chemist to needs to run (black-box) calculations on their desktop/personal computer. Not everyone has the time (days, weeks) to wait for a handful of calculations to run. These calculations are usually conceptually (and maybe even chemically) simple, and usually "routine", but can still be very expensive (thinking of the Jacob Sanders compressed sensing paper argument). What if there was a way to make high-quality/research quality calculations cheaper for these scenarios by "offloading" the heavy work to ML/training on a cluster, then just run the prediction on a workstation or laptop? This is of course already done.
+
+The theory community that is driving ML development wrt quantum chemistry is mostly using ML as a tool to predict molecular "properties" at a low cost. But no one is researching what exactly it is the ML models are learning. Investigating/understanding what the ML models are learning is necessary for the continued application of ML to chemistry problems. Otherwise, it will be a very expensive waste of time considering the cost of training sets even at modest (hybrid GGA, double zeta basis).
+
+- How is it understood what a model has "learned" other than looking at the quality of its predictions?
