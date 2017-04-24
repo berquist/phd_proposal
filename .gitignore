@@ -1,5 +1,5 @@
 # made by Markdown/org-mode
-/*.html
+*.html
 
 # Python
 __pycache__
@@ -12,3 +12,5 @@ abstract/*.fdb_latexmk
 abstract/*.fls
 abstract/*.log
 abstract/*.out
+
+proposal/proposal.tex

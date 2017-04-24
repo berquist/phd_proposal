@@ -1,0 +1,27 @@
+\usepackage[margin=1.0in]{geometry}
+
+%% \usepackage[
+%%   activate={true,nocompatibility},
+%%   final,
+%%   kerning=true
+%% ]{microtype}
+
+\usepackage[
+  inline = true,
+  margin = false,
+  status = draft,
+]{fixme}
+\fxusetheme{color}
+
+\usepackage[
+    backend     = biber,
+    style       = chem-acs,
+    autocite    = superscript,
+    doi         = true,
+    maxbibnames = 1000,
+]{biblatex}
+\setlength\bibitemsep{0pt}
+\renewcommand*{\bibfont}{\footnotesize}
+\let\cite\autocite
+
+\addbibresource{./assignment7.bib}
