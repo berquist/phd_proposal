@@ -11,6 +11,12 @@ __pycache__
 *.bbl
 *.fdb_latexmk
 *.fls
+*.bcf
+*.bib.bak
+*.bib.sav
+*.blg
+*.run.xml
+*.xdv
 abstract/*.log
 abstract/*.out
 
