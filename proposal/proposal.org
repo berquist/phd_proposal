@@ -1,4 +1,4 @@
-#+title: Deciphering the Contents of Quantum Chemical Neural Networks
+#+title: Deciphering the Contents of Chemically-Trained Neural Networks into Physical Intuition
 #+author: Eric Berquist
 #+options: toc:nil author:t creator:nil email:nil title:t
 #+latex_class: article
@@ -82,6 +82,9 @@ Additionally, it is unclear why a DNN trained on the combination of all QSAR dat
 
 # I don't think that this is an adequate explanation for the success of the smallest model.
 
+# #+caption: Example of how a molecule (ibuprofen) is ... Taken from \parencite{Kearnes2016}.
+# [[file:10822_2016_9938_Fig8_HTML.png]]
+
 ** Machine Learning in Quantum Chemistry
 
 \begin{anfxnote}{background for ML in QC}
@@ -162,7 +165,7 @@ Although no improvements will be made to the basic relevance propagation algorit
 
 Unfortunately, the learned models for the results presented in \parencite{2017arXiv170205532F} are not available, only descriptions of the architectures. The inputs are available as modified XYZ files from the [[http://quantum-machine.org/datasets/][Quantum Machine (http://quantum-machine.org/)]] website under the [[http://figshare.com/collections/Quantum_chemistry_structures_and_properties_of_134_kilo_molecules/978904][QM9 Dataset]] section\cite{Ramakrishnan:2014ij,doi:10.1021/ci300415d}.
 
-There are two neural network-based architectures described in \parencite{2017arXiv170205532F}: Graph Convolutions \cite{Kearnes2016} (GC) and Gated Graph Neural Networks \cite{2015arXiv151105493L} (GG). These NN architectures are used again as baselines in \parencite{2017arXiv170401212G}. \fxnote{It is unclear to the PI why the performance of one over the other switches between the two publications.} Since the original GC implementation referenced in \parencite{2017arXiv170205532F} is [[https://github.com/tkipf/gcn][openly available]], I will use the GC-based architecture with modifications described in section E5 of \parencite{2017arXiv170205532F}. \fxnote{Is it safe to just reference this paper, or are more details necessary?} Details for the GC architecture input, called the Molecular Graph representation, are shown in tables 1 and 2 of \parencite{2017arXiv170205532F}.
+There are two neural network-based architectures described in \parencite{2017arXiv170205532F}: Graph Convolutions \cite{Kearnes2016} (GC) and Gated Graph Neural Networks \cite{2015arXiv151105493L} (GG). These NN architectures are used again as baselines in \parencite{2017arXiv170401212G}. Since the original GC implementation referenced in \parencite{2017arXiv170205532F} is [[https://github.com/tkipf/gcn][openly available]]\cite{kipf2016semi}, I will use the GC-based architecture with modifications described in section E5 of \parencite{2017arXiv170205532F}. \fxnote{Is it safe to just reference this paper, or are more details necessary?} Details for the GC architecture input, called the Molecular Graph representation, are shown in tables 1 and 2 of \parencite{2017arXiv170205532F}.
 
 # #+begin_quote
 # \begin{anfxnote}{section E5}
@@ -182,47 +185,6 @@ There are two neural network-based architectures described in \parencite{2017arX
 # \end{anfxnote}
 # #+end_quote
 
-# #+BEGIN_EXPORT latex
-# \begin{table}[htbp]
-#     \caption{Atom features for the Molecular Graph (MG) representation. These are the values provided for each atom in the molecule.}
-#     \label{table:atom_features}
-#     \centering
-#     \begin{tabular}{ l| p{5cm} }
-#     \toprule
-#     Feature & Description \\\hline\hline
-#     \midrule
-#     Atom type & H, C, N, O, F (one-hot). \\\hline
-#     Chirality & R or S (one-hot or null). \\\hline
-#     Formal charge & Integer electronic charge.  \\\hline
-#     Partial charge & Calculated partial charge.  \\\hline
-#     Ring sizes & For each ring size ($3$--$8$), the number of rings that include
-#                  this atom.  \\\hline
-#     Hybridization & sp, sp$^2$, or sp$^3$ (one-hot or null).  \\\hline
-#     Hydrogen bonding & Whether this atom is a hydrogen bond donor and/or
-#                        acceptor (binary values).  \\\hline
-#     Aromaticity & Whether this atom is part of an aromatic system. \\
-#     \bottomrule
-#     \end{tabular}
-# \end{table}
-
-# \begin{table}[htbp]
-#     \caption{Atom pair features for the Molecular Graph (MG) representation. These are the values provided for each pair of atoms in the molecule.}
-#     \label{table:pair_features}
-#     \centering
-#     \begin{tabular}{ l| p{6cm} }
-#     \toprule
-#     Feature & Description  \\\hline\hline
-#     \midrule
-#     Bond type & Single, double, triple, or aromatic (one-hot or null). \\\hline
-#     Graph distance &For each distance ($1$--$7$), whether the shortest path between the atoms in the pair is less than or equal to that number of bonds (binary values). \\\hline
-#     Same ring & Whether the atoms in the pair are in the same ring.  \\\hline
-#     Spatial distance & The euclidean distance between the two atoms.  \\
-#     \bottomrule
-#     \end{tabular}
-# \end{table}
-
-# #+END_EXPORT
-
 # *** From April:
 
 # #+BEGIN_QUOTE
@@ -231,34 +193,43 @@ There are two neural network-based architectures described in \parencite{2017arX
 # The QM-9 dataset has 130462 molecules in it. We randomly chose 10,000 samples for validation, 10,000 samples for testing and used the rest for training. We use the validation set to do early stopping and model selection and report scores on the test set. All targets were normalized to have mean 0 and variance 1. We minimized the mean squared error between the model output and the target, although we evaluate mean absolute error.
 # #+END_QUOTE
 
-#+caption: The Molecular Graph input representation: atom features, reproduced from
-| Feature          | Description                                                                |
-|------------------+----------------------------------------------------------------------------|
-| Atom type        | H, C, N, O, F (one-hot)                                                    |
-| Chirality        | R or S (one-hot or null)                                                   |
-| Formal charge    | Integer electronic charge                                                  |
-| Partial charge   | Calculated partial charge                                                  |
-| Ring sizes       | For each ring size (3-8), the number of rings that include this atom.      |
-| Hybridization    | sp, sp\(^2\), or sp\(^3\) (one-hot or null)                                |
-| Hydrogen bonding | Whether this atom is a hydrogen bond donor and/or acceptor (binary values) |
-| Aromaticity      | Whether this atom is part of an aromatic system.                           |
+#+caption: The Molecular Graph (MG) input representation: single atom features
+#+attr_latex: :environment tabu :align |lp{10.25cm}l|
+| Feature          | Description                                                                | Size |
+|------------------+----------------------------------------------------------------------------+------|
+| Atom type        | H, C, N, O, or F (one-hot)                                                 |    5 |
+| Chirality        | R or S (one-hot or null)                                                   |    2 |
+| Formal charge    | Integer electronic charge                                                  |    1 |
+| Partial charge   | Calculated partial charge                                                  |    1 |
+| Ring sizes       | For each ring size (3-8), the number of rings that include this atom       |    6 |
+| Hybridization    | sp, sp\(^2\), or sp\(^3\) (one-hot or null)                                |    3 |
+| Hydrogen bonding | Whether this atom is a hydrogen bond donor and/or acceptor (binary values) |    2 |
+| Aromaticity      | Whether this atom is part of an aromatic system                            |    1 |
+|------------------+----------------------------------------------------------------------------+------|
+|                  |                                                                            |   21 |
 
+#+caption: The Molecular Graph (MG) input representation: atom pair features
+#+attr_latex: :environment tabu :align |lp{10.25cm}l|
+| Feature          | Description                                                                                                                                    | Size |
+|------------------+------------------------------------------------------------------------------------------------------------------------------------------------+------|
+| Bond type        | Single, double, triple, or aromatic (one-hot or null)                                                                                          |    4 |
+| Graph distance   | For each distance (1-7), whether the shortest path between the atoms in the pair is less than or equal to that number of bonds (binary values) |    7 |
+| Same ring        | Whether the atoms in the pair are in the same ring                                                                                             |    1 |
+| Spatial distance | The Euclidean distance between the two atoms                                                                                                   |    1 |
+|------------------+------------------------------------------------------------------------------------------------------------------------------------------------+------|
+|                  |                                                                                                                                                |   13 |
 
-#+caption: The Molecular Graph input representation: atom features, reproduced from Table 1 of \parencite{2017arXiv170401212G}
-| Feature             | Description                    |
-|---------------------+--------------------------------|
-| Atom type           | H, C, N, O, F (one-hot)        |
-| Atomic number       | Number of protons (integer)    |
-| Partial charge      | Calculated charge (float)      |
-| Acceptor            | Accepts electrons (binary)     |
-| Donor               | Donates electrons (binary)     |
-| Aromatic            | In an aromatic system (binary) |
-| Hybridization       | sp, sp2, sp3 (one-hot or null) |
-| Number of hydrogens | (integer)                      |
-
-\begin{anfxerror}{problem}
-Now it it very clear that there is a problem. The 134k molecules from QM9 are not sufficient to reproduce the MG input representation, assuming that the partial charge comes from a quantum calculation. Acutally, how are the following even determined: partial charge, (hybridization), hydrogen bonding, acceptor, donor, aromatic? If we want a quantum mechanical descriptor of partial charge, then we willa rleady have to perform 134k QM calculations at this step.
-\end{anfxerror}
+# #+caption: The Molecular Graph (MG) input representation: single atom features, reproduced from Table 1 of \parencite{2017arXiv170401212G}.
+# | Feature             | Description                    |
+# |---------------------+--------------------------------|
+# | Atom type           | H, C, N, O, F (one-hot)        |
+# | Atomic number       | Number of protons (integer)    |
+# | Partial charge      | Calculated charge (float)      |
+# | Acceptor            | Accepts electrons (binary)     |
+# | Donor               | Donates electrons (binary)     |
+# | Aromatic            | In an aromatic system (binary) |
+# | Hybridization       | sp, sp2, sp3 (one-hot or null) |
+# | Number of hydrogens | (integer)                      |
 
 \begin{anfxerror}{problem2}
 This needs to be split into two specific aims: 1. reproducing the literature results, and 2. attaching relevance propagation. A new expected outcome for aim \#1 will be the creation of a full QM database will all the information needed to reproduce the results (direct QM output files, input generation pipeline, ML training and prediction pipeline).
@@ -334,7 +305,7 @@ Achieving the goal of aim #1 requires the following steps:
 
 * Broader Impacts
 
-Three crucial components of scientific method development are validation, reproducibility, and replicability \cite{blog:jblevins}. As the application of machine learning within quantum chemistry is relatively new and fast-moving, still being in the "discovery" phase, there have not been attempts at replicating machine learning pipelines, peer-reviewed or otherwise. Additionally, in traditional quantum chemistry there are a plethora of well-known program packages for performing electronic structure calculations \cite{g16,QCHEM4,daltonpaper,WCMS:WCMS93} that are self-contained, /e.g./ a single program can calculate optimized geometries, vibrational spectra, NMR chemical shifts, reaction energies, etc. Any potential application of machine learning will require the construction of a /pipeline/, where multiple components such as programs or analysis steps are chained together so the output from one step is used as input for another step. This infrastructure exists to some degree for machine learning, with base packages such as scikit-learn \cite{\fxnote{REF}} and TensorFlow \cite{\fxnote{REF}} themselves being self-contained with excellent tutorials and examples. This infrastructure does not exist for quantum chemistry-derived machine learning models. Introductions to machine learning are numerous and extensive using the standard "fruit fly" of NNs, the MNIST database of handwritten digits \cite{\fxnote{REF}}, and similar fully-worked examples should exist for chemistry as well.
+Three crucial components of scientific method development are validation, reproducibility, and replicability \cite{blog:jblevins}. As the application of machine learning within quantum chemistry is relatively new and fast-moving, still being in the "discovery" phase, there have not been attempts at replicating machine learning pipelines, peer-reviewed or otherwise. Additionally, in traditional quantum chemistry there are a plethora of well-known program packages for performing electronic structure calculations \cite{g16,QCHEM4,daltonpaper,WCMS:WCMS93} that are self-contained, /e.g./ a single program can calculate optimized geometries, vibrational spectra, NMR chemical shifts, reaction energies, etc. Any potential application of machine learning will require the construction of a /pipeline/, where multiple components such as programs or analysis steps are chained together so the output from one step is used as input for another step. This infrastructure exists to some degree for machine learning, with base packages such as scikit-learn \cite{\fxnote{REF}} and TensorFlow \cite{tensorflow2015-whitepaper} themselves being self-contained with excellent tutorials and examples. This infrastructure does not exist for quantum chemistry-derived machine learning models. Introductions to machine learning are numerous and extensive using the standard "fruit fly" of NNs, the MNIST database of handwritten digits \cite{\fxnote{REF}}, and similar fully-worked examples should exist for chemistry as well.
 
 A crucial reason for the growth in cross-disciplinary applications of machine learning is the openness and extensiveness of introductory tools, specifically tutorials and examples. Historically, chemistry lags behind other sciences in terms of openness of procedures and results. The current infrastructure surrounding the combination of machine learning and quantum chemistry is very poor: disorganized work, disorganized results, and not all components are available for reuse. The development of these machine learning pipelines will constitute the development of open-source, freely available infrastructure that will be easily extendable. _I will provide openly *all* components of the machine learning pipeline developed in this proposed work_, including the fully-trained models, meaning the implementations using open-source software and the learned parameters for each model. All components will be placed on [[https://github.com/][GitHub]], the premier location for the open hosting of machine learning tools. Making these tools available will enable the verification of future, more advanced machine learning models that has not been possible to date. The tools will also serve as a pedagogical example for how machine learning can be applied to quantum chemical problems. This pipeline can then serve as the "fruit fly" for quantum chemistry in machine learning.
 
