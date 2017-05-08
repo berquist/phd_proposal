@@ -14,24 +14,28 @@ The explosive growth of computing power over the past \fxnote{TODO} years \cite{
 
 The _overall objective_ is to quantify what quantum chemistry-trained machine learning models are actually learning. The _central hypothesis_ is that the application of machine learning to quantum chemistry is physically motivated, /i.e./, ML models are learning parameters that connect the molecular representation (input features) to predictions in a manner that is qualitatively identical to how a trained chemist would apply their intuition. An implicit connection has already been made \cite{2017arXiv170205532F} between how a molecule is represented as input to ML models and the accuracy of prediction for certain kinds of properties, but this connection has not been explored. The _rationale_ is that by understanding the connection between the molecular representation given to ML models and their predictions, ML models themselves can be used for rationalizing molecular structure-property relationships. The overall objective will be achieved through the following _specific aims_:
 
-# - I am embarrassed to say this escaped my notice. Originally I thought that I would also try and characterize the weights from kernel ridge regression models, since those are more popular, but nixed that because the scope could be seen as too large, then promptly forgot about why NNs in the first place. The overarching reason is that neural network-based architectures are the future for chemistry + ML since they are capable of handling the intrinsic complexity of molecular electronic structure in a way that other nonlinear models (KRR, support vector machines) cannot. Perhaps their performance is good in some areas, but they have a ceiling to their prediction capability that is built into their structure. On the other hand, NNs can be made arbitrarily complex, even more so than we can imagine arbitrarily complex molecules and chemical systems. The most naive way it to just make it bigger and train on a bunch of GPUs. This isn't necessary because fundamental NN research is a hot field, and better NN structures are being developed that make them even more flexible and hopefully also easier to train. A more concrete reason for using NNs (that I haven't yet made clear...at all) is that there are some "simple" NN structures in use for quantum chemical applications, and *those* are the existing models that I will look at in aim #1. There's a paper from February that is my target, and another more complicated one from 2 weeks ago that I might also consider. So, look at parameters for _existing_ NNs, make small additions to NNs and train on more spectroscopic observables, then look at parameters for improved NNs + new observables.
+1. *Reproduce existing machine learning models from the literature.* I will replicate two neural networks (NNs) from \parencite{2017arXiv170205532F} to serve as both the necessary architecture that analysis tools developed later in this proposal will be built on, and as the baseline for \fxnote{the quality of the results}. NNs are chosen since they overall exhibit the most quantitatively accurate predictions compared to other ML architectures when trained on quantum chemical data. The properties that I will reproduce from the literature are the isotropic static polarizability \(\bar{\alpha}\) \parencite{POC:POC407} and the zero-point vibrational energy \(E_\text{ZPVE}\) \parencite{doi:10.1063/1.2436891}, which represent molecular properties that can be derived from spectroscopic data and are difficult to predict with current NNs.
 
-1. *Characterize the parameters learned by existing machine learning models from the literature.* I will use relevance propagation \cite{\fxnote{REF}} to quantify the relative importance of each input feature for each predicted property. Relevance propagation gives insight into a model's learned coefficients in a fashion that can be used directly in statistical analysis and visualization. Neural networks (NNs) are chosen since they overall exhibit the most quantitatively accurate predictions compared to other ML architectures when trained on quantum chemical data. The properties that I will reproduce from the literature are the isotropic static polarizability \(\bar{\alpha}\) \parencite{POC:POC407} and the zero-point vibrational energy \(E_\text{ZPVE}\) \parencite{doi:10.1063/1.2436891}, which represent molecular properties that can be derived from spectroscopic data and are difficult to predict with current NNs.
+2. *Characterize the parameters learned by existing machine learning models from the literature.* I will use relevance propagation \cite{\fxnote{REF}} to quantify the relative importance of each input feature for each predicted property of the NNs in aim #1. Relevance propagation gives insight into a model's learned coefficients in a fashion that can be used directly in statistical analysis and visualization.
 
-2. *Train multi-stage neural networks on both existing and new properties.* I will train combined unsupervised and supervised neural networks to predict vibrational and nonlinear optical properties of the molecules used in aim #1. These properties are \(\bar{\alpha}\), \(E_\text{ZPVE}\), the static parallel first hyperpolarizability \(\beta_{\parallel}\), and the set of frequencies \(\{\tilde{\nu}\}\) that compose stick vibrational spectra. The first two properties will validate the performance of these new NNs against existing literature predictions, and the second two properties are a natural extension in complexity of the first two properties. Unsupervised NNs are capable of discovering intrinsic properties of their inputs \cite{\fxnote{REF}}, and adding them to the ML pipeline increases the likelihood that the models will learn "chemical" parameters.
+3. *Train multi-stage neural networks on both existing and new properties.* I will train combined unsupervised and supervised NNs to predict vibrational and nonlinear optical properties of the molecules used in aim #1. These properties are \(\bar{\alpha}\), \(E_\text{ZPVE}\), the static parallel first hyperpolarizability \(\beta_{\parallel}\), and the set of frequencies \(\{\tilde{\nu}\}\) that compose stick vibrational spectra. The first two properties will validate the performance of these new NNs against existing literature predictions, and the second two properties are a natural extension in complexity of the first two properties. Unsupervised NNs are capable of discovering intrinsic properties of their inputs \cite{\fxnote{REF}}, and adding them to the ML pipeline increases the likelihood that the models will learn "chemical" parameters.
 
-# the body is awkward here
-3. *Characterize the parameters learned by the multi-stage neural networks from aim #2.* I will use the relevance propagation techniques from aim #1 to show the underlying causes for the performance of the NNs on both the existing and novel property predictions.
+4. *Characterize the parameters learned by multi-stage neural networks.* I will use the relevance propagation techniques from aim #2 to show the underlying causes for the performance of the NNs from aim #3 on both the existing and novel property predictions.
 
 The _expected outcomes_ are
 
 - Clear connections between the input molecular representations and predicted outputs that can be used to build further quantitative structure-function relationships.
+- Adding unsupervised learning stages improves the prediction accuracy of ML models \fxnote{in a form that appears analogous to chemical intuition}.
 - Well-defined and publicly-available protocols for applying more complex ML models to chemical properties, regarding all stages of the prediction pipeline: preparation of the input, training of the model, and analysis of the results.
-- ML models capable of predicting complex molecular properties, with the first proof-of-concept predictions of nonlinear optical properties and vibrational spectra.
+- ML models capable of predicting complex molecular properties, with the first proof-of-concept predictions of higher-order nonlinear optical properties and vibrational spectra.
+
+\begin{anfxerror}{problem2}
+A new expected outcome for aim \#1 will be the creation of a full QM database will all the information needed to reproduce the results (direct QM output files, input generation pipeline, ML training and prediction pipeline).
+\end{anfxerror}
 
 * Significance
 
-The expected significance is that this is the first attempt at understanding the parameters of ML models used to predict microscopic and macroscopic molecular properties, rather than treating ML models as black boxes that cannot be understood. If ML models are shown to be learning physically-motivated or chemically-intuitive parameters, ML can become more than just a path for the accurate prediction of molecular properties, but be transformed into a tool itself that can give deep insight into molecular structure-property relationships. Training ML models is expensive in terms of both human and CPU time, \fxnote{it would be good to quantify this}. If this proposal shows that ML models are not learning properly, then the scientific research community can avoid the wasteful use of resources on model training and shift their focus to developing better model architectures than the current state-of-the-art.
+This is the first attempt at understanding the parameters of ML models used to predict microscopic and macroscopic molecular properties, rather than treating ML models as black boxes that cannot be understood. If ML models are shown to be learning physically-motivated or chemically-intuitive parameters, ML can become more than just a path for the accurate prediction of molecular properties, but be transformed into a tool itself that can give deep insight into molecular structure-property relationships. Training ML models is expensive in terms of both human and CPU time, \fxnote{it would be good to quantify this}. If this proposal shows that ML models are not learning properly, then the scientific research community can avoid the wasteful use of resources on model training and shift their focus to developing better model architectures than the current state-of-the-art.
 
 * Background
 
@@ -60,7 +64,7 @@ Short background on (artificial) neural networks; goal, general structure (w/ fi
 
 # can do :float wrap in attr_latex
 
-#+caption: Preliminary representation of a neural net taken from Wikipedia, need one with more info, weight labels, and "bottom up" structure (information density)
+#+caption: \fxnote{Preliminary representation of a neural net taken from Wikipedia, need one with more info, weight labels, and "bottom up" structure (information density)}
 #+attr_latex: :width 0.50\linewidth
 [[file:851px-Colored_neural_network.svg.png]]
 
@@ -68,7 +72,7 @@ The neural network architectures implied by the two types of learning above lead
 
 ** Machine Learning in Chemistry
 
-The use of machine learning to make chemical predictions is not new, with work dating back over 25 years for prediction of NMR spectra using small neural networks trained on experimental data \cite{THOMSEN1989212}. The largest application of machine learning to chemical problems is within cheminformatics, where it has seen wide use within industrial drug discovery, especially for predicting quantitative structure-activity relationships (QSAR) \cite{doi:10.1080/17460441.2016.1201262}. The goal is to predict the activity of a given drug candidate based on experimental activities of many other molecules, with inputs being information about atom types, bond types, and the number of aromatic rings, among other pieces of structural information, all of which are related to the molecular graph or connectivity \cite{\fxnote{REF}}. \fxnote{Maybe say something about extended connectivity fingerprints (ECFPs)}
+The use of machine learning to make chemical predictions is not new, with work dating back over 25 years for prediction of NMR spectra using small neural networks trained on experimental data \cite{THOMSEN1989212}. The largest application of machine learning to chemical problems is within cheminformatics, where it has seen wide use within industrial drug discovery, especially for predicting quantitative structure-activity relationships (QSAR) \cite{doi:10.1080/17460441.2016.1201262}. The goal is to predict the activity of a given drug candidate based on experimental activities of many other molecules, with inputs being information about atom types, bond types, and the number of aromatic rings, among other pieces of structural information, all of which are related to the molecular graph or connectivity \cite{Kearnes2016}.
 
 In particular, there is a recent application of deep neural networks (DNNs) to QSAR datasets\cite{doi:10.1021/ci500747n}, which contains a systematic study for determining the best model parameters. The machine learning community calls this "hyperparameter tuning", which is just another term for parameter optimization. However, this is still an empirical black-box approach, where the input is carefully controlled and statistical analysis is performed on the output, but this does not provide enough insight into how or why the quality of a model changes. For example, whether or not a rectified linear unit (ReLU) or sigmoid unit is the best function to represent neuron activation says nothing about why one molecule may be more potent than another in a QSAR study. This brute-force type of parameter optimization /does/ provide a good starting point for understanding the sensitivity of a ML model. Unfortunately, even parameter optimization has not been extensively performed on models trained using quantum chemical data. In that sense, cheminformatics is a step ahead of other sub-disciplines in chemistry regarding the application of machine learning models, but not in the understanding of their models. 
 
@@ -103,69 +107,31 @@ Relevance propagation (sometimes abbreviated as "relprop") is one method for ide
 
 Although no improvements will be made to the basic relevance propagation algorithm itself, there is novelty in two areas. To the best of the author's knowledge, this is the first time relevance propagation will be applied to a regression task rather than a classification task, and the first time relevance propagation will be applied outside of image classification or computer vision. A potential connection between the heatmap representation and generative adversarial networks (GANs), which have been applied to quantum chemistry \cite{\fxnote{TODO, John Parkhill's paper}} is an interesting future research area.
 
+\begin{anfxnote}{Kearnes paper}
+Mention the Kearnes 2016 Graph Convolutions paper; there is a figure that shows the "evolution of input features" over time, but it's completely unclear as to what the metric/units are. A difference is that we are not necessarily interested in the time aspect, just the final explanation.
+\end{anfxnote}
+
 * Research Plan
 
-** Specific Aim #1: Characterization of Existing Literature Neural Networks
-
-# *** From lecture
-
-# - Specific Aim 1: Title (Formulate as Goal)
-#     - Introduction
-#     - [Preliminary Results]
-#     - Research Design
-#     - Expected Outcomes
-#     - Potential Problems / Alternate Approaches
-
-# - Repeat for other aims (2-3 pages each)
-# - End with research timeline and brief conclusion (optional)
-
-# - Introduction (1 paragraph)
-#     - State objective of work in this aim
-#     - Relate objective to problem / central hypothesis / gap
-#     - State working hypothesis of aim
-#     - Summarize what will be done to test hypothesis
-#     - Summarize outcomes and their impact
-
-# - Research Design (general considerations)
-#     - Plan should be specific
-#     - Appropriate level of detail
-#     - Simple, declarative sentences
-#     - Strong verbs ("expect", "will") over weak ("try")
-#     - Treat each paragraph as unit
-#         - Set of activities focused on single goal
-#         - Make sure both activities and their point are clear
-
-# - Research Design (tips):
-#     - State hypotheses underlying individual experiments, where appropriate
-#     - Consider interdependence of experiments
-#     - Project design encompasses all likely outcomes, not just desired
-#     - Scope of activities will collectively attain aim's objective
-
-# - Expected Outcomes (1-2 paragraphs)
-#     - Highlight payoff from work in the aim
-#     - Expand on outcome sentence in Introduction paragraph
-#     - Consider results from individual experiments
-#     - Relate outcomes back to pg. 1-2
-#         - Assume best-case scenario for success
-#         - Be enthusiastic, but realistic
-
-# - Potential Problems
-#     - More later...
-#     - For now, think about weakest points in plan
+** Specific Aim #1: Reproduction of Existing Literature Neural Networks
 
 *** Introduction
 
-- The _objective_ is to quantify what already-published neural network-based ML models have learned.
+- The _objective_ is to reproduce trained neural networks from the literature in order to create the foundation of the machine learning pipeline to be developed within this proposal and to serve as a validation baseline for further predictions.
 
-- The _hypothesis_ is that when predicting an output, the most important (relevant) parts of the input for that output align with our trained intuition. Specifically, for strongly geometry-dependent properties, such as the ZPVE, more relevance will be placed on geometric input features such as bond lengths, angles, and dihedrals. For strongly wavefunction- or density-dependent properties, such as the isotropic polarizability or the HOMO-LUMO gap, more relevance will be placed on electronic input features such as atomic charges compared to other features.
+\begin{anfxwarning}{not really a hypothesis?}
+There isn't really a hypothesis. I think it's pretty clear that the contents of this SA are required for the proposal, but this is mostly legwork. Need to couch it in a good way.
+\end{anfxwarning}
 
-- To test this hypothesis, I will develop the necessary ML pipeline for adding relevance propagation and analysis steps to the already-published ML models. This will involve reproducing the pipeline and results from the literature \cite{2017arXiv170205532F}, followed by connecting existing relevance propagation tools \cite{\fxnote{TODO}} to the end of this pipeline.
+- The _hypothesis_ is that \fxnote{the published neural networks are entirely reproducible by connecting free, open-source tools.}
+
+- To test this hypothesis, I will reproduce the pipeline and results from \parencite{2017arXiv170205532F}.
 
 *** Research Design
 
 Unfortunately, the learned models for the results presented in \parencite{2017arXiv170205532F} are not available, only descriptions of the architectures. The inputs are available as modified XYZ files from the [[http://quantum-machine.org/datasets/][Quantum Machine (http://quantum-machine.org/)]] website under the [[http://figshare.com/collections/Quantum_chemistry_structures_and_properties_of_134_kilo_molecules/978904][QM9 Dataset]] section\cite{Ramakrishnan:2014ij,doi:10.1021/ci300415d}.
 
-There are two neural network-based architectures described in \parencite{2017arXiv170205532F}: Graph Convolutions \cite{Kearnes2016} (GC) and Gated Graph Neural Networks \cite{2015arXiv151105493L} (GG). These NN architectures are used again as baselines in \parencite{2017arXiv170401212G}. Since the original GC implementation referenced in \parencite{2017arXiv170205532F} is [[https://github.com/tkipf/gcn][openly available]]\cite{kipf2016semi}, I will use the GC-based architecture with modifications described in section E5 of \parencite{2017arXiv170205532F}. \fxnote{Is it safe to just reference this paper, or are more details necessary?} Details for the GC architecture input, called the Molecular Graph representation, are shown in tables 1 and 2 of \parencite{2017arXiv170205532F}.
+There are two neural network-based architectures described in \parencite{2017arXiv170205532F}: Graph Convolutions \cite{Kearnes2016} (GC) and Gated Graph Neural Networks \cite{2015arXiv151105493L} (GG). These NN architectures are used again as baselines in \parencite{2017arXiv170401212G}. Since the original GC implementation referenced in \parencite{2017arXiv170205532F} is [[https://github.com/tkipf/gcn][openly available]]\cite{kipf2016semi}, I will use the GC-based architecture with modifications described in section E5 of \parencite{2017arXiv170205532F}. \fxnote{Is it safe to just reference this paper, or are more details necessary?} Details for the GC architecture input, called the Molecular Graph representation, are shown in tables 1 and 2 of \parencite{2017arXiv170205532F} and reproduced here.
 
 # #+begin_quote
 # \begin{anfxnote}{section E5}
@@ -231,10 +197,6 @@ There are two neural network-based architectures described in \parencite{2017arX
 # | Hybridization       | sp, sp2, sp3 (one-hot or null) |
 # | Number of hydrogens | (integer)                      |
 
-\begin{anfxerror}{problem2}
-This needs to be split into two specific aims: 1. reproducing the literature results, and 2. attaching relevance propagation. A new expected outcome for aim \#1 will be the creation of a full QM database will all the information needed to reproduce the results (direct QM output files, input generation pipeline, ML training and prediction pipeline).
-\end{anfxerror}
-
 Achieving the goal of aim #1 requires the following steps:
 
 - Transform the input data into the Molecular Graph representation.
@@ -242,7 +204,67 @@ Achieving the goal of aim #1 requires the following steps:
 - Using the model parameters described in that section, train two separate models, one for the isotropic static polarizability \(\bar{\alpha}\), and another for the zero-point vibrational energy \(E_\text{ZPVE}\).
 - The trained models will be used to reproduce the original literature results (\cite{2017arXiv170205532F}, table 3, very last line) as verification of the pipeline's correctness.
 
-\fxnote{Still need to collect my thoughts on the relevance propagation section.}
+*** Expected Outcomes
+
+- \fxnote{TODO}
+
+** Specific Aim #2: Characterization of Existing Literature Neural Networks
+
+# *** From lecture
+
+# - Specific Aim 1: Title (Formulate as Goal)
+#     - Introduction
+#     - [Preliminary Results]
+#     - Research Design
+#     - Expected Outcomes
+#     - Potential Problems / Alternate Approaches
+
+# - Repeat for other aims (2-3 pages each)
+# - End with research timeline and brief conclusion (optional)
+
+# - Introduction (1 paragraph)
+#     - State objective of work in this aim
+#     - Relate objective to problem / central hypothesis / gap
+#     - State working hypothesis of aim
+#     - Summarize what will be done to test hypothesis
+#     - Summarize outcomes and their impact
+
+# - Research Design (general considerations)
+#     - Plan should be specific
+#     - Appropriate level of detail
+#     - Simple, declarative sentences
+#     - Strong verbs ("expect", "will") over weak ("try")
+#     - Treat each paragraph as unit
+#         - Set of activities focused on single goal
+#         - Make sure both activities and their point are clear
+
+# - Research Design (tips):
+#     - State hypotheses underlying individual experiments, where appropriate
+#     - Consider interdependence of experiments
+#     - Project design encompasses all likely outcomes, not just desired
+#     - Scope of activities will collectively attain aim's objective
+
+# - Expected Outcomes (1-2 paragraphs)
+#     - Highlight payoff from work in the aim
+#     - Expand on outcome sentence in Introduction paragraph
+#     - Consider results from individual experiments
+#     - Relate outcomes back to pg. 1-2
+#         - Assume best-case scenario for success
+#         - Be enthusiastic, but realistic
+
+# - Potential Problems
+#     - More later...
+#     - For now, think about weakest points in plan
+
+*** Introduction
+
+- The _objective_ is to quantify what already-published neural network-based ML models have learned.
+
+- The _hypothesis_ is that when predicting an output, the most important (relevant) parts of the input for that output align with our trained intuition. Specifically, for strongly geometry-dependent properties, such as the ZPVE, more relevance will be placed on geometric input features such as bond lengths, angles, and dihedrals. For strongly wavefunction- or density-dependent properties, such as the isotropic polarizability or the HOMO-LUMO gap, more relevance will be placed on electronic input features such as atomic charges compared to other features.
+
+- To test this hypothesis, I will develop the necessary ML pipeline for adding relevance propagation and analysis steps to the already-published ML models. This will involve connecting existing relevance propagation tools \cite{\fxnote{TODO}} to the end of the pipeline from aim #1.
+
+*** Research Design
 
 - Relevance propagation (http://heatmapping.org/)
    - available as a "toolbox" on top of TensorFlow, which is convenient considering that the original GC model is also on top of TensorFlow
@@ -253,14 +275,12 @@ Achieving the goal of aim #1 requires the following steps:
    - analyze results from relevance propagation: graphs, histograms, etc.
       - how are the results represented straight out of the relprop algorithms? may need to do some transformations
 
-\fxnote{I am also now thinking that this aim should be broken up into two, where the first is the recreation of the literature model and training, and the second is the relevance propagation part.}
-
 *** Expected Outcomes
 
 - \fxnote{Evidence for or against published ML models having learned chemically-intuitive parameters}
 - \fxnote{A model ML pipeline for applying relevance propagation to quantum chemistry models}
 
-** Specific Aim #2: Construction and Training of Novel Neural Networks
+** Specific Aim #3: Construction and Training of Novel Neural Networks
 
 *** Introduction
 
@@ -286,7 +306,7 @@ Achieving the goal of aim #1 requires the following steps:
 
 - Models with unsupervised learning steps have improved prediction accuracy of chemical properties compared to those without. \fxnote{That is, the models developed and trained in this aim should show better prediction performance than the literature models from aim \#1. This implies the models from this aim are of higher-quality and are more likely to have "learned correctly" in the sense that they learned "chemical intutition".}
 
-** Specific Aim #3: Characterization of Novel Neural Networks
+** Specific Aim #4: Characterization of Novel Neural Networks
 
 *** Introduction
 
