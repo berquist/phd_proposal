@@ -61,7 +61,7 @@ Some definitions and terms that are used throughout this proposal are
 - /Model/: here, an implemented architecture (in code) with learned parameters.
 - /Pipeline/: multiple steps and components chained together, such as the preparation of data for input into an architecture, the architecture itself, and any steps required to transform the architecture output into something else useful, such as visualizations or statistics.
 
-There are two categories of learning discussed throughout the proposal:
+There are two categories of learning discussed throughout this proposal:
 
 - /Supervised learning/: Train a machine learning model using data where the correct output prediction is known and given for each input sample, and the goal of the model is to predict similar types of outputs for new inputs \cite{\fxnote{REF}}.
 - /Unsupervised learning/: Train a machine learning model using data where the correct output prediction is not given, and the goal of the model is to learn intrinsic properties of the inputs by recreating the input as output \cite{\fxnote{REF}}.
@@ -84,7 +84,7 @@ The neural network architectures implied by the two types of learning above lead
 
 The use of machine learning to make chemical predictions is not new, with work dating back over 25 years for prediction of NMR spectra using small neural networks trained on experimental data \cite{THOMSEN1989212}. The largest application of machine learning to chemical problems is within cheminformatics, where it has seen wide use within industrial drug discovery with emphasis on predicting quantitative structure-activity relationships (QSAR) \cite{doi:10.1080/17460441.2016.1201262}. The goal is to predict the activity of a given drug candidate based on experimental activities of many other molecules, with inputs being information about atom types, bond types, number of aromatic rings, atomic partial charges, and other pieces of structural information, all of which are related to the molecular graph or connectivity \cite{Kearnes2016}.
 
-In particular, there is a recent application of deep neural networks (DNNs) to QSAR datasets\cite{doi:10.1021/ci500747n}, which contains a systematic study for determining the best model parameters. The machine learning community calls this "hyperparameter tuning", which is just another term for parameter optimization. However, this is still an empirical black-box approach, where the input is \fxnote{carefully controlled} and statistical analysis is performed on the output, but this does not provide enough insight into how or why the quality of a model changes. For example, whether or not a rectified linear unit (ReLU) or sigmoid unit is the best function to represent neuron activation says nothing about why one molecule may be more potent than another in a QSAR study. This brute-force type of parameter optimization /does/ provide a good starting point for understanding the sensitivity of a ML model. Unfortunately, even parameter optimization has not been extensively performed on models trained using quantum chemical data. In that sense, cheminformatics is a step ahead of other sub-disciplines in chemistry regarding the /application/ of machine learning models, but not in the /understanding/ of their models. 
+In particular, there is a recent application of deep neural networks (DNNs) to QSAR datasets\cite{doi:10.1021/ci500747n}, which contains a systematic study for determining the best model parameters. The machine learning community calls this "hyperparameter tuning", which is another term for parameter optimization. However, this is still an empirical black-box approach, where the input is \fxnote{carefully controlled} and statistical analysis is performed on the output, but this does not provide enough insight into how or why the quality of a model changes. For example, whether or not a rectified linear unit (ReLU) or sigmoid unit is the best function to represent neuron activation says nothing about why one molecule may be more potent than another in a QSAR study. This brute-force type of parameter optimization /does/ provide a good starting point for understanding the sensitivity of a ML model. Unfortunately, even parameter optimization has not been extensively performed on models trained using quantum chemical data. In that sense, cheminformatics is a step ahead of other sub-disciplines in chemistry regarding the /application/ of machine learning models, but not in the /understanding/ of their models. 
 
 Their parameter optimization study is especially relevant to this proposal because it examines the effect of placing an unsupervised NN before other NNs for unsupervised pretraining. Surprisingly, the authors found that an unsupervised pretraining step decreased the accuracy of their predictions, which is counter to the expected outcome of this proposal. However, the paper implies that their results are not even valid due to algorithmic restrictions in their software. Therefore it seems incorrect to draw any conclusions from this, such as "no unsupervised pretraining is needed". It would be interesting to see if the same conclusion is drawn for models trained on quantum chemical data using the proper algorithms, as will be done in this proposal.
 
@@ -107,7 +107,7 @@ Here is where I cite Aspuru-Guzik, Parkhill, von Lilienfeld (others?), with focu
 
 ** Relevance Propagation
 
-Relevance propagation (sometimes abbreviated as "relprop") is one method for identifying what a ML model has learned \cite{10.1371/journal.pone.0130140}. Others methods are \fxnote{TODO, there aren't many}. Figure [[relevance-propagation-lit-example]] is a concrete example of what the output from relevance propagation looks like when applied to image classification by a neural network. Here, we assume that the network correctly identified the subject of the image as a cat (rather than a dog or a potted plant), but relevance propagation shows which image pixels were most important for the network to determine the photo is of a cat. The pixel-wise importance is a single number for each pixel that can be interpreted as a contribution for that pixel to the final classification of the image. More generally, is it the relative importance of each input feature to the predicted output; here and in other image recognition examples, pixels are input features. Applications to image classification resulting in pixel importance naturally lends itself to visualizing the output as a heatmap on top of the original input.
+Relevance propagation is a method for identifying what a ML model has learned \cite{10.1371/journal.pone.0130140} in terms of the model's input features. Others methods are \fxnote{TODO, there aren't many}. Figure [[relevance-propagation-lit-example]] is a concrete example of what the output from relevance propagation looks like when applied to image classification by a neural network. Here, we assume that the network correctly identified the subject of the image as a cat (rather than a dog or a potted plant), but relevance propagation shows which image pixels were most important for the network to determine the photo is of a cat. The pixel-wise importance is a single number for each pixel that can be interpreted as a contribution for that pixel to the final classification of the image. More generally, is it the relative importance of each input feature to the predicted output; here and in other image recognition examples, pixels are input features. Applications to image classification resulting in pixel importance naturally lends itself to visualizing the output as a heatmap on top of the original input.
 
 - \fxnote{What are the advantages of using relprop over other methods/algorithms?}
 
@@ -129,17 +129,15 @@ Mention the Kearnes 2016 Graph Convolutions paper; there is a figure that shows 
 
 - The _objective_ is to reproduce trained neural networks from the literature in order to create the foundation of the machine learning pipeline to be developed within this proposal and to serve as a validation baseline for further predictions.
 
-\begin{anfxwarning}{not really a hypothesis?}
-There isn't really a hypothesis (?). I think it's pretty clear that the contents of this SA are required for the proposal, but this is mostly legwork. Need to couch it in a good way.
-\end{anfxwarning}
-
 - The _hypothesis_ is that \fxnote{the published neural networks are entirely reproducible by connecting free, open-source tools.}
 
-- To test this hypothesis, I will reproduce the pipeline and results from \parencite{2017arXiv170205532F}.
+- To test this hypothesis, I will reproduce the ML pipeline and results from \parencite{2017arXiv170205532F}.
+
+- The _expected outcome_ is a fully-worked and documented reproduction of neural networks from the literature that can serve as the basis for not only this proposal's later aims, but for future pipelines within the wider chemistry and machine learning communities.
 
 *** Research Design
 
-Unfortunately, the learned models for the results presented in \parencite{2017arXiv170205532F} are not available, only descriptions of the architectures. The inputs are available as modified XYZ files from the [[http://quantum-machine.org/datasets/][Quantum Machine (http://quantum-machine.org/)]] website under the [[http://figshare.com/collections/Quantum_chemistry_structures_and_properties_of_134_kilo_molecules/978904][QM9 Dataset]] section\cite{Ramakrishnan:2014ij,doi:10.1021/ci300415d}.
+Unfortunately, the learned models for the results presented in \parencite{2017arXiv170205532F} are not available, only descriptions of the architectures. Recreating the literature models requires an implementation of the model architecture and input data in the proper format.
 
 There are two neural network-based architectures described in \parencite{2017arXiv170205532F}: Graph Convolutions \cite{Kearnes2016} (GC) and Gated Graph Neural Networks \cite{2015arXiv151105493L} (GG). These NN architectures are used again as baselines in \parencite{2017arXiv170401212G}. Since the original GC implementation referenced in \parencite{2017arXiv170205532F} is [[https://github.com/tkipf/gcn][openly available]]\cite{kipf2016semi}, I will use the GC-based architecture with modifications described in section E5 of \parencite{2017arXiv170205532F}. \fxnote{Is it safe to just reference this paper, or are more details necessary?} Details for the GC architecture input, called the Molecular Graph representation, are shown in tables 1 and 2 of \parencite{2017arXiv170205532F} and reproduced here.
 
@@ -169,6 +167,7 @@ There are two neural network-based architectures described in \parencite{2017arX
 # The QM-9 dataset has 130462 molecules in it. We randomly chose 10,000 samples for validation, 10,000 samples for testing and used the rest for training. We use the validation set to do early stopping and model selection and report scores on the test set. All targets were normalized to have mean 0 and variance 1. We minimized the mean squared error between the model output and the target, although we evaluate mean absolute error.
 # #+END_QUOTE
 
+#+label: table:mg-input-rep-atoms
 #+caption: The Molecular Graph (MG) input representation: single atom features
 #+attr_latex: :environment tabu :align |lp{10.25cm}l|
 | Feature          | Description                                                                | Size |
@@ -184,6 +183,7 @@ There are two neural network-based architectures described in \parencite{2017arX
 |------------------+----------------------------------------------------------------------------+------|
 |                  |                                                                            |   21 |
 
+#+label: table:mg-input-rep-pairs
 #+caption: The Molecular Graph (MG) input representation: atom pair features
 #+attr_latex: :environment tabu :align |lp{10.25cm}l|
 | Feature          | Description                                                                                                                                    | Size |
@@ -207,16 +207,17 @@ There are two neural network-based architectures described in \parencite{2017arX
 # | Hybridization       | sp, sp2, sp3 (one-hot or null) |
 # | Number of hydrogens | (integer)                      |
 
-Achieving the goal of aim #1 requires the following steps:
+Inputs are available as modified XYZ files from the [[http://quantum-machine.org/datasets/][Quantum Machine (http://quantum-machine.org/)]] website under the [[http://figshare.com/collections/Quantum_chemistry_structures_and_properties_of_134_kilo_molecules/978904][QM9 Dataset]] section\cite{Ramakrishnan:2014ij,doi:10.1021/ci300415d}, which will be transformed into the Molecular Graph (MG) representation using RDkit\cite{rdkit}. The representation in tables [[table:mg-input-rep-atoms]] and [[table:mg-input-rep-pairs]] will result in a feature vector size of \(21\binom{x}{1} + 13\binom{x}{2}\) for a given number of atoms \(x\), leading to a total length of 5,887 for the maximum number of 29 atoms in QM9.
 
-- Transform the input data into the Molecular Graph representation.
 - Modify the original Graph Convolutions architecture to the one described in Section E5 of \parencite{2017arXiv170205532F}.
 - Using the model parameters described in that section, train two separate models, one for the isotropic static polarizability \(\bar{\alpha}\), and another for the zero-point vibrational energy \(E_\text{ZPVE}\).
 - The trained models will be used to reproduce the original literature results (\parencite{2017arXiv170205532F}, table 3, very last line) as verification of the pipeline's correctness.
 
 *** Expected Outcomes
 
-- \fxnote{TODO}
+# - The _expected outcome_ is a fully-worked and documented reproduction of neural networks from the literature that can serve as the basis for not only this proposal's later aims, but for future pipelines within the wider chemistry and machine learning communities.
+
+The concrete products of this aim will be a set of Python scripts that transform the XYZ-like files into the Molecular Graph representation, implement the modified Graph Convolutions architecture, train one MG/GC model for each molecular property (\(\bar{\alpha}\) and \(E_\text{ZPVE}\)), and
 
 ** Specific Aim #2: Characterization of Existing Literature Neural Networks
 
