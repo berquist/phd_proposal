@@ -5,18 +5,19 @@
 #+latex_class_options: [12pt]
 #+latex_header: \input{./preamble.tex}
 
-# Random notes:
-# - Font and spacing combination makes things hard to read?
+#+begin_export latex
+\begin{anfxnote}{panel review}
+points from panel review:
 
-# points from panel review:
+- It did not become clear why identifying the inner workings of machine learning approaches, i.e., identifying whether an ML approach gets the right answer for the right reasons, has any practical relevance.
+- Could you explain more what is the payoff from identifying these inner workings?
+- Would this help with constructing more transferable machine learning approaches?
 
-# - It did not become clear why identifying the inner workings of machine learning approaches, i.e., identifying whether an ML approach gets the right answer for the right reasons, has any practical relevance.
-# - Could you explain more what is the payoff from identifying these inner workings?
-# - Would this help with constructing more transferable machine learning approaches?
+- Another point that did not become very clear was how you would construct the "novel" machine learning approach in aim \#3. Can you explain what would be novel about your approach?
 
-# - Another point that did not become very clear was how you would construct the "novel" machine learning approach in aim #3. Can you explain what would be novel about your approach?
-
-# -> The point is not to apply a novel ML architecture to QC for improved prediction. The point is to apply a hypothetically _better_ ML architecture to QC to see if better or worse prediction performance correlates with changes in input feature relevance.
+-> The point is not to apply a novel ML architecture to QC for improved prediction. The point is to apply a hypothetically better ML architecture to QC to see if better or worse prediction performance correlates with changes in input feature relevance.
+\end{anfxnote}
+#+end_export
 
 # A measure such as ROC is a good statistical metric for evaluating the quality of the learned model, but is only an indirect probe of the learned parameters. In order to even qualitatively understand the dependence of model quality on the input featurization, features would have to be added and removed in a combinatorial process.
 
@@ -26,7 +27,7 @@
 
 * Overview and Objectives
 
-The explosive growth of computing power over the past \fxnote{TODO} years \cite{\fxnote{REF}} has led to the use of machine learning (ML) models for the accurate calculation of chemical properties. Current ML models are capable predicting energetic properties of small, neutral organic molecules to almost 1 kcal/mol \cite{\fxnote{REF}}. However, it is unclear /what/ the quality of a prediction will be when a ML model is given a molecule outside its training set, and /why/ the model is giving that prediction. Each ML model is a set of unknown parameters that constitute a black box \cite{wiki:blackbox}, where it is not known or understood /how/ the model functions, /why/ the model gives the predictions it does, and _whether or not correct predictions are being made for the right reasons_. A critical step for the continued application of ML models to quantum chemistry will be to make predictions beyond the relatively simple example systems that are currently seeing widspread use \cite{Ramakrishnan:2014ij}. Some of the most important, interesting, and unexplored chemistry in terms of reactivity and intrinsic molecular properties involves species that are either charged or have unpaired electrons. If ML models are only coincidentally forming correct predictions for simple species, there can be no guarantee or expectation for accurate predictions on these more realistic species.
+\fxnote{The explosive growth of computing power over the past TODO years \cite{REF} has led to the use of machine learning (ML) models for the accurate calculation of chemical properties.} Current ML models are capable predicting energetic properties of small, neutral organic molecules to almost 1 kcal/mol \cite{\fxnote{REF}}. However, it is unclear /what/ the quality of a prediction will be when a ML model is given a molecule outside its training set, and /why/ the model is giving that prediction. Each ML model is a set of unknown parameters that constitute a black box \cite{wiki:blackbox}, where it is not known or understood /how/ the model functions, /why/ the model gives the predictions it does, and _whether or not correct predictions are being made for the right reasons_. A critical step for the continued application of ML models to quantum chemistry will be to make predictions beyond the relatively simple example systems that are currently seeing widspread use \cite{Ramakrishnan:2014ij}. Some of the most important, interesting, and unexplored chemistry in terms of reactivity and intrinsic molecular properties involves species that are either charged or have unpaired electrons. If ML models are only coincidentally forming correct predictions for simple species, there can be no guarantee or expectation for accurate predictions on these more realistic species.
 
 The _overall objective_ is to quantify what quantum chemistry-trained machine learning models are actually learning. The _central hypothesis_ is that the application of machine learning to quantum chemistry is physically motivated, /i.e./, ML models are learning parameters that connect the molecular representation (input features) to predictions in a manner that is qualitatively identical to how a trained chemist would apply their intuition. An implicit connection has already been made \cite{2017arXiv170205532F} between how a molecule is represented as input to ML models and the accuracy of prediction for certain kinds of properties, but this connection has not been explored. The _rationale_ is that by understanding the connection between the molecular representation given to ML models and their predictions, ML models themselves can be used for rationalizing molecular structure-property relationships. The overall objective will be achieved through the following _specific aims_:
 
@@ -75,7 +76,7 @@ Short background on (artificial) neural networks; goal, general structure (w/ fi
 \end{anfxnote}
 
 # can do :float wrap in attr_latex
-#+caption: Cartoon represtation of a feedforward neural network, with the input layer on the bottom, hidden layer in the middle, and output layer on the top. Taken from \parencite{blog:dnn2}.
+#+caption: Cartoon represtation of a feedforward neural network, with the input layer on the bottom, hidden layer in the middle, and output layer on the top. Taken from \parencite{blog:dnn2}. \fxnote{Something like this but cleaner.}
 [[file:single_hidden_layer_nn.png]]
 
 The neural network architectures implied by the two types of learning above lead to the capability of chaining them together in a pipeline, where an unsupervised NN is trained for some amount of time in a "pretraining" step, and the bottom layers (closest to the input) in an unsupervised NN are replaced with the contents of the unsupervised NN, rather than being initialized with random weights.
@@ -207,17 +208,27 @@ There are two neural network-based architectures described in \parencite{2017arX
 # | Hybridization       | sp, sp2, sp3 (one-hot or null) |
 # | Number of hydrogens | (integer)                      |
 
-Inputs are available as modified XYZ files from the [[http://quantum-machine.org/datasets/][Quantum Machine (http://quantum-machine.org/)]] website under the [[http://figshare.com/collections/Quantum_chemistry_structures_and_properties_of_134_kilo_molecules/978904][QM9 Dataset]] section\cite{Ramakrishnan:2014ij,doi:10.1021/ci300415d}, which will be transformed into the Molecular Graph (MG) representation using RDkit\cite{rdkit}. The representation in tables [[table:mg-input-rep-atoms]] and [[table:mg-input-rep-pairs]] will result in a feature vector size of \(21\binom{x}{1} + 13\binom{x}{2}\) for a given number of atoms \(x\), leading to a total length of 5,887 for the maximum number of 29 atoms in QM9.
+The QM9 dataset consists of 134K molecules \cite{Ramakrishnan:2014ij} containing up to 9 heavy atoms from the elements H, C, O, N, and F, with a maximum number of 29 atoms. The representation in tables [[table:mg-input-rep-atoms]] and [[table:mg-input-rep-pairs]] will result in an input size of \(21\binom{x}{1} + 13\binom{x}{2}\) for a given number of atoms \(x\), leading to a total length of 5,887 for the maximum number of 29 atoms in QM9. Inputs are available as modified XYZ files from the [[http://quantum-machine.org/datasets/][Quantum Machine (http://quantum-machine.org/)]] website under the [[http://figshare.com/collections/Quantum_chemistry_structures_and_properties_of_134_kilo_molecules/978904][QM9 Dataset]] section\cite{Ramakrishnan:2014ij,doi:10.1021/ci300415d}, which will be transformed into the Molecular Graph (MG) representation using RDKit\cite{rdkit} with Gasteiger partial charges as in \parencite{Kearnes2016}.
 
 - Modify the original Graph Convolutions architecture to the one described in Section E5 of \parencite{2017arXiv170205532F}.
 - Using the model parameters described in that section, train two separate models, one for the isotropic static polarizability \(\bar{\alpha}\), and another for the zero-point vibrational energy \(E_\text{ZPVE}\).
-- The trained models will be used to reproduce the original literature results (\parencite{2017arXiv170205532F}, table 3, very last line) as verification of the pipeline's correctness.
+
+For the reproduction of literature results, the only numerical values from \parencite{2017arXiv170205532F} are in Table 3, which shows the mean absolute error (MAE) for each input representation-architecture combination. Because the sample size of QM9 is sufficiently large (134K molecules), the MAE is calculated using out-of-sample validation, where the ML models are trained using 90% of the available data and compared against the DFT (B3LYP/6-31(2df,p)) results for the remaining 10%. The 90% constitutes ~117K molecules after removing 3K from 134K due to failed SMILES consistency tests. This 90/10 (training + validation)/test set split allows for 10-fold cross-validation. It is not mentioned how the concrete splits are obtained or how the final MAE is calculated from the 10 models. For this proposal, I will perform an unbiased random shuffle of QM9 index codes and split them into 10 uniform bins. After training and model validation using the procedure described above, the final MAE will be calculated as the mean of the 10 individual MAEs. \fxnote{Is this sufficient? If so, are there more technical terms for these procedures?} The literature models will be considered replicated if the two final models I train have MAEs within 95% of 0.227 \(a_{0}^{3}\) for the polarizability and 0.00975 eV for the ZPVE, respectively. \fxnote{Is there a better error metric than 95\% of a single number? Seems very unsatisfactory}
+
+\begin{anfxnote}{final training}
+There is some ambiguity to me here. If I wanted to perform a prediction of one of these molecular properties, would I then train an 11th model using all 100\% of the available sample data? What is the ``final'' model?
+\end{anfxnote}
+
+# Starting from the ~131k molecules in QM9 after removing the ~3k molecules (see above) we have created a number of train-validation-test splits. We first split the dataset into test and non-test (training + validation) sets and vary the percentage of data in test to explore the effect of amount of data in error rates (see Results). Then inside the non-test set, we do 10 fold cross validation for hyperparameter optimization. That is for each model 90% (the training set) of the non-test set is used for training and 10% (the validation set) is used for hyperparameter selection. For each test/non-test split, we then have 10 models trained on different subsets for the non-test set and we report the MAE on the test set across those 10 models.
 
 *** Expected Outcomes
 
 # - The _expected outcome_ is a fully-worked and documented reproduction of neural networks from the literature that can serve as the basis for not only this proposal's later aims, but for future pipelines within the wider chemistry and machine learning communities.
 
-The concrete products of this aim will be a set of Python scripts that transform the XYZ-like files into the Molecular Graph representation, implement the modified Graph Convolutions architecture, train one MG/GC model for each molecular property (\(\bar{\alpha}\) and \(E_\text{ZPVE}\)), and
+The concrete products of this aim will be a set of Python scripts that transform the XYZ-like files into the Molecular Graph representation, implement the modified Graph Convolutions architecture, train MG/GC models for each molecular property (\(\bar{\alpha}\) and \(E_\text{ZPVE}\)) using out-of-sample cross-validation, and calculate each molecular property from the trained models when given a normal XYZ molecular structure.
+
+\fxnote{More details here, especially about the impact. Perhaps comment on how the literature is unclear without the code, so a particular emphasis will be placed on documentation during the replication with a desired clear connection to a literature-type discussion of the implementation. Literate programming (Jupyter Notebook) may be an option.}
+
 
 ** Specific Aim #2: Characterization of Existing Literature Neural Networks
 
