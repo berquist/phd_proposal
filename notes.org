@@ -93,3 +93,6 @@ The collective scientific community has a massive amount of computing power avai
 The theory community that is driving ML development wrt quantum chemistry is mostly using ML as a tool to predict molecular "properties" at a low cost. But no one is researching what exactly it is the ML models are learning. Investigating/understanding what the ML models are learning is necessary for the continued application of ML to chemistry problems. Otherwise, it will be a very expensive waste of time considering the cost of training sets even at modest (hybrid GGA, double zeta basis).
 
 - How is it understood what a model has "learned" other than looking at the quality of its predictions?
+
+- https://stats.stackexchange.com/questions/74865/difference-between-in-sample-and-pseudo-out-of-sample-forecasts
+- http://www.vanguardsw.com/business-forecasting-101/sample-testing-holdout-sample/

@@ -229,6 +229,8 @@ The concrete products of this aim will be a set of Python scripts that transform
 
 \fxnote{More details here, especially about the impact. Perhaps comment on how the literature is unclear without the code, so a particular emphasis will be placed on documentation during the replication with a desired clear connection to a literature-type discussion of the implementation. Literate programming (Jupyter Notebook) may be an option.}
 
+\fxnote{Also, what to do in the event that the lit model isn't reproducible? It may indicate that not enough information is given in the literature: publications are notorious for not providing enough information about code/model parameters for reproduction. Even in the event of supposed failure to fall within the error metric, the architecture is still a valuable building block. Is it safe to assume that the PI (me) will not make any mistakes in the implementation? Another possible point of failure may be due to the non-convex optimization problem posed by NNs. What is the likelihood of training a network into a local minimum?}
+
 
 ** Specific Aim #2: Characterization of Existing Literature Neural Networks
 
@@ -282,7 +284,7 @@ The concrete products of this aim will be a set of Python scripts that transform
 
 - The _objective_ is to quantify what already-published neural network-based ML models have learned.
 
-- The _hypothesis_ is that when predicting an output, the most important (relevant) parts of the input for that output align with our trained intuition. Specifically, for strongly geometry-dependent properties, such as the ZPVE, more relevance will be placed on geometric input features such as bond lengths, angles, and dihedrals. For strongly wavefunction- or density-dependent properties, such as the isotropic polarizability or the HOMO-LUMO gap, more relevance will be placed on electronic input features such as atomic charges compared to other features.
+- The _hypothesis_ is that when predicting an output, the most important (relevant) parts of the input for that output align with our trained chemical intuition. Specifically, for strongly geometry-dependent properties, such as the ZPVE, more relevance will be placed on geometric input features such as bond lengths, angles, and dihedrals. For strongly wavefunction- or density-dependent properties, such as the isotropic polarizability or the HOMO-LUMO gap, more relevance will be placed on electronic input features such as atomic charges compared to other features.
 
 - To test this hypothesis, I will develop the necessary ML pipeline for adding relevance propagation and analysis steps to the already-published ML models. This will involve connecting existing relevance propagation tools \cite{\fxnote{TODO}} to the end of the pipeline from aim #1.
 
