@@ -9,10 +9,6 @@
 \begin{anfxnote}{panel review}
 points from panel review:
 
-- It did not become clear why identifying the inner workings of machine learning approaches, i.e., identifying whether an ML approach gets the right answer for the right reasons, has any practical relevance.
-- Could you explain more what is the payoff from identifying these inner workings?
-- Would this help with constructing more transferable machine learning approaches?
-
 - Another point that did not become very clear was how you would construct the "novel" machine learning approach in aim \#3. Can you explain what would be novel about your approach?
 
 -> The point is not to apply a novel ML architecture to QC for improved prediction. The point is to apply a hypothetically better ML architecture to QC to see if better or worse prediction performance correlates with changes in input feature relevance.
@@ -27,7 +23,9 @@ points from panel review:
 
 * Overview and Objectives
 
-\fxnote{The explosive growth of computing power over the past TODO years \cite{REF} has led to the use of machine learning (ML) models for the accurate calculation of chemical properties.} Current ML models are capable predicting energetic properties of small, neutral organic molecules to almost 1 kcal/mol \cite{\fxnote{REF}}. However, it is unclear /what/ the quality of a prediction will be when a ML model is given a molecule outside its training set, and /why/ the model is giving that prediction. Each ML model is a set of unknown parameters that constitute a black box \cite{wiki:blackbox}, where it is not known or understood /how/ the model functions, /why/ the model gives the predictions it does, and _whether or not correct predictions are being made for the right reasons_. A critical step for the continued application of ML models to quantum chemistry will be to make predictions beyond the relatively simple example systems that are currently seeing widspread use \cite{Ramakrishnan:2014ij}. Some of the most important, interesting, and unexplored chemistry in terms of reactivity and intrinsic molecular properties involves species that are either charged or have unpaired electrons. If ML models are only coincidentally forming correct predictions for simple species, there can be no guarantee or expectation for accurate predictions on these more realistic species.
+\fxnote{The explosive growth of computing power over the past TODO years \cite{REF} has led to the use of machine learning (ML) models for the accurate calculation of chemical properties.} Current ML models are capable predicting energetic properties of small, neutral organic molecules to almost 1 kcal/mol \cite{\fxnote{REF}}. However, it is unclear /what/ the quality of a prediction will be when a ML model is given a molecule outside its training set, and /why/ the model is giving that prediction. Each ML model is a set of unknown parameters that constitute a black box \cite{wiki:blackbox}, where it is not known or understood /how/ the model functions, /why/ the model gives the predictions it does, and _whether or not correct predictions are being made for the right reasons_\cite{2017arXiv170303717S}. A critical step for the continued application of ML models to quantum chemistry will be to make predictions beyond the relatively simple example systems that are currently seeing widspread use \cite{Ramakrishnan:2014ij}. Some of the most important, interesting, and unexplored chemistry in terms of reactivity and intrinsic molecular properties involves species that are either charged or have unpaired electrons, both of which are outside the scope of current applications. If a model is not right for the right reasons, there cannot be an expectation that it is transferable to even similar inputs, and is an indicator that the architecture is insufficient for training on more complex datasets.
+
+\fxnote{A battle over "right for the right reasons" is currently being fought within electronic structure theory\cite{Zhao2008,Medvedev49,Kepp496,Medvedev496}, with the most negative consequence being invalidation of the past decade's application of quantum chemical methods to chemical problems.}
 
 The _overall objective_ is to quantify what quantum chemistry-trained machine learning models are actually learning. The _central hypothesis_ is that the application of machine learning to quantum chemistry is physically motivated, /i.e./, ML models are learning parameters that connect the molecular representation (input features) to predictions in a manner that is qualitatively identical to how a trained chemist would apply their intuition. An implicit connection has already been made \cite{2017arXiv170205532F} between how a molecule is represented as input to ML models and the accuracy of prediction for certain kinds of properties, but this connection has not been explored. The _rationale_ is that by understanding the connection between the molecular representation given to ML models and their predictions, ML models themselves can be used for rationalizing molecular structure-property relationships. The overall objective will be achieved through the following _specific aims_:
 
@@ -73,6 +71,10 @@ There are two categories of learning discussed throughout this proposal:
 
 \begin{anfxnote}{neural networks background}
 Short background on (artificial) neural networks; goal, general structure (w/ figure) and terminology, how do they learn (backpropagation)
+- It did not become clear why identifying the inner workings of machine learning approaches, i.e., identifying whether an ML approach gets the right answer for the right reasons, has any practical relevance.
+- Could you explain more what is the payoff from identifying these inner workings?
+- Would this help with constructing more transferable machine learning approaches?
+I think here is where these points get touched on. Will have to mention non-transferability and overfitting.
 \end{anfxnote}
 
 # can do :float wrap in attr_latex
@@ -104,6 +106,8 @@ Additionally, it is unclear why a DNN trained on the combination of all QSAR dat
 
 \begin{anfxnote}{background for ML in QC}
 Here is where I cite Aspuru-Guzik, Parkhill, von Lilienfeld (others?), with focus on the Arxiv paper from 2017-02\cite{2017arXiv170205532F}, need to keep digesting paper from 2017-04-04\cite{2017arXiv170401212G}. The former is the paper I base most of my proposal argument on.
+
+However, the use of machine learning in quantum chemistry, specifically electronic structure theory, is relatively new (TIMELINE?).
 \end{anfxnote}
 
 ** Relevance Propagation
@@ -118,7 +122,7 @@ Layer-wise relevance propagation is a method for identifying what a ML model has
 Other methods exist for assigning rules of how input features map to predictions \cite{Finnegan105957,2017arXiv170303717S,2016arXiv161107478L}. Several of these are based on the idea of gradient perturbations, where repeated changes in prediction are measured as a result of small changes in the input. Performed enough times, this creates a map of the network's decision boundary\cite{wiki:db}. A gradient perturbation-based method is unsatisfactory because it requires repeated forward passes through the network with a set value for the perturbation size, and relevance propagation requires only one backward pass with no free parameters. Additionally, most methods for assigning input relevance have only been used for image classification, where the input features are of uniform type (pixel data). The input featurization for representing molecular structures\cite{2017arXiv170205532F} is heterogeneous, and it is not clear how the perturbation parameter should be varied for each kind of molecular feature.
 \end{anfxnote}
 
-Although no improvements will be made to the basic relevance propagation algorithm itself, there is novelty in two areas. To the best of the author's knowledge, this is the first time relevance propagation will be applied to a regression task rather than a classification task, and the first time relevance propagation will be applied outside of image classification or computer vision. A potential connection between the heatmap representation and hallucinations from generative adversarial networks (GANs), which have been applied to quantum chemistry \cite{\fxnote{TODO, John Parkhill's paper}} is an interesting future research area.
+Although no improvements will be made to the basic relevance propagation algorithm itself, there is novelty in two areas. To the best of the author's knowledge, this is the first time relevance propagation will be applied to a regression task rather than a classification task, and the first time relevance propagation will be applied outside of image classification or computer vision. A potential connection between the heatmap representation and hallucinations from generative adversarial networks (GANs), which have been applied to quantum chemistry \cite{doi:10.1063/1.4973380} is an interesting future research area.
 
 \begin{anfxnote}{Kearnes paper}
 Mention the Kearnes 2016 Graph Convolutions paper; there is a figure that shows the "evolution of input features" over time, but it's completely unclear as to what the metric/units are. A difference is that we are not necessarily interested in the time aspect, just the final explanation.
