@@ -44,7 +44,7 @@ The _expected outcomes_ are
 
 * Significance
 
-This is the first attempt at understanding the parameters of ML models used to predict microscopic and macroscopic molecular properties, rather than treating ML models as black boxes that cannot be understood. If ML models are shown to be learning physically-motivated or chemically-intuitive parameters, ML can become more than just a path for the accurate prediction of molecular properties, but be transformed into a tool itself that can give deep insight into molecular structure-property relationships. Training ML models is expensive in terms of both human and CPU time\cite{TODO}, with substantial technical hurdles mounting over time\cite{43146}. If this proposal shows that ML models are not learning properly, then the scientific research community can avoid the wasteful use of resources on model training and shift their focus to developing better model architectures than the current state-of-the-art.
+This is the first attempt at understanding the parameters of ML models used to predict microscopic and macroscopic molecular properties, rather than treating the models as black boxes that cannot be understood. If ML models are shown to be learning physically-motivated or chemically-intuitive parameters, ML can become more than just a path for the accurate prediction of molecular properties, but be transformed into a tool itself that can give deep insight into molecular structure-property relationships. Training ML models is expensive in terms of both human and CPU time\cite{TODO}, with substantial technical hurdles mounting over time\cite{43146}. If this proposal shows that ML models are not learning properly, then the scientific research community can avoid the wasteful use of resources on model training and shift their focus to developing better model architectures than the current state-of-the-art.
 
 * Background
 
@@ -73,6 +73,8 @@ Short background on (artificial) neural networks; goal, general structure (w/ fi
 - Could you explain more what is the payoff from identifying these inner workings?
 - Would this help with constructing more transferable machine learning approaches?
 I think here is where these points get touched on. Will have to mention non-transferability and overfitting.
+
+- Note that we are interested in feed-forward networks, not recurrent networks. There are many forms of ANNs, both in global structure, layer type, and neuron type, but we focus on this particular structure to maintain compatibility with previous work.
 \end{anfxnote}
 
 # can do :float wrap in attr_latex
@@ -102,10 +104,9 @@ Additionally, it is unclear why a DNN trained on the combination of all QSAR dat
 \begin{anfxnote}{background for ML in QC}
 However, the use of machine learning in quantum chemistry, specifically electronic structure theory, is relatively new, with the earliest references on Scopus dating back to 2008, a large spike in 2013, and rapid growth from 2015 to today. The goal is to predict more elemental properties than within cheminformatics, such as the internal energy, enthalpy, free energy, heat capacity, HOMO and LUMO energies and gaps, dipole moments, polarizabilities, and zero-point vibrational energies\cite{2015arXiv150204563R}. More advanced applications are the use of neural networks for predicting the products of organic reactions\cite{doi:10.1021/acscentsci.6b00219} and the transport properties of candidates for organic photovoltaics\cite{C5SC04786B}.
 
-There have not been attempt to predict {complex, compound, multi-element, tensorial} properties, just scalar-valued properties. This precludes the prediction of full spectroscopic properties, which are mathematically not representable as single scalars. There is recent work considering the prediction of full spectra, specifically linear vibrational spectra from /ab initio/ molecular dynamics (AIMD) simulations\cite{2017arXiv170505907G}. However, this proposal is concerned with the generation of spectra from static calculations, which avoids some convolution of the calculated spectra being dependent on the model's learned representation of the potential energy surface. Additionally, their vibrational spectra were calculated from the dipole autocorrelation function, which is dependent on artificially partitioning the electron density into atomic charges, ...
+- Talk about message passing?\cite{2017arXiv170401212G}
 
-- \cite{2017arXiv170401212G}
-
+There have not been attempts to predict tensorial properties, just scalar-valued properties. This precludes the prediction of full spectroscopic properties, which are mathematically not representable as single scalars. There is recent work considering the prediction of full spectra, specifically linear vibrational spectra from /ab initio/ molecular dynamics (AIMD) simulations\cite{2017arXiv170505907G}. However, this proposal is concerned with the generation of spectra from static calculations, which avoids some convolution of the calculated spectra being dependent on the model's learned representation of the potential energy surface. Additionally, their vibrational spectra were calculated from the dipole autocorrelation function, which is dependent on artificially partitioning the electron density into atomic charges, which they derive from the neural network. Thus, this is not an end-to-end \cite{2016arXiv160407316B} prediction of molecular spectra from a single structure, as will be performed in this proposal. By performing end-to-end prediction rather than decomposing the problem so that the neural network only considers part of the prediction task, this proposal pushes the limits of attempting to train neural networks on the prediction of complex molecular properties.
 \end{anfxnote}
 
 ** Relevance Propagation
@@ -292,11 +293,19 @@ The concrete products of this aim will be a set of Python scripts that transform
 
 - The _objective_ is to quantify what already-published neural network-based ML models have learned.
 
-- The _hypothesis_ is that when predicting an output, the most important (relevant) parts of the input for that output align with our trained chemical intuition. Specifically, for strongly geometry-dependent properties, such as the ZPVE, more relevance will be placed on geometric input features such as bond lengths, angles, and dihedrals. For strongly wavefunction- or density-dependent properties, such as the isotropic polarizability or the HOMO-LUMO gap, more relevance will be placed on electronic input features such as atomic charges compared to other features.
+- The _hypothesis_ is that when predicting an output, the most important (relevant) parts of the input for that output align with our trained chemical intuition. Specifically, for strongly geometry-dependent properties, such as the ZPVE, more relevance will be placed on geometric input features such as bond lengths and bond types. For strongly wavefunction- or density-dependent properties, such as the isotropic polarizability, more relevance will be placed on electronic input features such as partial atomic charges compared to other features.
 
-- To test this hypothesis, I will develop the necessary ML pipeline for adding relevance propagation and analysis steps to the already-published ML models. This will involve connecting existing relevance propagation tools \cite{\fxnote{TODO}} to the end of the pipeline from aim #1.
+- To test this hypothesis, I will develop the necessary ML pipeline for adding relevance propagation and analysis steps to the already-published ML models. This will involve connecting existing relevance propagation tools \cite{JMLR:v17:15-618,github:lrp} to the end of the pipeline from aim #1.
 
 *** Research Design
+
+From their GitHub page\cite{github:lrp},
+
+#+BEGIN_QUOTE
+The Layer-wise Relevance Propagation (LRP) algorithm explains a classifier's prediction specific to a given data point by attributing relevance scores to important components of the input by using the topology of the learned model itself. The LRP Toolbox provides simple and accessible stand-along implementations of LRP for artificial neural networks supporting Matlab and Python.
+#+END_QUOTE
+
+The existence of an open-source implementation of the relevance propagation algorithm
 
 - Relevance propagation (http://heatmapping.org/)
    - available as a "toolbox" on top of TensorFlow, which is convenient considering that the original GC model is also on top of TensorFlow
