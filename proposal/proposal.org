@@ -295,20 +295,22 @@ The concrete products of this aim will be a set of Python scripts that transform
 
 - The _hypothesis_ is that when predicting an output, the most important (relevant) parts of the input for that output align with our trained chemical intuition. Specifically, for strongly geometry-dependent properties, such as the ZPVE, more relevance will be placed on geometric input features such as bond lengths and bond types. For strongly wavefunction- or density-dependent properties, such as the isotropic polarizability, more relevance will be placed on electronic input features such as partial atomic charges compared to other features.
 
-- To test this hypothesis, I will develop the necessary ML pipeline for adding relevance propagation and analysis steps to the already-published ML models. This will involve connecting existing relevance propagation tools \cite{JMLR:v17:15-618,github:lrp} to the end of the pipeline from aim #1.
+- To test this hypothesis, I will develop the necessary ML pipeline for adding relevance propagation and analysis steps to the already-published ML models. This will involve connecting existing relevance propagation tools \cite{JMLR:v17:15-618,github:lrp,github:lrp_tf} to the end of the pipeline from aim #1 and creating a human-understandable representation of the relevance propagation output in terms of molecular features.
 
 *** Research Design
 
-From their GitHub page\cite{github:lrp},
+The authors of the relevance propagation algorithm I will use have created an open-source reference implementation in Python. From their GitHub page\cite{github:lrp},
 
 #+BEGIN_QUOTE
 The Layer-wise Relevance Propagation (LRP) algorithm explains a classifier's prediction specific to a given data point by attributing relevance scores to important components of the input by using the topology of the learned model itself. The LRP Toolbox provides simple and accessible stand-along implementations of LRP for artificial neural networks supporting Matlab and Python.
 #+END_QUOTE
 
-The existence of an open-source implementation of the relevance propagation algorithm
+This reference implementation is interfaced with its own implementation of composable neural networks. This is not immediately compatible with the TensorFlow-based implementation of the Graph Convolutional neural networks trained in aim #1. However, there is also open-source initial interface code available for connecting TensorFlow-based models with LRP\cite{github:lrp_tf}. I will use these two implementations to write a Python interface between the trained GC models and LRP.
 
-- Relevance propagation (http://heatmapping.org/)
-   - available as a "toolbox" on top of TensorFlow, which is convenient considering that the original GC model is also on top of TensorFlow
+Once the LRP implementation is connected to the trained models, xxx. There are multiple decomposition variants of LRP, each with different trade-offs regarding ...
+
+All examples from the relevance propagation literature focus on explaining image classification decisions using heat maps overlaid on the input image decision boundary.
+
    - which relprop model is appropriate? need to be one that conserves relevance
    - are there any other (free) parameters that I will need to control/adjust?
    - perform relevance propagation
