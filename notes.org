@@ -96,3 +96,29 @@ The theory community that is driving ML development wrt quantum chemistry is mos
 
 - https://stats.stackexchange.com/questions/74865/difference-between-in-sample-and-pseudo-out-of-sample-forecasts
 - http://www.vanguardsw.com/business-forecasting-101/sample-testing-holdout-sample/
+
+* <2017-05-19 Fri 17:47>
+
+For a linear model or a perceptron, where there is only a single set of weights, one connecting each input node to the output node, the relationship between
+
+TODO find and train a small perceptron (< 10 input features), look at the weights, take them as a vector, normalize the vector. Could this be seen as relevance? What about the absolute value? Can the weights be negative? Is there such a thing as negative activation in a perceptron?
+
+"it ignores the non-linear function computed by higher network layers which take the results of first layer convolutions to ultimately determine network predictions" \cite{Finnegan105957}
+
+dimensionality reduction
+
+LIME citation
+
+Even since the introduction of LRP in 2015, a number of other methods have appeared that assign rules for how input features map to predictions.
+
+which warrant future exploration.
+
+by understanding the connection between the molecular representation and given to ML models and their predictions
+
+#+BEGIN_QUOTE
+We define several important terms in interpretable machine learning. All classifiers have implicit decision rules for converting an input into a decision, though these rules may be opaque. A model is interpretable if it provides explanations for its predictions in a form humans can understand; an explanation provides reliable information about the model’s implicit decision rules for a given prediction. In contrast, we say a machine learning model is accurate if most of its predictions are correct, but only right for the right reasons if the implicit rules it has learned generalize well and conform to domain experts’ knowledge about the problem.\cite{2017arXiv170303717S}
+#+END_QUOTE
+
+"constraining its explanations to match domain knowledge should cause its underlying behavior to more closely match that knowledge too" -> this sounds artificial
+
+** TODO figure out how to send emacs a command from the shell, want to specifically do org-mode export to *.tex
