@@ -23,4 +23,5 @@ abstract/*.out
 notes.pdf
 notes.tex
 
-proposal/proposal.tex
+# Don't ignore this, that way latexdiff can be used.
+# proposal/proposal.tex
