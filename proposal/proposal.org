@@ -1,5 +1,6 @@
 #+title: Deciphering the Contents of Chemically-Trained Neural Networks into Physical Intuition
 #+author: Eric Berquist
+#+date: June 15th, 2017
 #+options: toc:nil author:t creator:nil email:nil title:t
 #+latex_class: article
 #+latex_class_options: [12pt]
@@ -23,7 +24,7 @@ points from panel review:
 
 * Overview and Objectives
 
-\fxnote{The explosive growth of computing power over the past TODO years \cite{REF} has led to the use of machine learning (ML) models for the accurate calculation of chemical properties.} Current ML models are capable predicting energetic properties of small, neutral organic molecules to almost 1 kcal/mol \cite{REF}. However, it is unclear /what/ the quality of a prediction will be when a ML model is given a molecule outside its training set, and /why/ the model is giving that prediction. Each ML model is a set of unknown parameters that constitute a black box \cite{wiki:blackbox}, where it is not known or understood /how/ the model functions, /why/ the model gives the predictions it does, and _whether or not correct predictions are being made for the right reasons_\cite{2017arXiv170303717S}. A critical step for the continued application of ML models to quantum chemistry will be to make predictions beyond the relatively simple example systems that are currently seeing widspread use \cite{Ramakrishnan:2014ij}. Some of the most important, interesting, and unexplored chemistry in terms of reactivity and intrinsic molecular properties involves species that are either charged or have unpaired electrons, both of which are outside the scope of current applications. If a model is not right for the right reasons, there cannot be an expectation that it is transferable to even similar inputs, and is an indicator that the architecture is insufficient for training on more complex datasets. Such a battle is being fought within electronic structure theory\cite{Zhao2008,Medvedev49,Kepp496,Medvedev496}, with the most negative potential consequence being invalidation of the past decade's application of quantum chemical methods to chemical problems.
+The explosive growth of computing power has enabled the use of machine learning (ML) models for the accurate calculation of chemical properties. Current ML models are capable predicting energetic properties of small, neutral organic molecules to almost 1 kcal/mol \fxnote{[REF]}. However, it is unclear /what/ the quality of a prediction will be when a ML model is given a molecule outside its training set, and /why/ the model is giving that prediction. Each ML model is a set of unknown parameters that constitute a black box \cite{wiki:blackbox}, where it is not known or understood /how/ the model functions, /why/ the model gives the predictions it does, and _whether or not correct predictions are being made for the right reasons_\cite{2017arXiv170303717S}. A critical step for the continued application of ML models to quantum chemistry will be to make predictions beyond the relatively simple example systems that are currently seeing widspread use \cite{Ramakrishnan:2014ij}. Some of the most important, interesting, and unexplored chemistry in terms of reactivity and intrinsic molecular properties involves species that are either charged or have unpaired electrons, both of which are outside the scope of current applications. If a model is not right for the right reasons, there cannot be an expectation that it is transferable to even similar inputs, and is an indicator that the architecture is insufficient for training on more complex datasets. Such a battle is being fought within electronic structure theory\cite{Zhao2008,Medvedev49,Kepp496,Medvedev496}, with the most negative potential consequence being invalidation of the past decade's application of quantum chemical methods to chemical problems.
 
 The _overall objective_ is to quantify what quantum chemistry-trained machine learning models are actually learning. The _central hypothesis_ is that the application of machine learning to quantum chemistry is physically motivated, /i.e./, ML models are learning parameters that connect the molecular representation (input features) to predictions in a manner that is qualitatively identical to how a trained chemist would apply their intuition. An implicit connection has already been made \cite{2017arXiv170205532F} between how a molecule is represented as input to ML models and the accuracy of prediction for certain kinds of properties, but this connection has not been explored. The _rationale_ is that by understanding the connection between the molecular representation given to ML models and their predictions, ML models themselves can be used for rationalizing molecular structure-property relationships. The overall objective will be achieved through the following _specific aims_:
 
@@ -31,7 +32,7 @@ The _overall objective_ is to quantify what quantum chemistry-trained machine le
 
 2. *Characterize the parameters learned by existing machine learning models from the literature.* I will use relevance propagation \cite{10.1371/journal.pone.0130140,Binder2016,JMLR:v17:15-618} to quantify the relative importance of each input feature for each predicted property of the NNs in aim #1. Relevance propagation gives insight into a model's learned coefficients in a fashion that can be used directly in statistical analysis and visualization.
 
-3. *Train multi-stage neural networks on both existing and new properties.* I will train combined unsupervised and supervised NNs to predict vibrational and nonlinear optical properties of the molecules used in aim #1. These properties are \(\bar{\alpha}\), \(E_\text{ZPVE}\), the static parallel first hyperpolarizability \(\beta_{\parallel}\), and the set of frequencies \(\{\tilde{\nu}\}\) that compose stick vibrational spectra. The first two properties will validate the performance of these new NNs against existing literature predictions, and the second two properties are a natural extension in complexity of the first two properties. Unsupervised NNs are capable of discovering intrinsic properties of their inputs \cite{\fxnote{REF}}, and adding them to the ML pipeline increases the likelihood that the models will learn "chemical" parameters.
+3. *Train multi-stage neural networks on both existing and new properties.* I will train combined unsupervised and supervised NNs to predict vibrational and nonlinear optical properties of the molecules used in aim #1. These properties are \(\bar{\alpha}\), \(E_\text{ZPVE}\), the static parallel first hyperpolarizability \(\beta_{\parallel}\) \parencite{doi:10.1063/1.3134744}, and the set of frequencies \(\{\tilde{\nu}\}\) that compose stick vibrational spectra. The first two properties will validate the performance of these new NNs against existing literature predictions, and the second two properties are a natural extension in complexity of the first two properties. Unsupervised NNs are capable of discovering intrinsic properties of their inputs \cite{VincentPLarochelleH2008}, and adding them to the ML pipeline increases the likelihood that the models will learn "chemical" parameters.
 
 4. *Characterize the parameters learned by multi-stage neural networks.* I will use the relevance propagation techniques from aim #2 to show the underlying causes for the performance of the NNs from aim #3 on both the existing and novel property predictions.
 
@@ -346,6 +347,24 @@ All examples from the relevance propagation literature focus on explaining image
 - Start with the resulting (supervised) NN architectures/models from the literature that were used in aim #1.
 
 - Build a "small" unsupervised NN architecture that can be connected to the front of the existing GC NN architecture (the "combined" architecture).
+
+\begin{anfxnote}{nn construction}
+- Autoencoders perform
+- Denoising autoencoders differ from autoencoders by
+- Connection between feature generation and dimensionality reduction?
+
+The basic structure of the unsupervised network will be as follows. It will be a denoising autoencoder with an input layer of the same dimension as the GC input, a coding layer of dimension ???, and a hidden layer between the input and coding layers. This will be a symmetric structure where the weights of the encoding and decoding sections are tied, meaning they are constrained ot be identical. I will adapt the Molecular Graph input from aim 1 on top of this denoising autoencoder as implemented in TensorFlow\cite{tensorflow2015-whitepaper,github:tf,github:tf_dae}.
+
+The purpose of adding the autoencoder structure is that using layer-wise relevance propagation will show the relevance of the \emph{encoded} input. The expectation is that because the learned encoding retains only important features for the input, xxx rather than using the possibly overcomplete input feature description.
+
+The original purposes of generative pretraining are to prevent overfitting in large neural networks and learn structure in large amounts of unlabeled data.
+
+Larger databases already exist \cite{}
+
+In the future, with larger amount of unlabeled data (we don't want to have to run millions of hyperpolarizability calculations in order to train), such as in \parencite{[R]}
+
+In the future, it may make sense to unfreeze the autoencoder weights and change them slightly via backpropagation, so the autoencoder learns a redudced-dimensionality encoding that is more optimal for the network output and not just reconstructing the input.
+\end{anfxnote}
 
 *** Expected Outcomes
 
