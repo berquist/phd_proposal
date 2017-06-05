@@ -144,9 +144,9 @@ The closest use of input relevance in molecular predictions is monitoring the ev
 
 - The _objective_ is to reproduce trained neural networks from the literature in order to create the foundation of the machine learning pipeline to be developed within this proposal and to serve as a validation baseline for further predictions.
 
-- The _hypothesis_ is that \fxnote{the published neural networks are entirely reproducible by connecting free, open-source tools.}
+- The _hypothesis_ is that published quantum chemical neural networks are entirely reproducible by connecting free, open-source tools.
 
-- To test this hypothesis, I will reproduce the ML pipeline and results from \parencite{2017arXiv170205532F}.
+- To test this hypothesis, I will reproduce the ML pipeline and results from \parencite{2017arXiv170205532F}, specifically the isotropic static polarizability \(\bar{\alpha}\) and the zero-point vibrational energy \(E_{\text{ZPVE}}\).
 
 - The _expected outcome_ is a fully-worked and documented reproduction of neural networks from the literature that can serve as the basis for not only this proposal's later aims, but for future pipelines within the wider chemistry and machine learning communities.
 
@@ -237,14 +237,7 @@ There is some ambiguity to me here. If I wanted to perform a prediction of one o
 
 *** Expected Outcomes
 
-# - The _expected outcome_ is a fully-worked and documented reproduction of neural networks from the literature that can serve as the basis for not only this proposal's later aims, but for future pipelines within the wider chemistry and machine learning communities.
-
-The concrete products of this aim will be a set of Python scripts that transform the XYZ-like files into the Molecular Graph representation, implement the modified Graph Convolutions architecture, train MG/GC models for each molecular property (\(\bar{\alpha}\) and \(E_\text{ZPVE}\)) using out-of-sample cross-validation, and calculate each molecular property from the trained models when given a normal XYZ molecular structure.
-
-\fxnote{More details here, especially about the impact. Perhaps comment on how the literature is unclear without the code, so a particular emphasis will be placed on documentation during the replication with a desired clear connection to a literature-type discussion of the implementation. Literate programming (Jupyter Notebook) may be an option.}
-
-\fxnote{Also, what to do in the event that the lit model isn't reproducible? It may indicate that not enough information is given in the literature: publications are notorious for not providing enough information about code/model parameters for reproduction. Even in the event of supposed failure to fall within the error metric, the architecture is still a valuable building block. Is it safe to assume that the PI (me) will not make any mistakes in the implementation? Another possible point of failure may be due to the non-convex optimization problem posed by NNs. What is the likelihood of training a network into a local minimum?}
-
+The concrete products of this aim will be a set of Python scripts that transform the XYZ-like files into the Molecular Graph representation, implement the modified Graph Convolutions architecture, train MG/GC models for each molecular property (\(\bar{\alpha}\) and \(E_\text{ZPVE}\)) using out-of-sample cross-validation, and calculate each molecular property from the trained models when given a normal XYZ molecular structure. This will be a fully-worked and documented reproduction of neural networks from the literature that can serve as the basis for not only this proposal's later aims, but for future pipelines within the wider chemistry and machine learning communities. These scripts will take the form of Jupyter Notebooks \cite{jupyter,PER-GRA:2007}, which combine code, math, and documentation in an easy-to-replicate package that is popular in the machine learning community.
 
 ** Specific Aim #2: Characterization of Existing Literature Neural Networks
 
@@ -334,9 +327,11 @@ All examples from the relevance propagation literature focus on explaining image
 
 *** Introduction
 
-- The _objective_ is to construct and train neural networks that can be analyzed for what they have learned.
+- The _objective_ is to see how currently used neural network architectures perform for more complex molecular properties and how this performance changes with generative pretraining.
 
-- The already-trained properties will be the isotropic static polarizability \(\bar{\alpha}\) and the ZPVE, and the not-before trained properties will be the static parallel first hyperpolarizability, \(\beta_{\parallel}\), and full vibrational (stick) spectra, the set of frequencies \(\{\tilde{\nu}\}\).
+- To test this hypothesis, 
+
+- The already-trained properties will be the , and the not-before trained properties will be the static parallel first hyperpolarizability, \(\beta_{\parallel}\), and full vibrational (stick) spectra, the set of frequencies \(\{\tilde{\nu}\}\).
 
 - The _hypothesis_ is that because the multi-stage NN will be at least as sophisticated as the single-stage NN used previously in the literature, both \(E_{\text{ZPVE}}\) and \(\bar{\alpha}\) should be predicted using the multi-stage NN with equal or less error than the single-stage NN. The more complex properties \(\beta_{\parallel}\) and \(\{\tilde{\nu}\}\) are expected to have larger relative errors, in particular the set of vibrational frequencies, as predictions of the highest fundamental frequency \(\omega_1\) alone already have large errors \cite{2017arXiv170205532F}.
 
