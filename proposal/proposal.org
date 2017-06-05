@@ -327,15 +327,15 @@ All examples from the relevance propagation literature focus on explaining image
 
 *** Introduction
 
-- The _objective_ is to see how currently used neural network architectures perform for more complex molecular properties and how this performance changes with generative pretraining.
+The _objective_ is to see how currently used neural network architectures perform for more complex molecular properties and how this performance changes with generative pretraining. The _hypothesis_ is that the more complex properties \(\beta_{\parallel}\) and \(\{\tilde{\nu}\}\) are expected to have larger relative errors compared to \(\bar{\alpha}\) and \(E_{\text{ZPVE}}\), in particular the set of vibrational frequencies, as predictions of the highest fundamental frequency \(\omega_1\) alone already have large errors \cite{2017arXiv170205532F}.
 
-- To test this hypothesis, 
+\fxnote{What I will do is put the entire generative pretraining/DAE as part of aim 4, and aim 3 will only be about training on the new properties.}
 
-- The already-trained properties will be the , and the not-before trained properties will be the static parallel first hyperpolarizability, \(\beta_{\parallel}\), and full vibrational (stick) spectra, the set of frequencies \(\{\tilde{\nu}\}\).
+To test this hypothesis, I will first train the neural network architectures from aim #1 to predict the static parallel first hyperpolarizability, \(\beta_{\parallel}\), and full vibrational (stick) spectra, the set of frequencies \(\{\tilde{\nu}\}\). Then, I will train a molecular property-independent neural network to reconstruct its inputs
 
-- The _hypothesis_ is that because the multi-stage NN will be at least as sophisticated as the single-stage NN used previously in the literature, both \(E_{\text{ZPVE}}\) and \(\bar{\alpha}\) should be predicted using the multi-stage NN with equal or less error than the single-stage NN. The more complex properties \(\beta_{\parallel}\) and \(\{\tilde{\nu}\}\) are expected to have larger relative errors, in particular the set of vibrational frequencies, as predictions of the highest fundamental frequency \(\omega_1\) alone already have large errors \cite{2017arXiv170205532F}.
+Applying new ML architectures to already well-studied properties is a safety check for the architeture's use; if it performs worse than current models for existing property predictions than it cannot be expected that it will perform well for new or more complex property predictions.
 
-- Applying new ML architectures to already well-studied properties is a safety check for the architeture's use; if it performs worse than current models for existing property predictions than it cannot be expected that it will perform well for new/more complex property predictions.
+\fxwarning{How is variable-dimension ML model output handled? If not possible, then I will eliminate the prediction of vibrational frequencies.}
 
 *** Research Design
 
