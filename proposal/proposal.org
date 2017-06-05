@@ -76,6 +76,10 @@ Short background on (artificial) neural networks; goal, general structure (w/ fi
 I think here is where these points get touched on. Will have to mention non-transferability and overfitting.
 
 - Note that we are interested in feed-forward networks, not recurrent networks. There are many forms of ANNs, both in global structure, layer type, and neuron type, but we focus on this particular structure to maintain compatibility with previous work.
+
+- Autoencoders perform
+- Denoising autoencoders differ from autoencoders by
+- Connection between feature generation and dimensionality reduction?
 \end{anfxnote}
 
 # can do :float wrap in attr_latex
@@ -349,19 +353,21 @@ All examples from the relevance propagation literature focus on explaining image
 - Build a "small" unsupervised NN architecture that can be connected to the front of the existing GC NN architecture (the "combined" architecture).
 
 \begin{anfxnote}{nn construction}
-- Autoencoders perform
-- Denoising autoencoders differ from autoencoders by
-- Connection between feature generation and dimensionality reduction?
+The basic structure of the unsupervised network will be as follows. It will be a denoising autoencoder (DAE) with an input layer of the same dimension as the GC input, a coding layer of dimension ???, and a hidden layer between the input and coding layers. This will be a symmetric structure where the weights of the encoding and decoding sections are tied, meaning they are constrained to be identical. I will adapt the Molecular Graph input from aim 1 on top of this denoising autoencoder as implemented in TensorFlow\cite{tensorflow2015-whitepaper,github:tf,github:tf_dae}. Because a DAE reconstructs its inputs and does not make a classification or regression prediction, only one model needs to be trained, not four. Here I should describe how the DAE will be trained? How to decide on dimension of intermediate and coding layers? Once the DAE model is trained, it will replace the input layer for each of the trained supervised networks. If the DAE is capable of performing good input reconstruction, then the prediction performance of these combined networks should not be much worse than the supervised networks for the training, but may be improved on validation and testing.
 
-The basic structure of the unsupervised network will be as follows. It will be a denoising autoencoder with an input layer of the same dimension as the GC input, a coding layer of dimension ???, and a hidden layer between the input and coding layers. This will be a symmetric structure where the weights of the encoding and decoding sections are tied, meaning they are constrained ot be identical. I will adapt the Molecular Graph input from aim 1 on top of this denoising autoencoder as implemented in TensorFlow\cite{tensorflow2015-whitepaper,github:tf,github:tf_dae}.
+Performance may decrease because the reconstruction of the original input cannot be perfect, which would constitute overfitting.
 
-The purpose of adding the autoencoder structure is that using layer-wise relevance propagation will show the relevance of the \emph{encoded} input. The expectation is that because the learned encoding retains only important features for the input, xxx rather than using the possibly overcomplete input feature description.
+Some of this can go in aim 4!
+
+Could LRP be performed on the DAE itself? Could be another test of quality for the input reconstruction
+
+The purpose of adding the autoencoder structure is that using layer-wise relevance propagation will show the relevance of the \emph{encoded} input. The expectation is that because the learned encoding retains only important features for the input, xxx rather than using the possibly overcomplete input feature description. If the DAE is good at reconstructing the inputs
 
 The original purposes of generative pretraining are to prevent overfitting in large neural networks and learn structure in large amounts of unlabeled data.
 
-Larger databases already exist \cite{}
+Larger databases already exist \cite{doi:10.1021/acs.jcim.7b00083}
 
-In the future, with larger amount of unlabeled data (we don't want to have to run millions of hyperpolarizability calculations in order to train), such as in \parencite{[R]}
+In the future, with larger amount of unlabeled data (we don't want to have to run millions of hyperpolarizability calculations in order to train), such as in \parencite{doi:10.1021/acs.jcim.7b00083},
 
 In the future, it may make sense to unfreeze the autoencoder weights and change them slightly via backpropagation, so the autoencoder learns a redudced-dimensionality encoding that is more optimal for the network output and not just reconstructing the input.
 \end{anfxnote}
