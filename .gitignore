@@ -16,6 +16,7 @@ __pycache__
 *.bib.sav
 *.blg
 *.run.xml
+*.toc
 *.xdv
 abstract/*.log
 abstract/*.out
