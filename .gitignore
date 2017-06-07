@@ -9,12 +9,13 @@ __pycache__
 # LaTeX
 *.aux
 *.bbl
-*.fdb_latexmk
-*.fls
 *.bcf
 *.bib.bak
 *.bib.sav
 *.blg
+*.fdb_latexmk
+*.fls
+*.lox
 *.run.xml
 *.toc
 *.xdv

@@ -8,13 +8,17 @@
 
 # A measure such as ROC is a good statistical metric for evaluating the quality of the learned model, but is only an indirect probe of the learned parameters. In order to even qualitatively understand the dependence of model quality on the input featurization, features would have to be added and removed in a combinatorial process.
 
+# \doublespace
+# \onehalfspacing
+\listoffixmes
+
 * Overview and Objectives
 
 The explosive growth of computing power has enabled the use of machine learning (ML) models for the accurate calculation of chemical properties. Current ML models are capable predicting energetic properties of small, neutral organic molecules to chemical accuracy (1 kcal/mol)\cite{2017arXiv170205532F}. However, it is unclear /what/ the quality of a prediction will be when a ML model is given a molecule outside its training set, and /why/ the model is giving that prediction. Each ML model is a set of unknown parameters that constitute a black box \cite{wiki:blackbox}, where it is not known or understood /how/ the model functions, /why/ the model gives the predictions it does, and _whether or not correct predictions are being made for the right reasons_\cite{2017arXiv170303717S}. A critical step for the continued application of ML models to quantum chemistry will be to make predictions beyond the relatively simple example systems that are currently seeing widspread use \cite{Ramakrishnan:2014ij}. Some of the most important, interesting, and unexplored chemistry in terms of reactivity and intrinsic molecular properties involves species that are either charged or have unpaired electrons, both of which are outside the scope of current applications. If a model is not right for the right reasons, there cannot be an expectation that it is transferable to even similar inputs, and is an indicator that the architecture is insufficient for training on more complex datasets. Such a battle is being fought within electronic structure theory\cite{Zhao2008,Medvedev49,Kepp496,Medvedev496}, with the most negative potential consequence being invalidation of the past decade's application of quantum chemical methods to chemical problems.
 
 The _overall objective_ is to quantify what quantum chemistry-trained machine learning models are actually learning. The _central hypothesis_ is that the application of machine learning to quantum chemistry is physically motivated, /i.e./, ML models are learning parameters that connect the molecular representation (input features) to predictions in a manner that is qualitatively identical to how a trained chemist would apply their intuition. An implicit connection has already been made \cite{2017arXiv170205532F} between how a molecule is represented as input to ML models and the accuracy of prediction for certain kinds of properties, but this connection has not been explored. The _rationale_ is that by understanding the connection between the molecular representation given to ML models and their predictions, ML models themselves can be used for rationalizing molecular structure-property relationships. The overall objective will be achieved through the following _specific aims_:
 
-1. *Reproduce existing machine learning models from the literature.* I will replicate two neural networks (NNs) from \parencite{2017arXiv170205532F} to serve as both the necessary architecture that analysis tools developed later in this proposal will be built on, and as the baseline for \fxnote{the quality of the results}. NNs are chosen since they overall exhibit the most quantitatively accurate predictions compared to other ML architectures when trained on quantum chemical data. The properties that I will reproduce from the literature are the isotropic static polarizability \(\bar{\alpha}\) \parencite{POC:POC407} and the zero-point vibrational energy \(E_\text{ZPVE}\) \parencite{doi:10.1063/1.2436891}, which represent molecular properties that can be derived from spectroscopic observables and are difficult to predict with current NN approaches.
+1. *Reproduce existing machine learning models from the literature.* I will replicate two neural networks (NNs) from \parencite{2017arXiv170205532F} to serve as both the necessary architecture that analysis tools developed later in this proposal will be built on, and as the baseline for prediction accuracy. NNs are chosen since they overall exhibit the most quantitatively accurate predictions compared to other ML architectures when trained on quantum chemical data. The properties that I will reproduce from the literature are the isotropic static polarizability \(\bar{\alpha}\) \parencite{POC:POC407} and the zero-point vibrational energy \(E_\text{ZPVE}\) \parencite{doi:10.1063/1.2436891}, which represent molecular properties that can be derived from spectroscopic observables and are difficult to predict with current NN approaches.
 
 2. *Characterize the parameters learned by existing machine learning models from the literature.* I will use relevance propagation \cite{10.1371/journal.pone.0130140,Binder2016,JMLR:v17:15-618} to quantify the relative importance of each input feature for each predicted property of the NNs in aim #1. Relevance propagation gives insight into a model's learned coefficients in a fashion that can be used directly in statistical analysis and visualization.
 
@@ -25,13 +29,13 @@ The _overall objective_ is to quantify what quantum chemistry-trained machine le
 The _expected outcomes_ are
 
 - Clear connections between the input molecular representations and predicted outputs that can be used to build further quantitative structure-function relationships.
-- Adding unsupervised learning stages improves the prediction accuracy of ML models \fxnote{in a form that appears analogous to chemical intuition}.
+- Adding unsupervised learning stages improves the prediction accuracy of ML models in a form that appears analogous to chemical intuition.
 - Well-defined and publicly-available protocols for applying more complex ML models to chemical properties, regarding all stages of the prediction pipeline: generation of the QM data from calculations, preparation of the input, training of the model, and analysis of the results.
 - ML models capable of predicting complex molecular properties, with the first proof-of-concept predictions of higher-order nonlinear optical properties and vibrational spectra.
 
 * Significance
 
-This is the first attempt at understanding the parameters of ML models used to predict microscopic and macroscopic molecular properties, rather than treating the models as black boxes that cannot be understood. If ML models are shown to be learning physically-motivated or chemically-intuitive parameters, ML can become more than just a path for the accurate prediction of molecular properties, but be transformed into a tool itself that can give deep insight into molecular structure-property relationships. Training ML models is expensive in terms of both human and CPU time\fxnote{[R]}, with substantial technical hurdles mounting over time\cite{43146}. If this proposal shows that ML models are not learning properly, then the scientific research community can avoid the wasteful use of resources on model training and shift their focus to developing better model architectures than the current state-of-the-art.
+This is the first attempt at understanding the parameters of ML models used to predict microscopic and macroscopic molecular properties, rather than treating the models as black boxes that cannot be understood. If ML models are shown to be learning physically-motivated or chemically-intuitive parameters, ML can become more than just a path for the accurate prediction of molecular properties, but be transformed into a tool itself that can give deep insight into molecular structure-property relationships. ML models are expensive to train, maintain, and extend in terms of both human and CPU time\cite{43146}. If this proposal shows that ML models are not learning properly, then the scientific research community can avoid the wasteful use of resources on model training and shift their focus to developing better model architectures than the current state-of-the-art.
 
 * Background
 
@@ -39,16 +43,16 @@ This is the first attempt at understanding the parameters of ML models used to p
 
 Machine learning is the ability for computers to "learn" without being given explicit instructions. Rather than providing exact instructions though traditional programming, computers are fed sets of input data and are usually expected to return a certain result. By training itself to reproduce results, a learned ML model would ideally be able to predict outputs for new, unknown inputs. Common applications of ML are in email spam filtering, search engine prediction, image and voice recognition, and self-driving cars.
 
-Some definitions and terms that are used throughout this proposal are
+Some definitions and terms used throughout this proposal are
 
 - /Architecture/: the formal structure of the network or ML model itself, encompassing the region from equations and diagrams to the implementation (code).
 - /Model/: here, an implemented architecture (in code) with learned parameters.
 - /Pipeline/: multiple steps and components chained together, such as the preparation of data for input into an architecture, the architecture itself, and any steps required to transform the architecture output into something else useful, such as visualizations or statistics.
 
-There are two categories of learning discussed throughout this proposal:
+The two types of learning used in this proposal are
 
-- /Supervised learning/: Train a machine learning model using data where the correct output prediction is known and given for each input sample, and the goal of the model is to predict similar types of outputs for new inputs \fxnote{[REF]}.
-- /Unsupervised learning/: Train a machine learning model using data where the correct output prediction is not given, and the goal of the model is to learn intrinsic properties of the inputs by recreating the input as output \fxnote{[REF]}.
+- /Supervised learning/: Train a machine learning model using data where the correct output prediction is known and given for each input sample, and the goal of the model is to predict similar types of outputs for new inputs.
+- /Unsupervised learning/: Train a machine learning model using data where the correct output prediction is not given, and the goal of the model is to learn intrinsic properties of the inputs by recreating the input as output.
 
 ** Neural Networks
 
@@ -122,7 +126,7 @@ The closest use of input relevance in molecular predictions is monitoring the ev
 
 *** Introduction
 
-The _objective_ is to reproduce trained neural networks from the literature in order to create the foundation of the machine learning pipeline to be developed within this proposal and to serve as a validation baseline for further predictions. The _hypothesis_ is that published quantum chemical neural networks are entirely reproducible by connecting free, open-source tools. To test this hypothesis, I will reproduce the ML pipeline and results from \parencite{2017arXiv170205532F}, specifically the isotropic static polarizability \(\bar{\alpha}\) and the zero-point vibrational energy \(E_{\text{ZPVE}}\). The _expected outcome_ is a fully-worked and documented reproduction of neural networks from the literature that can serve as the basis for not only this proposal's later aims, but for future pipelines within the wider chemistry and machine learning communities.
+The _objective_ is to reproduce trained neural networks from the literature in order to create the foundation of the machine learning pipeline to be developed within this proposal and to serve as a validation baseline for further predictions. The _hypothesis_ is that published quantum chemical neural networks are entirely reproducible by connecting free, open-source tools. To test this hypothesis, I will reproduce the ML pipeline and results from \parencite{2017arXiv170205532F}, specifically the isotropic static polarizability \(\bar{\alpha}\) and the zero-point vibrational energy \(E_{\text{ZPVE}}\). The _expected outcome_ is a fully-worked and documented reproduction of neural networks from the literature that can serve as the basis for future pipelines within the wider chemistry and machine learning communities.
 
 *** Research Design
 
@@ -270,7 +274,7 @@ The authors of the relevance propagation algorithm I will use have created an op
 The Layer-wise Relevance Propagation (LRP) algorithm explains a classifier's prediction specific to a given data point by attributing relevance scores to important components of the input by using the topology of the learned model itself. The LRP Toolbox provides simple and accessible stand-along implementations of LRP for artificial neural networks supporting Matlab and Python.
 #+END_QUOTE
 
-This reference implementation is interfaced with its own implementation of composable neural networks. This is not immediately compatible with the TensorFlow-based implementation of the Graph Convolutional neural networks trained in aim #1. However, there is also open-source initial interface code available for connecting TensorFlow-based models with LRP\cite{github:lrp_tf,github:lrp_tf2}. I will use these three implementations to write a Python interface between the trained GC models and LRP.
+This reference implementation is interfaced with its own implementation of composable neural networks. This is not immediately compatible with the TensorFlow-based implementation of the Graph Convolutional neural networks trained in aim #1. However, there is open-source initial interface code available for connecting TensorFlow-based models with LRP\cite{github:lrp_tf,github:lrp_tf2}. I will use these three implementations to write a Python interface between the trained GC models and LRP.
 
 Once the LRP implementation is connected to the trained models, details of running the LRP algorithm must be considered. There are multiple decomposition variants of LRP, each with different trade-offs regarding numerical stability and conserving relevance\cite{Binder2016}. Because the number tunable parameters is small, with only one for each of the three variants, and there are examples of modulating these parameters in the literature, I will start with the variant that requires no free parameters and extend to the other variants if results do not make sense.
 
