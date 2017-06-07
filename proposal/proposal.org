@@ -18,19 +18,19 @@ The explosive growth of computing power has enabled the use of machine learning 
 
 The _overall objective_ is to quantify what quantum chemistry-trained machine learning models are actually learning. The _central hypothesis_ is that the application of machine learning to quantum chemistry is physically motivated, /i.e./, ML models are learning parameters that connect the molecular representation (input features) to predictions in a manner that is qualitatively identical to how a trained chemist would apply their intuition. An implicit connection has already been made \cite{2017arXiv170205532F} between how a molecule is represented as input to ML models and the accuracy of prediction for certain kinds of properties, but this connection has not been explored. The _rationale_ is that by understanding the connection between the molecular representation given to ML models and their predictions, ML models themselves can be used for rationalizing molecular structure-property relationships. The overall objective will be achieved through the following _specific aims_:
 
-1. *Reproduce existing machine learning models from the literature.* I will replicate two neural networks (NNs) from \parencite{2017arXiv170205532F} to serve as both the necessary architecture that analysis tools developed later in this proposal will be built on, and as the baseline for prediction accuracy. NNs are chosen since they overall exhibit the most quantitatively accurate predictions compared to other ML architectures when trained on quantum chemical data. The properties that I will reproduce from the literature are the isotropic static polarizability \(\bar{\alpha}\) \parencite{POC:POC407} and the zero-point vibrational energy \(E_\text{ZPVE}\) \parencite{doi:10.1063/1.2436891}, which represent molecular properties that can be derived from spectroscopic observables and are difficult to predict with current NN approaches.
+1. *Reproduce existing machine learning models for molecular properties from the literature.* I will replicate two neural networks (NNs) from \parencite{2017arXiv170205532F} to serve as both the necessary architecture that analysis tools developed later in this proposal will be built on, and as the baseline for prediction accuracy. NNs are chosen since they overall exhibit the most quantitatively accurate predictions compared to other ML architectures when trained on quantum chemical data. I will reproduce the isotropic static polarizability \(\bar{\alpha}\) \parencite{POC:POC407} and the zero-point vibrational energy \(E_\text{ZPVE}\) \parencite{doi:10.1063/1.2436891}, which represent molecular properties that can be derived from spectroscopic observables and are difficult to predict with current NN approaches.
 
 2. *Characterize the parameters learned by existing machine learning models from the literature.* I will use relevance propagation \cite{10.1371/journal.pone.0130140,Binder2016,JMLR:v17:15-618} to quantify the relative importance of each input feature for each predicted property of the NNs in aim #1. Relevance propagation gives insight into a model's learned coefficients in a fashion that can be used directly in statistical analysis and visualization.
 
-3. *Train multi-stage neural networks on both existing and new properties.* I will train combined unsupervised and supervised NNs to predict vibrational and nonlinear optical properties of the molecules used in aim #1. These properties are \(\bar{\alpha}\), \(E_\text{ZPVE}\), the static parallel first hyperpolarizability \(\beta_{\parallel}\) \parencite{doi:10.1063/1.3134744}, and the set of frequencies \(\{\tilde{\nu}\}\) that compose stick vibrational spectra. The first two properties will validate the performance of these new NNs against existing literature predictions, and the second two properties are a natural extension in complexity of the first two properties. Unsupervised NNs are capable of discovering intrinsic properties of their inputs \cite{VincentPLarochelleH2008}, and adding them to the ML pipeline increases the likelihood that the models will learn "chemical" parameters.
+3. *Train supervised neural networks on complex molecular properties.* Using the molecules from aim #1, I will predict their vibrational and nonlinear optical properties, specifically the static parallel first hyperpolarizability \(\beta_{\parallel}\) \parencite{doi:10.1063/1.3134744}, and the set of frequencies \(\{\tilde{\nu}\}\) that compose stick vibrational spectra. These properties represent a natural extension in complexity from \(\bar{\alpha}\) and \(E_{\text{ZPVE}}\).
 
-4. *Characterize the parameters learned by multi-stage neural networks.* I will use the relevance propagation techniques from aim #2 to show the underlying causes for the performance of the NNs from aim #3 on both the existing and novel property predictions.
+4. *Characterize the parameters learned for complex molecular properties using unsupervised neural networks.* I will use the relevance propagation techniques from aim #2 to show the underlying causes for the performance of the NNs from aim #3 on the novel property predictions. To aid in quantifying the importance of molecular features to property predictions, I will train a denoising autoencoder-based neural network in an unsupervised manner to provide a compressed representation of a molecular input that relevance propagation will be applied to. Unsupervised NNs are capable of discovering intrinsic properties of their inputs \cite{VincentPLarochelleH2008}.
 
 The _expected outcomes_ are
 
-- Clear connections between the input molecular representations and predicted outputs that can be used to build further quantitative structure-function relationships.
-- Adding unsupervised learning stages improves the prediction accuracy of ML models in a form that appears analogous to chemical intuition.
-- Well-defined and publicly-available protocols for applying more complex ML models to chemical properties, regarding all stages of the prediction pipeline: generation of the QM data from calculations, preparation of the input, training of the model, and analysis of the results.
+- clear connections between the input molecular representations and predicted outputs that can be used to build quantitative structure-function relationships,
+- adding an unsupervised learning stage provides a reduced-dimensionality molecular representation that connects directly to chemical intuition,
+- well-defined and publicly-available protocols for applying more complex ML models to chemical properties, regarding all stages of the prediction pipeline: generation of the QM data from calculations, preparation of the input, training of the model, and analysis of the results, and
 - ML models capable of predicting complex molecular properties, with the first proof-of-concept predictions of higher-order nonlinear optical properties and vibrational spectra.
 
 * Significance
@@ -71,12 +71,15 @@ I think here is where these points get touched on. Will have to mention non-tran
 \end{anfxnote}
 
 # can do :float wrap in attr_latex
-#+caption: Cartoon represtation of a feedforward neural network, with the input layer on the bottom, hidden layer in the middle, and output layer on the top. Taken from \parencite{blog:dnn2}. \fxnote{Something like this but cleaner.}
+#+caption: Cartoon representation of a feedforward neural network, with the input layer on the bottom, hidden layer in the middle, and output layer on the top. Taken from \parencite{blog:dnn2}. \fxnote{Something like this but cleaner.}
 [[file:single_hidden_layer_nn.png]]
 
-\begin{anfxnote}{unsupervised}
-The neural network architectures implied by the two types of learning above lead to the capability of chaining them together in a pipeline, where an unsupervised NN is trained for some amount of time in a "pretraining" step, and the bottom layers (closest to the input) in an unsupervised NN are replaced with the contents of the unsupervised NN, rather than being initialized with random weights.
-\end{anfxnote}
+The neural network architectures implied by the two types of learning above lead to the capability of chaining them together in a pipeline, where an unsupervised NN is trained for some amount of time in a "pretraining" step, and the bottom layers (closest to the input) in an unsupervised NN are replaced with the contents of the unsupervised NN, rather than being initialized with random weights. Currently, unsupervised pretraining is not commonly used within the image classification community due to structural choices for the network (rectified linear units, ReLUs for the activations, convolutional rather than directly-connected layers).
+
+Rather than use unsupervised learning for network pretraining, I will use the dimensionality reduction capability of an unsupervised autoencoder to generate features that will be identified using layer-wise relevance propagation.
+
+In the future, as the both the size of available training sets (here, chemical databases) and neural network architectures grows, unsupervised pretraining may take a more prominent role.
+
 
 ** Machine Learning in Chemistry
 
