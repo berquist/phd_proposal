@@ -1,4 +1,4 @@
-% Created 2017-06-05 Mon 16:14
+% Created 2017-06-06 Tue 20:01
 % Intended LaTeX compiler: pdflatex
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
@@ -26,7 +26,7 @@
  pdftitle={Deciphering the Contents of Chemically-Trained Neural Networks into Physical Intuition},
  pdfkeywords={},
  pdfsubject={},
- pdfcreator={Emacs 25.2.1 (Org mode 9.0.7)}, 
+ pdfcreator={Emacs 25.2.1 (Org mode 9.0.8)}, 
  pdflang={English}, 
  colorlinks=true, 
  linkcolor=MidnightBlue, 
@@ -35,13 +35,11 @@
 \begin{document}
 
 \maketitle
-\tableofcontents
-
 
 \section{Overview and Objectives}
-\label{sec:org8edc64e}
+\label{sec:org98f7a8d}
 
-The explosive growth of computing power has enabled the use of machine learning (ML) models for the accurate calculation of chemical properties. Current ML models are capable predicting energetic properties of small, neutral organic molecules to almost 1 kcal/mol \fxnote{[REF]}. However, it is unclear \emph{what} the quality of a prediction will be when a ML model is given a molecule outside its training set, and \emph{why} the model is giving that prediction. Each ML model is a set of unknown parameters that constitute a black box \cite{wiki:blackbox}, where it is not known or understood \emph{how} the model functions, \emph{why} the model gives the predictions it does, and \uline{whether or not correct predictions are being made for the right reasons}\cite{2017arXiv170303717S}. A critical step for the continued application of ML models to quantum chemistry will be to make predictions beyond the relatively simple example systems that are currently seeing widspread use \cite{Ramakrishnan:2014ij}. Some of the most important, interesting, and unexplored chemistry in terms of reactivity and intrinsic molecular properties involves species that are either charged or have unpaired electrons, both of which are outside the scope of current applications. If a model is not right for the right reasons, there cannot be an expectation that it is transferable to even similar inputs, and is an indicator that the architecture is insufficient for training on more complex datasets. Such a battle is being fought within electronic structure theory\cite{Zhao2008,Medvedev49,Kepp496,Medvedev496}, with the most negative potential consequence being invalidation of the past decade's application of quantum chemical methods to chemical problems.
+The explosive growth of computing power has enabled the use of machine learning (ML) models for the accurate calculation of chemical properties. Current ML models are capable predicting energetic properties of small, neutral organic molecules to chemical accuracy (1 kcal/mol)\cite{2017arXiv170205532F}. However, it is unclear \emph{what} the quality of a prediction will be when a ML model is given a molecule outside its training set, and \emph{why} the model is giving that prediction. Each ML model is a set of unknown parameters that constitute a black box \cite{wiki:blackbox}, where it is not known or understood \emph{how} the model functions, \emph{why} the model gives the predictions it does, and \uline{whether or not correct predictions are being made for the right reasons}\cite{2017arXiv170303717S}. A critical step for the continued application of ML models to quantum chemistry will be to make predictions beyond the relatively simple example systems that are currently seeing widspread use \cite{Ramakrishnan:2014ij}. Some of the most important, interesting, and unexplored chemistry in terms of reactivity and intrinsic molecular properties involves species that are either charged or have unpaired electrons, both of which are outside the scope of current applications. If a model is not right for the right reasons, there cannot be an expectation that it is transferable to even similar inputs, and is an indicator that the architecture is insufficient for training on more complex datasets. Such a battle is being fought within electronic structure theory\cite{Zhao2008,Medvedev49,Kepp496,Medvedev496}, with the most negative potential consequence being invalidation of the past decade's application of quantum chemical methods to chemical problems.
 
 The \uline{overall objective} is to quantify what quantum chemistry-trained machine learning models are actually learning. The \uline{central hypothesis} is that the application of machine learning to quantum chemistry is physically motivated, \emph{i.e.}, ML models are learning parameters that connect the molecular representation (input features) to predictions in a manner that is qualitatively identical to how a trained chemist would apply their intuition. An implicit connection has already been made \cite{2017arXiv170205532F} between how a molecule is represented as input to ML models and the accuracy of prediction for certain kinds of properties, but this connection has not been explored. The \uline{rationale} is that by understanding the connection between the molecular representation given to ML models and their predictions, ML models themselves can be used for rationalizing molecular structure-property relationships. The overall objective will be achieved through the following \uline{specific aims}:
 
@@ -65,15 +63,15 @@ The \uline{expected outcomes} are
 \end{itemize}
 
 \section{Significance}
-\label{sec:orgf71ed3f}
+\label{sec:org81dacef}
 
 This is the first attempt at understanding the parameters of ML models used to predict microscopic and macroscopic molecular properties, rather than treating the models as black boxes that cannot be understood. If ML models are shown to be learning physically-motivated or chemically-intuitive parameters, ML can become more than just a path for the accurate prediction of molecular properties, but be transformed into a tool itself that can give deep insight into molecular structure-property relationships. Training ML models is expensive in terms of both human and CPU time\fxnote{[R]}, with substantial technical hurdles mounting over time\cite{43146}. If this proposal shows that ML models are not learning properly, then the scientific research community can avoid the wasteful use of resources on model training and shift their focus to developing better model architectures than the current state-of-the-art.
 
 \section{Background}
-\label{sec:orgfd334fa}
+\label{sec:orgf360376}
 
 \subsection{Machine Learning}
-\label{sec:orge8880cc}
+\label{sec:org781e790}
 
 Machine learning is the ability for computers to ``learn'' without being given explicit instructions. Rather than providing exact instructions though traditional programming, computers are fed sets of input data and are usually expected to return a certain result. By training itself to reproduce results, a learned ML model would ideally be able to predict outputs for new, unknown inputs. Common applications of ML are in email spam filtering, search engine prediction, image and voice recognition, and self-driving cars.
 
@@ -93,7 +91,7 @@ There are two categories of learning discussed throughout this proposal:
 \end{itemize}
 
 \subsection{Neural Networks}
-\label{sec:orgffaed2c}
+\label{sec:org42b0ebb}
 
 \begin{anfxnote}{neural networks background}
 Short background on (artificial) neural networks; goal, general structure (w/ figure) and terminology, how do they learn (backpropagation)
@@ -120,7 +118,7 @@ The neural network architectures implied by the two types of learning above lead
 \end{anfxnote}
 
 \subsection{Machine Learning in Chemistry}
-\label{sec:org5d6e734}
+\label{sec:org4fbbe91}
 
 The use of machine learning to make chemical predictions is not new, with work dating back over 25 years for prediction of NMR spectra using small neural networks trained on experimental data \cite{THOMSEN1989212}. The largest application of machine learning to chemical problems is within cheminformatics, where it has seen wide use within industrial drug discovery with emphasis on predicting quantitative structure-activity relationships (QSAR) \cite{doi:10.1080/17460441.2016.1201262}. The goal is to predict the activity of a given drug candidate based on experimental activities of many other molecules, with inputs being information about atom types, bond types, number of aromatic rings, atomic partial charges, and other pieces of structural information, all of which are related to the molecular graph or connectivity \cite{Kearnes2016}.
 
@@ -131,21 +129,21 @@ Their parameter optimization study is especially relevant to this proposal becau
 Additionally, it is unclear why a DNN trained on the combination of all QSAR datasets (called a ``joint DNN'') performs better than separate DNNs for each dataset when considering the lack of overlap in the training sets. The methods developed in this proposal, while being applied to models trained on quantum chemical data, should be applicable to any DNN (consider that relevance propagation is mostly developed in computer vision/image recognition). One goal of this proposal is to transfer the idea of relevance propagation from its original intended application field to other fields. If it is indeed transferable, then it may shed some light on why unsupervised learning resulted in decreased prediction performance and the improvement of join DNNs over separate DNNs.
 
 \subsection{Machine Learning in Quantum Chemistry}
-\label{sec:org67bd1c8}
+\label{sec:orge28a5c1}
 
 However, the use of machine learning in quantum chemistry, specifically electronic structure theory, is relatively new, with the earliest references on Scopus dating back to 2008, a large spike in 2013, and rapid growth from 2015 to today. The goal is to predict more elemental properties than within cheminformatics, such as the internal energy, enthalpy, free energy, heat capacity, HOMO and LUMO energies and gaps, dipole moments, polarizabilities, and zero-point vibrational energies\cite{2015arXiv150204563R}. More advanced applications are the use of neural networks for predicting the products of organic reactions\cite{doi:10.1021/acscentsci.6b00219} and the transport properties of candidates for organic photovoltaics\cite{C5SC04786B}.
 
 There have not been attempts to predict tensorial properties, just scalar-valued properties. This precludes the prediction of full spectroscopic properties, which are mathematically not representable as single scalars. There is recent work considering the prediction of full spectra, specifically linear vibrational spectra from \emph{ab initio} molecular dynamics (AIMD) simulations\cite{2017arXiv170505907G}. However, this proposal is concerned with the generation of spectra from static calculations, which avoids some convolution of the calculated spectra being dependent on the model's learned representation of the potential energy surface. Additionally, their vibrational spectra were calculated from the dipole autocorrelation function, which is dependent on artificially partitioning the electron density into atomic charges, which they derive from the neural network. Thus, this is not an end-to-end \cite{2016arXiv160407316B} prediction of molecular spectra from a single structure, as will be performed in this proposal. By performing end-to-end prediction rather than decomposing the problem so that the neural network only considers part of the prediction task, this proposal pushes the limits of attempting to train neural networks on the prediction of complex molecular properties.
 
 \subsection{Relevance Propagation}
-\label{sec:org464ba7e}
+\label{sec:org29fd945}
 
-Layer-wise relevance propagation (LRP, or relevance propagation) is a method for identifying what a ML model has learned \cite{10.1371/journal.pone.0130140} in terms of the model's input features. Figure \ref{fig:orgc7ff9cf} is a concrete example of what the output from relevance propagation looks like when applied to image classification by a neural network. Here, we assume that the network correctly identified the subject of the image as a cat (rather than a dog or a potted plant), but relevance propagation shows which image pixels were most important for the network to determine the photo is of a cat. The pixel-wise importance is a single number for each pixel that can be interpreted as a contribution for that pixel to the final classification of the image. More generally, is it the relative importance of each input feature to the predicted output; here and in other image recognition examples, pixels are input features. Applications to image classification resulting in pixel importance naturally lends itself to visualizing the output as a heatmap on top of the original input.
+Layer-wise relevance propagation (LRP, or relevance propagation) is a method for identifying what a ML model has learned \cite{10.1371/journal.pone.0130140} in terms of the model's input features. Figure \ref{fig:org0bbb28d} is a concrete example of what the output from relevance propagation looks like when applied to image classification by a neural network. Here, we assume that the network correctly identified the subject of the image as a cat (rather than a dog or a potted plant), but relevance propagation shows which image pixels were most important for the network to determine the photo is of a cat. The pixel-wise importance is a single number for each pixel that can be interpreted as a contribution for that pixel to the final classification of the image. More generally, is it the relative importance of each input feature to the predicted output; here and in other image recognition examples, pixels are input features. Applications to image classification resulting in pixel importance naturally lends itself to visualizing the output as a heatmap on top of the original input.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{2-Figure1-1.png}
-\caption{\label{fig:orgc7ff9cf}
+\caption{\label{fig:org0bbb28d}
 Example of output from relevance propagation showing which sections of an image the neural network considered important during classification. Taken from \parencite{10.1371/journal.pone.0130140}.}
 \end{figure}
 
@@ -153,35 +151,35 @@ Other methods exist for assigning rules of how input features map to predictions
 
 Although no improvements will be made to the basic relevance propagation algorithm itself, there is novelty in two areas. To the best of the PI's knowledge, this is the first time relevance propagation will be applied to a regression task rather than a classification task, and the first time relevance propagation will be applied outside of image classification or computer vision. A potential connection between the heatmap representation and hallucinations from generative adversarial networks (GANs), which have been applied to quantum chemistry \cite{doi:10.1063/1.4973380} is an interesting future research area.
 
-The closest use of input relevance in molecular predictions is monitoring the evolution of input features as the training of a network\cite{Kearnes2016}, shown in [\ref{fig:orgb1a8b72}]. However, there is no definition for what the ``evolution of input features'' is, such as the metric for evolution, or what the units are. This proposal is also not concerned with how the importance changes as a function of network training, only the final explanation of the fully-trained network predictions.
+The closest use of input relevance in molecular predictions is monitoring the evolution of input features as the training of a network\cite{Kearnes2016}, shown in [\ref{fig:orga81b38b}]. However, there is no definition for what the ``evolution of input features'' is, such as the metric for evolution, or what the units are. This proposal is also not concerned with how the importance changes as a function of network training, only the final explanation of the fully-trained network predictions.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{10822_2016_9938_Fig8_HTML.png}
-\caption{\label{fig:orgb1a8b72}
+\caption{\label{fig:orga81b38b}
 Example of how a molecule (ibuprofen) is mapped to input features, and how the input features change as training epochs pass. Taken from \parencite{Kearnes2016}.}
 \end{figure}
 
 \section{Research Plan}
-\label{sec:org6745cb8}
+\label{sec:orgabf9ee2}
 
 \subsection{Specific Aim \#1: Reproduction of Existing Literature Neural Networks}
-\label{sec:orgd3b1a7b}
+\label{sec:orgbfd93df}
 
 \subsubsection{Introduction}
-\label{sec:org9695684}
+\label{sec:org62502f6}
 
 The \uline{objective} is to reproduce trained neural networks from the literature in order to create the foundation of the machine learning pipeline to be developed within this proposal and to serve as a validation baseline for further predictions. The \uline{hypothesis} is that published quantum chemical neural networks are entirely reproducible by connecting free, open-source tools. To test this hypothesis, I will reproduce the ML pipeline and results from \parencite{2017arXiv170205532F}, specifically the isotropic static polarizability \(\bar{\alpha}\) and the zero-point vibrational energy \(E_{\text{ZPVE}}\). The \uline{expected outcome} is a fully-worked and documented reproduction of neural networks from the literature that can serve as the basis for not only this proposal's later aims, but for future pipelines within the wider chemistry and machine learning communities.
 
 \subsubsection{Research Design}
-\label{sec:org2e474e6}
+\label{sec:orge4a6438}
 
 Unfortunately, the learned models for the results presented in \parencite{2017arXiv170205532F} are not available, only descriptions of the architectures. Recreating the literature models requires an implementation of the model architecture and input data in the proper format.
 
 There are two neural network-based architectures described in \parencite{2017arXiv170205532F}: Graph Convolutions \cite{Kearnes2016} (GC) and Gated Graph Neural Networks \cite{2015arXiv151105493L} (GG). These NN architectures are used again as baselines in \parencite{2017arXiv170401212G}. Since the original GC implementation referenced in \parencite{2017arXiv170205532F} is \href{https://github.com/tkipf/gcn}{openly available}\cite{kipf2016semi}, I will use the GC-based architecture with modifications described in section E5 of \parencite{2017arXiv170205532F}. \fxnote{Is it safe to just reference this paper, or are more details necessary?} Details for the GC architecture input, called the Molecular Graph representation, are shown in tables 1 and 2 of \parencite{2017arXiv170205532F} and reproduced here.
 
 \begin{table}[htbp]
-\caption{\label{tab:orgff5e84c}
+\caption{\label{tab:org1cb19c2}
 The Molecular Graph (MG) input representation: single atom features}
 \centering
 \begin{tabu}{|lp{10.25cm}l|}
@@ -201,7 +199,7 @@ Aromaticity & Whether this atom is part of an aromatic system & 1\\
 \end{table}
 
 \begin{table}[htbp]
-\caption{\label{tab:orgbe501c0}
+\caption{\label{tab:orgb228cb9}
 The Molecular Graph (MG) input representation: atom pair features}
 \centering
 \begin{tabu}{|lp{10.25cm}l|}
@@ -216,7 +214,7 @@ Spatial distance & The Euclidean distance between the two atoms & 1\\
 \end{tabu}
 \end{table}
 
-The QM9 dataset consists of 134K molecules \cite{Ramakrishnan:2014ij} containing up to 9 heavy atoms from the elements H, C, O, N, and F, with a maximum number of 29 atoms. The representation in tables \ref{tab:orgff5e84c} and \ref{tab:orgbe501c0} will result in an input size of \(21\binom{x}{1} + 13\binom{x}{2}\) for a given number of atoms \(x\), leading to a total length of 5,887 for the maximum number of 29 atoms in QM9. Inputs are available as modified XYZ files from the \href{http://quantum-machine.org/datasets/}{Quantum Machine (\url{http://quantum-machine.org/})} website under the \href{http://figshare.com/collections/Quantum\_chemistry\_structures\_and\_properties\_of\_134\_kilo\_molecules/978904}{QM9 Dataset} section\cite{Ramakrishnan:2014ij,doi:10.1021/ci300415d}, which will be transformed into the Molecular Graph (MG) representation using RDKit\cite{rdkit} with Gasteiger partial charges as in \parencite{Kearnes2016}. I will then modify the Graph Convolutions architecture from \parencite{Kearnes2016} as described in Section E5 of \parencite{2017arXiv170205532F}. Using the model parameters described in that section, I will train two separate models, one for the isotropic static polarizability \(\bar{\alpha}\), and another for the zero-point vibrational energy \(E_\text{ZPVE}\).
+The QM9 dataset consists of 134K molecules \cite{Ramakrishnan:2014ij} containing up to 9 heavy atoms from the elements H, C, O, N, and F, with a maximum number of 29 atoms. The representation in tables \ref{tab:org1cb19c2} and \ref{tab:orgb228cb9} will result in an input size of \(21\binom{x}{1} + 13\binom{x}{2}\) for a given number of atoms \(x\), leading to a total length of 5,887 for the maximum number of 29 atoms in QM9. Inputs are available as modified XYZ files from the \href{http://quantum-machine.org/datasets/}{Quantum Machine (\url{http://quantum-machine.org/})} website under the \href{http://figshare.com/collections/Quantum\_chemistry\_structures\_and\_properties\_of\_134\_kilo\_molecules/978904}{QM9 Dataset} section\cite{Ramakrishnan:2014ij,doi:10.1021/ci300415d}, which will be transformed into the Molecular Graph (MG) representation using RDKit\cite{rdkit} with Gasteiger partial charges as in \parencite{Kearnes2016}. I will then modify the Graph Convolutions architecture from \parencite{Kearnes2016} as described in Section E5 of \parencite{2017arXiv170205532F}. Using the model parameters described in that section, I will train two separate models, one for the isotropic static polarizability \(\bar{\alpha}\), and another for the zero-point vibrational energy \(E_\text{ZPVE}\).
 
 For the reproduction of literature results, the only numerical values from \parencite{2017arXiv170205532F} are in Table 3, which shows the mean absolute error (MAE) for each input representation-architecture combination. Because the sample size of QM9 is sufficiently large (134K molecules), the MAE is calculated using out-of-sample validation, where the ML models are trained using 90\% of the available data and compared against the DFT (B3LYP/6-31(2df,p)) results for the remaining 10\%. The 90\% constitutes \textasciitilde{}117K molecules after removing 3K from 134K due to failed SMILES consistency tests. This 90/10 (training + validation)/test set split allows for 10-fold cross-validation. It is not mentioned how the concrete splits are obtained or how the final MAE is calculated from the 10 models. For this proposal, I will perform an unbiased random shuffle of QM9 index codes and split them into 10 uniform bins. After training and model validation using the procedure described above, the final MAE will be calculated as the mean of the 10 individual MAEs. \fxnote{Is this sufficient? If so, are there more technical terms for these procedures?} The literature models will be considered replicated if the two final models I train have MAEs within 95\% of 0.227 \(a_{0}^{3}\) for the polarizability and 0.00975 eV for the ZPVE, respectively. \fxnote{Is there a better error metric than 95\% of a single number? Seems very unsatisfactory}
 
@@ -225,20 +223,20 @@ There is some ambiguity to me here. If I wanted to perform a prediction of one o
 \end{anfxnote}
 
 \subsubsection{Expected Outcomes}
-\label{sec:org685b82a}
+\label{sec:org9741aa0}
 
 The concrete products of this aim will be a set of Python scripts that transform the XYZ-like files into the Molecular Graph representation, implement the modified Graph Convolutions architecture, train MG/GC models for each molecular property (\(\bar{\alpha}\) and \(E_\text{ZPVE}\)) using out-of-sample cross-validation, and calculate each molecular property from the trained models when given a normal XYZ molecular structure. This will be a fully-worked and documented reproduction of neural networks from the literature that can serve as the basis for not only this proposal's later aims, but for future pipelines within the wider chemistry and machine learning communities. These scripts will take the form of Jupyter Notebooks \cite{jupyter,PER-GRA:2007}, which combine code, math, and documentation in an easy-to-replicate package that is popular in the machine learning community.
 
 \subsection{Specific Aim \#2: Characterization of Existing Literature Neural Networks}
-\label{sec:org7e34af2}
+\label{sec:org10a188b}
 
 \subsubsection{Introduction}
-\label{sec:orgd320efe}
+\label{sec:org1a09e32}
 
 The \uline{objective} is to quantify what already-published neural network-based ML models have learned. The \uline{hypothesis} is that when predicting an output, the most important (relevant) parts of the input for that output align with our trained chemical intuition. Specifically, for strongly geometry-dependent properties, such as the ZPVE, more relevance will be placed on geometric input features such as bond lengths and bond types. For strongly wavefunction- or density-dependent properties, such as the isotropic polarizability, more relevance will be placed on electronic input features such as partial atomic charges compared to other features. To test this hypothesis, I will develop the necessary ML pipeline for adding relevance propagation and analysis steps to the already-published ML models. This will involve connecting existing relevance propagation tools \cite{JMLR:v17:15-618,github:lrp,github:lrp_tf,github:lrp_tf2} to the end of the pipeline from aim \#1 and creating a human-understandable representation of the relevance propagation output in terms of molecular features.
 
 \subsubsection{Research Design}
-\label{sec:org0dc515e}
+\label{sec:org269c317}
 
 The authors of the relevance propagation algorithm I will use have created an open-source reference implementation in Python. From their GitHub page\cite{github:lrp}:
 
@@ -255,7 +253,7 @@ All examples from the relevance propagation literature focus on explaining image
 \fxwarning{Fact check the statement above from the sum onward. How the LRP output is normalized/manipulated may depend on if feature normalization is performed before/after training the NNs?}
 
 \subsubsection{Expected Outcomes}
-\label{sec:org852f6eb}
+\label{sec:org18d4aa3}
 
 \begin{itemize}
 \item \fxnote{Evidence for or against published ML models having learned chemically-intuitive parameters}
@@ -263,10 +261,10 @@ All examples from the relevance propagation literature focus on explaining image
 \end{itemize}
 
 \subsection{Specific Aim \#3: Construction and Training of Novel Neural Networks}
-\label{sec:orge13fc1e}
+\label{sec:org376ff85}
 
 \subsubsection{Introduction}
-\label{sec:org0756f56}
+\label{sec:org4c92d1b}
 
 The \uline{objective} is to see how currently used neural network architectures perform for more complex molecular properties and how this performance changes with generative pretraining. The \uline{hypothesis} is that the more complex properties \(\beta_{\parallel}\) and \(\{\tilde{\nu}\}\) are expected to have larger relative errors compared to \(\bar{\alpha}\) and \(E_{\text{ZPVE}}\), in particular the set of vibrational frequencies, as predictions of the highest fundamental frequency \(\omega_1\) alone already have large errors \cite{2017arXiv170205532F}.
 
@@ -279,7 +277,7 @@ Applying new ML architectures to already well-studied properties is a safety che
 \fxwarning{How is variable-dimension ML model output handled? If not possible, then I will eliminate the prediction of vibrational frequencies.}
 
 \subsubsection{Research Design}
-\label{sec:orgb61bae9}
+\label{sec:org2d753bc}
 
 \begin{itemize}
 \item Results for \(\bar{\alpha}\), \(E_{\text{ZPVE}}\), and \(\{\tilde{\nu}\}\) are already present in the labeled data that was used is inputs in aim \#1 (that is, the QM9 dataset \cite{Ramakrishnan:2014ij}).
@@ -312,17 +310,17 @@ In the future, it may make sense to unfreeze the autoencoder weights and change 
 \end{anfxnote}
 
 \subsubsection{Expected Outcomes}
-\label{sec:org1a7714e}
+\label{sec:org252a1c1}
 
 \begin{itemize}
 \item Models with unsupervised learning steps have improved prediction accuracy of chemical properties compared to those without. \fxnote{That is, the models developed and trained in this aim should show better prediction performance than the literature models from aim \#1. This implies the models from this aim are of higher-quality and are more likely to have "learned correctly" in the sense that they learned "chemical intutition".}
 \end{itemize}
 
 \subsection{Specific Aim \#4: Characterization of Novel Neural Networks}
-\label{sec:org0ac38f0}
+\label{sec:org94ca073}
 
 \subsubsection{Introduction}
-\label{sec:org983f541}
+\label{sec:org31e45b2}
 
 \begin{itemize}
 \item The \uline{objective} is to determine the relative importance of each component in the molecular representation to predictions of complex molecular properties. This will be done by applying the analysis techniques developed in aim \#1 to the neural networks trained in aim \#2.
@@ -331,12 +329,12 @@ In the future, it may make sense to unfreeze the autoencoder weights and change 
 \end{itemize}
 
 \subsubsection{Research Design}
-\label{sec:orgca31e8e}
+\label{sec:org9ae8513}
 
 \fxnote{This specific aim, as currently planned, is just the application of the analysis from aim \#1 to the models developed and trained in aim \#2. Although the goal of each specific aim sounds logical, the actual division of work between each of the specific aims seems very uneven.}
 
 \subsubsection{Expected Outcomes}
-\label{sec:org39117cc}
+\label{sec:org505a5a6}
 
 \begin{itemize}
 \item The parameters learned by ML models, and therefore their predictions, will show a strong dependence on the input features in chemically-intuitive manner.
@@ -344,7 +342,7 @@ In the future, it may make sense to unfreeze the autoencoder weights and change 
 \end{itemize}
 
 \section{Broader Impacts}
-\label{sec:org1c460a7}
+\label{sec:org3273dbb}
 
 A crucial reason for the growth in cross-disciplinary applications of machine learning is the openness and extensiveness of introductory tools, specifically tutorials and examples. Historically, chemistry lags behind other sciences in terms of openness of procedures and results. The current infrastructure surrounding the combination of machine learning and quantum chemistry is very poor: disorganized work, disorganized results, and not all components are available for reuse. The development of these machine learning pipelines will constitute the development of open-source, freely available infrastructure that will be easily extendable. \uline{I will provide openly \textbf{all} components of the machine learning pipeline developed in this proposed work}, including the fully-trained models, meaning the implementations using open-source software and the learned parameters for each model. All components will be placed on \href{https://github.com/}{GitHub}, the premier location for the open hosting of machine learning tools. Making these tools available will enable the verification of future, more advanced machine learning models that has not been possible to date. The tools will also serve as a pedagogical example for how machine learning can be applied to quantum chemical problems.
 
