@@ -29,7 +29,7 @@ The _overall objective_ is to quantify what quantum chemistry-trained machine le
 The _expected outcomes_ are
 
 - clear connections between the input molecular representations and predicted outputs that can be used to build quantitative structure-function relationships, that
-- adding an unsupervised learning stage provides a reduced-dimensionality molecular representation that connects directly to chemical intuition,
+- adding an unsupervised learning stage provides a reduced-dimensionality molecular representation connecting directly to chemical intuition,
 - well-defined and publicly-available protocols for applying more complex ML models to chemical properties, regarding all stages of the prediction pipeline: generation of the QM data from calculations, preparation of the input, training of the model, and analysis of the results, and
 - ML models capable of predicting complex molecular properties, with the first proof-of-concept predictions of higher-order nonlinear optical properties and vibrational spectra.
 
@@ -54,35 +54,9 @@ The two types of learning used in this proposal are
 - /Supervised learning/: Train a machine learning model using data where the correct output prediction is known and given for each input sample, and the goal of the model is to predict similar types of outputs for new inputs.
 - /Unsupervised learning/: Train a machine learning model using data where the correct output prediction is not given, and the goal of the model is to learn intrinsic properties of the inputs by recreating the input as output.
 
-** Unsupervised Training of Neural Networks
-
-# # I think this sort of thing should go in the presentation.
-
-# Artificial neural networks or neural nets (NNs or ANNs) are models to recreate the structure of the brain in ways we think it learns and performs computation \cite{2003cs........8031G}. An idealized representation of an NN is shown in figure [[fig:artificial-neural-network]]. The simplest NN consists of a node which takes some numerically-convertible input, multiplies it by a weight, and passes it through a user-specified function to determine if that node activated. If the output can only take the discrete values 0 or 1, then it is a binary /classification/ neuron, and several combined together may be able to discriminate between several categories of inputs, such as images of fish from trees or trucks. If the output can take a range of values or is unbounded, then it can perform /regression/ tasks where one or more values are predicted. Linear regression can be represented as an NN with a single set of weights (1 per input) and a pass-through activation function.
-
-# In practice, there can be multiple input and output nodes, but the first defining characteristic of NNs is one or more /hidden layers/ (so called because they are internal and not user-visible). The second defining characteristic is the use of /non-linear activation functions/, such as \(\mathrm{tanh}(x), \frac{1}{1+\mathrm{exp}(-x)},\) or \(\mathrm{max}(0,x)\) (which is the rectified linear unit or ReLU). When used with multiple layers, multiple nodes or neurons per layer, and interlayer connections, NNs can be extended to model any arbitrary function \cite{wiki:uat}. /Deep networks/ are NNs that contain more than one hidden layer.
-
-# The most common method for optimizing weights in an NN during supervised learning is /backpropagation/, where the /cost function/ for the error between the NN prediction and the correct known result is differentiated with respect to weight parameters in a manner that propagates the error layer-by-layer from the output back to the input. This derivative is then used in any gradient descent-type method update the weights in each layer.
-
-# # Note that we are interested in feed-forward networks, not recurrent networks. There are many forms of NNs, both in global structure, layer type, and neuron type, but we focus on this particular structure to maintain compatibility with previous work.
-
-# - Autoencoders perform
-# - Denoising autoencoders differ from autoencoders by
-# - Connection between feature generation and dimensionality reduction?
-
-# can do :float wrap in attr_latex
-# #+name: fig:artificial-neural-network
-# #+caption: Cartoon representation of a feedforward neural network, with the input layer on the bottom, hidden layer in the middle, and output layer on the top. Taken from \parencite{blog:dnn2}. \fxnote{Something like this but cleaner.}
-# [[file:single_hidden_layer_nn.png]]
-
-The NN architectures implied by the two types of learning above lead to the capability of chaining them together in a pipeline, where an unsupervised NN is trained for some amount of time in a "pretraining" step, and the bottom layers (closest to the input) in an unsupervised NN are replaced with the contents of the unsupervised NN, rather than being initialized with random weights. Currently, unsupervised pretraining is not commonly used within the image classification community due to structural choices for the network (ReLUs for the activations, convolutional rather than directly-connected layers).
-
-Rather than use unsupervised learning for network pretraining, I will use the dimensionality reduction capability of an unsupervised autoencoder to generate features that will be identified using layer-wise relevance propagation.
-
-In the future, as the both the size of available training sets (here, chemical databases) and NN architectures grows, unsupervised pretraining may take a more prominent role.
-
-
 ** Machine Learning in Chemistry
+
+# This in particular needs to be focused down.
 
 The use of machine learning to make chemical predictions is not new, with work dating back over 25 years for prediction of NMR spectra using small neural networks trained on experimental data \cite{THOMSEN1989212}. The largest application of machine learning to chemical problems is within cheminformatics, where it has seen wide use within industrial drug discovery with emphasis on predicting quantitative structure-activity relationships (QSAR) \cite{doi:10.1080/17460441.2016.1201262}. The goal is to predict the activity of a given drug candidate based on experimental activities of many other molecules, with inputs being information about atom types, bond types, number of aromatic rings, atomic partial charges, and other pieces of structural information, all of which are related to the molecular graph or connectivity \cite{Kearnes2016}.
 
@@ -116,13 +90,42 @@ Layer-wise relevance propagation (LRP, or relevance propagation) is a method for
 
 Other methods exist for assigning rules of how input features map to predictions \cite{Finnegan105957,2017arXiv170303717S,2016arXiv161107478L}. Several of these are based on the idea of gradient perturbations, where repeated changes in prediction are measured as a result of small changes in the input. Performed enough times, this creates a map of the network's decision boundary\cite{wiki:db}. A gradient perturbation-based method is unsatisfactory because it requires repeated forward passes through the network with a set value for the perturbation size, and relevance propagation requires only one backward pass with no free parameters. Additionally, most methods for assigning input relevance have only been used for image classification, where the input features are of uniform type (pixel data). The input featurization for representing molecular structures\cite{2017arXiv170205532F} is heterogeneous, and it is unclear how the perturbation parameter should be varied for each kind of molecular feature.
 
-Although no improvements will be made to the basic relevance propagation algorithm itself, there is novelty in two areas. To the best of the PI's knowledge, this is the first time relevance propagation will be applied to a regression task rather than a classification task, and the first time relevance propagation will be applied outside of image classification or computer vision. A potential connection between the heatmap representation and hallucinations from generative adversarial networks (GANs), which have been applied to quantum chemistry \cite{doi:10.1063/1.4973380} is an interesting future research area.
+The closest use of input relevance in molecular predictions is monitoring the evolution of input features as network training progresses\cite{Kearnes2016}, shown in [[fig:input-feature-evolution]]. However, there is no definition for what the evolution of input features is, such as the metric for evolution, or what the units are. One aim of this proposal is to form a quantitative basis connecting molecular features to model predictions that figures such as [[fig:input-feature-evolution]] can be built upon.
 
-The closest use of input relevance in molecular predictions is monitoring the evolution of input features as the training of a network\cite{Kearnes2016}, shown in [[[fig:input-feature-evolution]]]. However, there is no definition for what the "evolution of input features" is, such as the metric for evolution, or what the units are. This proposal is also not concerned with how the importance changes as a function of network training, only the final explanation of the fully-trained network predictions.
+Although no improvements will be made to the basic relevance propagation algorithm itself, there is novelty in two areas. To the best of the PI's knowledge, this is the first time relevance propagation will be applied to a regression task rather than a classification task, and the first time relevance propagation will be applied outside of image classification.
 
 #+name: fig:input-feature-evolution
-#+caption: Example of how a molecule (ibuprofen) is mapped to input features, and how the input features change as training epochs pass. Taken from \parencite{Kearnes2016}.
+#+caption: Example of how a molecule is mapped to input features, and how the input features change as training epochs pass. Taken from \parencite{Kearnes2016}.
 [[file:10822_2016_9938_Fig8_HTML.png]]
+
+** Unsupervised Training of Neural Networks
+
+# # I think this sort of thing should go in the presentation. Was originally just "Neural Networks".
+
+# Artificial neural networks or neural nets (NNs or ANNs) are models to recreate the structure of the brain in ways we think it learns and performs computation \cite{2003cs........8031G}. An idealized representation of an NN is shown in figure [[fig:artificial-neural-network]]. The simplest NN consists of a node which takes some numerically-convertible input, multiplies it by a weight, and passes it through a user-specified function to determine if that node activated. If the output can only take the discrete values 0 or 1, then it is a binary /classification/ neuron, and several combined together may be able to discriminate between several categories of inputs, such as images of fish from trees or trucks. If the output can take a range of values or is unbounded, then it can perform /regression/ tasks where one or more values are predicted. Linear regression can be represented as an NN with a single set of weights (1 per input) and a pass-through activation function.
+
+# In practice, there can be multiple input and output nodes, but the first defining characteristic of NNs is one or more /hidden layers/ (so called because they are internal and not user-visible). The second defining characteristic is the use of /non-linear activation functions/, such as \(\mathrm{tanh}(x), \frac{1}{1+\mathrm{exp}(-x)},\) or \(\mathrm{max}(0,x)\) (which is the rectified linear unit or ReLU). When used with multiple layers, multiple nodes or neurons per layer, and interlayer connections, NNs can be extended to model any arbitrary function \cite{wiki:uat}. /Deep networks/ are NNs that contain more than one hidden layer.
+
+# The most common method for optimizing weights in an NN during supervised learning is /backpropagation/, where the /cost function/ for the error between the NN prediction and the correct known result is differentiated with respect to weight parameters in a manner that propagates the error layer-by-layer from the output back to the input. This derivative is then used in any gradient descent-type method update the weights in each layer.
+
+# # Note that we are interested in feed-forward networks, not recurrent networks. There are many forms of NNs, both in global structure, layer type, and neuron type, but we focus on this particular structure to maintain compatibility with previous work.
+
+# - Autoencoders perform
+# - Denoising autoencoders differ from autoencoders by
+# - Connection between feature generation and dimensionality reduction?
+
+# can do :float wrap in attr_latex
+# #+name: fig:artificial-neural-network
+# #+caption: Cartoon representation of a feedforward neural network, with the input layer on the bottom, hidden layer in the middle, and output layer on the top. Taken from \parencite{blog:dnn2}. \fxnote{Something like this but cleaner.}
+# [[file:single_hidden_layer_nn.png]]
+
+Prior applications of NNs to quantum chemistry primarily used supervised training, with the goal of predicting a molecular energy or property with increasing accuracy. The supervised training of NNs requires a separate quantum chemical calculation on each input for each target property, which is not tenable for databases sizes that represent meaningful chemical space (such as PubChem\cite{doi:10.1021/acs.jcim.7b00083}) or any high-level calculation methods (such as coupled cluster).
+
+An original use of unsupervised learning is for "pretraining", where the bottom layers in a NN are trained to reproduce the inputs before switching to supervised learning. Currently, unsupervised pretraining is not commonly used within the image classification community due to the discovery of better weight initialization and structural choices for the network (ReLUs for the activations, convolutional rather than directly-connected layers), rendering it unnecessary. In the future, as the both the size of available training sets (here, chemical databases) and NN architectures grows, unsupervised pretraining may take a more prominent role.
+
+Unsupervised training of NNs is not without precedent in quantum chemistry; generative adversarial networks (GANs) have been used to generate "hallucinated" (fake or imperfect) representations of methanol trimers, which are then fed into a fully-connected NN to predict the three-body energy\cite{doi:10.1063/1.4973380}. Although the error is ~\(2\times\) that of the standard Coulomb matrix-based NN, this may be due to the use of more convolutional than fully-connected layers in the GAN.
+
+Rather than use unsupervised learning for network pretraining, I will use the dimensionality reduction capability of a denoising autoencoder\cite{VincentPLarochelleH2008} with only fully-connected layers to generate features that will be identified using layer-wise relevance propagation. The rendered hallucinations from the GANs (depth maps or D-maps) also provide an interesting connection back to LRP for future work.
 
 * Research Plan
 
@@ -136,7 +139,7 @@ The _objective_ is to reproduce trained neural networks from the literature in o
 
 Unfortunately, the learned models for the results presented in \parencite{2017arXiv170205532F} are not available, only descriptions of the architectures. Recreating the literature models requires an implementation of the model architecture and input data in the proper format.
 
-There are two neural network-based architectures described in \parencite{2017arXiv170205532F}: Graph Convolutions \cite{Kearnes2016} (GC) and Gated Graph Neural Networks \cite{2015arXiv151105493L} (GG). These NN architectures are used again as baselines in \parencite{2017arXiv170401212G}. Since the original GC implementation referenced in \parencite{2017arXiv170205532F} is [[https://github.com/tkipf/gcn][openly available]]\cite{kipf2016semi}, I will use the GC-based architecture with modifications described in section E5 of \parencite{2017arXiv170205532F}. \fxnote{Is it safe to just reference this paper, or are more details necessary?} Details for the GC architecture input, called the Molecular Graph representation, are shown in tables 1 and 2 of \parencite{2017arXiv170205532F} and reproduced here.
+There are two neural network-based architectures described in \parencite{2017arXiv170205532F}: Graph Convolutions \cite{Kearnes2016} (GC) and Gated Graph Neural Networks \cite{2015arXiv151105493L} (GG). These NN architectures are used again as baselines in \parencite{2017arXiv170401212G}. Since the original GC implementation referenced in \parencite{2017arXiv170205532F} is [[https://github.com/tkipf/gcn][openly available]]\cite{kipf2016semi}, I will use the GC-based architecture with modifications described in section E5 of \parencite{2017arXiv170205532F}. Details for the GC architecture input, called the Molecular Graph representation, are shown in tables 1 and 2 of \parencite{2017arXiv170205532F} and reproduced here.
 
 # #+begin_quote
 # \begin{anfxnote}{section E5}
@@ -204,13 +207,16 @@ There are two neural network-based architectures described in \parencite{2017arX
 # | Hybridization       | sp, sp2, sp3 (one-hot or null) |
 # | Number of hydrogens | (integer)                      |
 
-The QM9 dataset consists of 134K molecules \cite{Ramakrishnan:2014ij} containing up to 9 heavy atoms from the elements H, C, O, N, and F, with a maximum number of 29 atoms. The representation in tables [[table:mg-input-rep-atoms]] and [[table:mg-input-rep-pairs]] will result in an input size of \(21\binom{x}{1} + 13\binom{x}{2}\) for a given number of atoms \(x\), leading to a total length of 5,887 for the maximum number of 29 atoms in QM9. Inputs are available as modified XYZ files from the Quantum Machine website under the [[http://figshare.com/collections/Quantum_chemistry_structures_and_properties_of_134_kilo_molecules/978904][QM9 Dataset]] section\cite{Ramakrishnan:2014ij,doi:10.1021/ci300415d}, which will be transformed into the Molecular Graph (MG) representation using RDKit\cite{rdkit} with Gasteiger partial charges as in \parencite{Kearnes2016}. I will then modify the Graph Convolutions architecture from \parencite{Kearnes2016} as described in Section E5 of \parencite{2017arXiv170205532F}. Using the model parameters described in that section, I will train two separate models, one for the isotropic static polarizability \(\bar{\alpha}\), and another for the zero-point vibrational energy \(E_\text{ZPVE}\).
+The QM9 dataset consists of 134K molecules \cite{Ramakrishnan:2014ij} containing up to 9 heavy atoms from the elements C, N, O, and F, with a maximum number of 29 atoms. The representation in tables [[table:mg-input-rep-atoms]] and [[table:mg-input-rep-pairs]] will result in an input size of \(21\binom{x}{1} + 13\binom{x}{2}\) for a given number of atoms \(x\), leading to a total length of 5,887 for the maximum number of 29 atoms in QM9. Inputs are available as modified XYZ files from the Quantum Machine website under the [[http://figshare.com/collections/Quantum_chemistry_structures_and_properties_of_134_kilo_molecules/978904][QM9 Dataset]] section\cite{Ramakrishnan:2014ij,doi:10.1021/ci300415d}, which will be transformed into the Molecular Graph (MG) representation using RDKit\cite{rdkit} with Gasteiger partial charges as in \parencite{Kearnes2016}. I will then modify the Graph Convolutions architecture from \parencite{Kearnes2016} as described in Section E5 of \parencite{2017arXiv170205532F}. Using the model parameters described in that section, I will train two separate models, one for the isotropic static polarizability \(\bar{\alpha}\), and another for the zero-point vibrational energy \(E_\text{ZPVE}\).
 
-For the reproduction of literature results, the only numerical values from \parencite{2017arXiv170205532F} are in Table 3, which shows the mean absolute error (MAE) for each input representation-architecture combination. Because the sample size of QM9 is sufficiently large (134K molecules), the MAE is calculated using out-of-sample validation, where the ML models are trained using 90% of the available data and compared against the DFT (B3LYP/6-31(2df,p)) results for the remaining 10%. The 90% constitutes ~117K molecules after removing 3K from 134K due to failed SMILES consistency tests. This 90/10 (training + validation)/test set split allows for 10-fold cross-validation. It is not mentioned how the concrete splits are obtained or how the final MAE is calculated from the 10 models. For this proposal, I will perform an unbiased random shuffle of QM9 index codes and split them into 10 uniform bins. After training and model validation using the procedure described above, the final MAE will be calculated as the mean of the 10 individual MAEs. \fxnote{Is this sufficient? If so, are there more technical terms for these procedures?} The literature models will be considered replicated if the two final models I train have MAEs within 95% of 0.227 \(a_{0}^{3}\) for the polarizability and 0.00975 eV for the ZPVE, respectively. \fxnote{Is there a better error metric than 95\% of a single number? Seems very unsatisfactory}
+For the reproduction of literature results, the only numerical values from \parencite{2017arXiv170205532F} are in Table 3, which shows the mean absolute error (MAE) for each input representation-architecture combination. Because the sample size of QM9 is sufficiently large (134K molecules), the MAE is calculated using out-of-sample validation, where the ML models are trained using 90% of the available data and compared against the DFT (B3LYP/6-31(2df,p)) results for the remaining 10%. The 90% constitutes ~117K molecules after removing 3K from 134K due to failed SMILES consistency tests. This 90/10 (training + validation)/test set split allows for 10-fold cross-validation. It is not mentioned how the concrete splits are obtained or how the final MAE is calculated from the 10 models. For this proposal, I will perform an unbiased random shuffle of QM9 index codes and split them into 10 uniform bins. After training and model validation using the procedure described above, the final MAE will be calculated as the mean of the 10 individual MAEs. The literature models will be considered replicated if the two final models I train have MAEs within 95% of 0.227 \(a_{0}^{3}\) for the polarizability and 0.00975 eV for the ZPVE, respectively.
 
-\begin{anfxnote}{final training}
-There is some ambiguity to me here. If I wanted to perform a prediction of one of these molecular properties, would I then train an 11th model using all 100\% of the available sample data? What is the ``final'' model?
-\end{anfxnote}
+# \fxnote{Is this sufficient? If so, are there more technical terms for these procedures?} 
+# \fxnote{Is there a better error metric than 95\% of a single number? Seems very unsatisfactory}
+
+# \begin{anfxnote}{final training}
+# There is some ambiguity to me here. If I wanted to perform a prediction of one of these molecular properties, would I then train an 11th model using all 100\% of the available sample data? What is the ``final'' model?
+# \end{anfxnote}
 
 # Starting from the ~131k molecules in QM9 after removing the ~3k molecules (see above) we have created a number of train-validation-test splits. We first split the dataset into test and non-test (training + validation) sets and vary the percentage of data in test to explore the effect of amount of data in error rates (see Results). Then inside the non-test set, we do 10 fold cross validation for hyperparameter optimization. That is for each model 90% (the training set) of the non-test set is used for training and 10% (the validation set) is used for hyperparameter selection. For each test/non-test split, we then have 10 models trained on different subsets for the non-test set and we report the MAE on the test set across those 10 models.
 
