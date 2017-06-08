@@ -327,22 +327,22 @@ The error metric used for the set of vibrational frequencies will be identical t
 
 *** Expected Outcomes
 
-Similar to aim #1, the result will be a full set of documented Jupyter Notebooks that parse the hyperpolarizability calculation outputs and train separate MG/GC models for the hyperpolarizability and vibrational frequencies. In addition to the trained models, I will provide the raw calculation outputs for the hyperpolarizability calculations on figshare\cite{figshare}, which is capable of hosting large archives. These outputs will contain full dipole, polarizability, and hyperpolarizability tensors, along with other common quantities from quantum chemical calculations such as L\"owdin partial atomic charges and MO coefficients. Distributing these unmodified outputs enables the future prediction of even more complex properties
+Similar to aim #1, the result will be a full set of documented Jupyter Notebooks that parse the hyperpolarizability calculation outputs and train separate MG/GC models for the hyperpolarizability and vibrational frequencies. In addition to the trained models, I will provide the raw calculation outputs for the hyperpolarizability calculations on figshare\cite{figshare}, which is capable of hosting large archives. These outputs will contain full dipole, polarizability, and hyperpolarizability tensors, along with other common quantities from quantum chemical calculations such as \(\text{L\"owdin}\) partial atomic charges and MO coefficients. Distributing these unmodified outputs enables the future prediction of even more complex properties and the use of molecular properties in feature generation.
+
+# \fxnote{Would be good to say something else about the openness of providing the outputs?}
 
 ** Specific Aim #4: Characterization of Novel Neural Networks
 
 *** Introduction
 
-The _objective_ is to determine the relative importance of each component in the molecular representation to predictions of complex molecular properties. The _hypothesis_ is that the most important input features for \(\beta_{\parallel}\) and \(\{\tilde{\nu}\}\) are similar to those for \(\bar{\alpha}\) and \(E_{\text{ZPVE}}\), respectively. This will be done by applying the analysis techniques developed in aim #2 to the neural networks trained in aim #3, along with
+The _objective_ is to determine the relative importance of each component in the molecular representation to predictions of complex molecular properties. The _hypothesis_ is that the most important input features for \(\beta_{\parallel}\) and \(\{\tilde{\nu}\}\) are similar to those for \(\bar{\alpha}\) and \(E_{\text{ZPVE}}\), respectively. This will be done by applying the analysis techniques developed in aim #2 to the neural networks trained in aim #3, along with using unsupervised learning to discover a simpler molecular representation. 
 
 *** Research Design
 
-\begin{anfxnote}{nn construction}
+# \begin{anfxnote}{nn construction}
 The basic structure of the unsupervised network will be as follows. It will be a denoising autoencoder (DAE) with an input layer of the same dimension as the GC input, a coding layer of dimension ???, and a hidden layer between the input and coding layers. This will be a symmetric structure where the weights of the encoding and decoding sections are tied, meaning they are constrained to be identical. I will adapt the Molecular Graph input from aim 1 on top of this denoising autoencoder as implemented in TensorFlow\cite{tensorflow2015-whitepaper,github:tf,github:tf_dae}. Because a DAE reconstructs its inputs and does not make a classification or regression prediction, only one model needs to be trained, not four. Here I should describe how the DAE will be trained? How to decide on dimension of intermediate and coding layers? Once the DAE model is trained, it will replace the input layer for each of the trained supervised networks. If the DAE is capable of performing good input reconstruction, then the prediction performance of these combined networks should not be much worse than the supervised networks for the training, but may be improved on validation and testing.
 
 Performance may decrease because the reconstruction of the original input cannot be perfect, which would constitute overfitting.
-
-Some of this can go in aim 4!
 
 Could LRP be performed on the DAE itself? Could be another test of quality for the input reconstruction
 
@@ -355,14 +355,14 @@ Larger databases already exist \cite{doi:10.1021/acs.jcim.7b00083}
 In the future, with larger amount of unlabeled data (we don't want to have to run millions of hyperpolarizability calculations in order to train), such as in \parencite{doi:10.1021/acs.jcim.7b00083},
 
 In the future, it may make sense to unfreeze the autoencoder weights and change them slightly via backpropagation, so the autoencoder learns a redudced-dimensionality encoding that is more optimal for the network output and not just reconstructing the input.
-\end{anfxnote}
+# \end{anfxnote}
 
 *** Expected Outcomes
 
-- Models with unsupervised learning steps have improved prediction accuracy of chemical properties compared to those without. \fxnote{That is, the models developed and trained in this aim should show better prediction performance than the literature models from aim \#1. This implies the models from this aim are of higher-quality and are more likely to have "learned correctly" in the sense that they learned "chemical intutition".}
+For this specific aim,
 
-- The parameters learned by ML models, and therefore their predictions, will show a strong dependence on the input features in chemically-intuitive manner.
-- Neural network-based ML architectures are a valid path forward for predicting novel and more complex chemical properties.
+
+As a result of this proposal, I expect that the parameters learned by ML models, and therefore their predictions, will show a strong dependence on the input features in chemically-intuitive manner. This would mean that the models trained here and similar models are "right for the right reasons", and that neural network-based ML architectures are a valid path forward for predicting novel and more complex chemical properties.
 
 * Broader Impacts
 
