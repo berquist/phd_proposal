@@ -303,9 +303,7 @@ All examples from the relevance propagation literature focus on explaining image
 # - \fxnote{Evidence for or against published ML models having learned chemically-intuitive parameters}
 # - \fxnote{A model ML pipeline for applying relevance propagation to quantum chemistry models}
 
-# TODO really need to expand on this.
-
-Once LRP is applied to the trained models, \fxnote{TODO}
+Once LRP is applied to the trained models, \fxnote{TODO stuff about analysis and visualization of LRP results. Thinking simple bar chart, with 1 bar per feature type, with error bars describing the distribution of LRP results across all training samples.}
 
 Additionally, the LRP analysis will be attached to the pipeline developed in aim #1, with complete documentation and code that replicates the work from this proposal.
 
@@ -343,27 +341,30 @@ The _objective_ is to determine the relative importance of each component in the
 
 *** Research Design
 
-The type of network I will train is a denoising autoencoder (DAE), where the input is constricted down to a compressed representation as a form of dimensionality reduction (encoding) and then expanded back again to the full input size (decoding), with small amounts of random Gaussian noise is added to the input during training. For simplicity of training, it will consist of five total layers: the two input layers on either end, a coding layer in the center, and a hidden layer between the coding layer and each input layer. This will be a symmetric structure where the weights of the encoding and decoding sections are tied, meaning they are constrained to be identical, making training easier. Since the DAE will be connected to the NNs from aims #1 and #3, the input layer dimension must be same as for the GC-based models. I will choose the dimensionality of the coding layer to be twice the total number of feature types and the number of nodes in each hidden layer to be twice that, giving a 5889-136-68-136-5889 shape, with ReLU activations for each node and direct connections between each layer. This extreme constriction xxx
+The type of network I will train is a denoising autoencoder (DAE), where the input is constricted down to a compressed representation as a form of dimensionality reduction (encoding) and then expanded back again to the full input size (decoding), with small amounts of random Gaussian noise added to the input during training. For simplicity of training, it will consist of five total layers: the two input layers on either end, a coding layer in the center, and a hidden layer between the coding layer and each input layer. This will be a symmetric structure where the weights of the encoding and decoding sections are tied, meaning they are constrained to be identical, making training easier. Since the DAE will be connected to the NNs from aims #1 and #3, the input layer dimension must be same as for the GC-based models. I will choose the dimensionality of the coding layer to be twice the total number of feature types and the number of nodes in each hidden layer to be twice that, giving a 5889-136-68-136-5889 shape, with ReLU activations for each node and direct connections between each layer. The number of layers and nodes in each layer constitute hyperparameters that can be varied, and starting with a constricting autoencoder forces the smallest possible molecular representation or "code" to be found.
+
+# Some weird wording here?
 
 I will adapt the Molecular Graph input from aim 1 on top of this denoising autoencoder as implemented in TensorFlow\cite{tensorflow2015-whitepaper,github:tf,github:tf_dae}. Because a DAE reconstructs its inputs and does not make a classification or regression prediction, only one model needs to be trained, not four. Once the DAE model is trained, it will replace the input layer for each of the trained supervised networks. If the DAE is capable of performing good input reconstruction, then the prediction performance of these combined networks should not be much worse than the supervised networks for the training, but may be improved on validation and testing. In general, performance may decrease because the reconstruction of the original input cannot be perfect, which would constitute overfitting.
 
-Could LRP be performed on the DAE itself? Could be another test of quality for the input reconstruction
+The purpose of adding the autoencoder structure is that using layer-wise relevance propagation will show the relevance of the \emph{encoded} input. The expectation is that because the learned encoding retains only important features for representing the input, the interpretation of the coding layer using LRP will be more refined than when using the possibly overcomplete input feature description.
 
-The purpose of adding the autoencoder structure is that using layer-wise relevance propagation will show the relevance of the \emph{encoded} input. The expectation is that because the learned encoding retains only important features for the input, xxx rather than using the possibly overcomplete input feature description. If the DAE is good at reconstructing the inputs
 
-The original purposes of generative pretraining are to prevent overfitting in large neural networks and learn structure in large amounts of unlabeled data.
+# If the DAE is good at reconstructing the inputs
 
-Larger databases already exist \cite{doi:10.1021/acs.jcim.7b00083}
+# The original purposes of generative pretraining are to prevent overfitting in large neural networks and learn structure in large amounts of unlabeled data.
 
-In the future, with larger amount of unlabeled data (we don't want to have to run millions of hyperpolarizability calculations in order to train), such as in \parencite{doi:10.1021/acs.jcim.7b00083},
+# Larger databases already exist \cite{doi:10.1021/acs.jcim.7b00083}
 
-In the future, it may make sense to unfreeze the autoencoder weights and change them slightly via backpropagation, so the autoencoder learns a redudced-dimensionality encoding that is more optimal for the network output and not just reconstructing the input.
-# \end{anfxnote}
+# In the future, with larger amount of unlabeled data (we don't want to have to run millions of hyperpolarizability calculations in order to train), such as in \parencite{doi:10.1021/acs.jcim.7b00083},
+
+A future goal is to unfreeze the autoencoder weights and change them slightly via backpropagation when connected to the trained GC-based networks, so the autoencoder learns a redudced-dimensionality encoding that is more optimal for the network output and not just reconstructing the input. Another possibility is to use LRP on the standalone trained autoencoder as a measure for determining the correct hyperparameters, such as if the coding layer is too large or small.
 
 *** Expected Outcomes
 
-For this specific aim,
+For this specific aim, the concrete products will be LRP analyses for \(\beta_{\parallel}\) and \(\{\tilde{\nu}\}\) in terms of the original Molecular Graph input, and LRP analyses for all four molecular properties in terms of the coded representation, along with the DAE implementation code and documentation.
 
+# TODO expand on me.
 
 As a result of this proposal, I expect that the parameters learned by ML models, and therefore their predictions, will show a strong dependence on the input features in chemically-intuitive manner. This would mean that the models trained here and similar models are "right for the right reasons", and that neural network-based ML architectures are a valid path forward for predicting novel and more complex chemical properties.
 
