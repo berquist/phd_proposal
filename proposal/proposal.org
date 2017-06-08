@@ -167,6 +167,8 @@ There are two neural network-based architectures described in \parencite{2017arX
 # The QM-9 dataset has 130462 molecules in it. We randomly chose 10,000 samples for validation, 10,000 samples for testing and used the rest for training. We use the validation set to do early stopping and model selection and report scores on the test set. All targets were normalized to have mean 0 and variance 1. We minimized the mean squared error between the model output and the target, although we evaluate mean absolute error.
 # #+END_QUOTE
 
+# \fxnote{SHRINK MEEEEEEE}
+
 #+label: table:mg-input-rep-atoms
 #+caption: The Molecular Graph (MG) input representation: single atom features
 #+attr_latex: :environment tabu :align |lp{10.25cm}l|
@@ -209,7 +211,7 @@ There are two neural network-based architectures described in \parencite{2017arX
 
 The QM9 dataset consists of 134K molecules \cite{Ramakrishnan:2014ij} containing up to 9 heavy atoms from the elements C, N, O, and F, with a maximum number of 29 atoms. The representation in tables [[table:mg-input-rep-atoms]] and [[table:mg-input-rep-pairs]] will result in an input size of \(21\binom{x}{1} + 13\binom{x}{2}\) for a given number of atoms \(x\), leading to a total length of 5,887 for the maximum number of 29 atoms in QM9. Inputs are available as modified XYZ files from the Quantum Machine website under the [[http://figshare.com/collections/Quantum_chemistry_structures_and_properties_of_134_kilo_molecules/978904][QM9 Dataset]] section\cite{Ramakrishnan:2014ij,doi:10.1021/ci300415d}, which will be transformed into the Molecular Graph (MG) representation using RDKit\cite{rdkit} with Gasteiger partial charges as in \parencite{Kearnes2016}. I will then modify the Graph Convolutions architecture from \parencite{Kearnes2016} as described in Section E5 of \parencite{2017arXiv170205532F}. Using the model parameters described in that section, I will train two separate models, one for the isotropic static polarizability \(\bar{\alpha}\), and another for the zero-point vibrational energy \(E_\text{ZPVE}\).
 
-For the reproduction of literature results, the only numerical values from \parencite{2017arXiv170205532F} are in Table 3, which shows the mean absolute error (MAE) for each input representation-architecture combination. Because the sample size of QM9 is sufficiently large (134K molecules), the MAE is calculated using out-of-sample validation, where the ML models are trained using 90% of the available data and compared against the DFT (B3LYP/6-31(2df,p)) results for the remaining 10%. The 90% constitutes ~117K molecules after removing 3K from 134K due to failed SMILES consistency tests. This 90/10 (training + validation)/test set split allows for 10-fold cross-validation. It is not mentioned how the concrete splits are obtained or how the final MAE is calculated from the 10 models. For this proposal, I will perform an unbiased random shuffle of QM9 index codes and split them into 10 uniform bins. After training and model validation using the procedure described above, the final MAE will be calculated as the mean of the 10 individual MAEs. The literature models will be considered replicated if the two final models I train have MAEs within 95% of 0.227 \(a_{0}^{3}\) for the polarizability and 0.00975 eV for the ZPVE, respectively.
+For the reproduction of literature results, the only numerical values from \parencite{2017arXiv170205532F} are in Table 3, which shows the mean absolute error (MAE) for each input representation-architecture combination. Because the sample size of QM9 is sufficiently large (134K molecules), the MAE is calculated using out-of-sample validation, where the ML models are trained using 90% of the available data and compared against the DFT (B3LYP/6-31(2df,p)) results for the remaining 10%. The 90% constitutes ~117K molecules after removing 3K from 134K due to failed SMILES consistency tests. This 90/10 (training + validation)/test set split allows for 10-fold cross-validation. It is not mentioned how the concrete splits are obtained or how the final MAE is calculated from the 10 models. For this proposal, I will perform an unbiased random shuffle of QM9 index codes and split them into 10 uniform bins. After training and model validation using the procedure described above, the final MAE will be calculated as the mean of the 10 individual MAEs. The literature models will be considered replicated if the two final models have MAEs within 95% of 0.227 \(a_{0}^{3}\) for the polarizability and 0.00975 eV for the ZPVE, respectively.
 
 # \fxnote{Is this sufficient? If so, are there more technical terms for these procedures?} 
 # \fxnote{Is there a better error metric than 95\% of a single number? Seems very unsatisfactory}
@@ -288,11 +290,9 @@ This reference implementation is interfaced with its own implementation of compo
 
 Once the LRP implementation is connected to the trained models, details of running the LRP algorithm must be considered. There are multiple decomposition variants of LRP, each with different trade-offs regarding numerical stability and conserving relevance\cite{Binder2016}. Because the number tunable parameters is small, with only one for each of the three variants, and there are examples of modulating these parameters in the literature, I will start with the variant that requires no free parameters and extend to the other variants if results do not make sense.
 
-# \begin{anfxnote}{interpretation}
-All examples from the relevance propagation literature focus on explaining image classification decisions using heat maps overlaid on the input image decision boundary. Instead of performing image classification, the neural networks trained in aim #1 perform regression using a graph-type, heterogeneous input, so a different form of interpreting the results will be needed. LRP produces output on a per-sample basis with a signed relevance value for each input feature, where the sum of all relevance values equals the prediction output. For each molecule in the QM9 dataset, I will run the LRP implementation and perform the equivalent of feature normalization and scaling so that the relevances have zero mean with a minimum and maximum corresponding to the largest absolute values in the QM9 dataset. Not all molecules in QM9 have the same number of atoms, so for each molecule I will average together the relevances over all atoms to produce a single relevance for each type of feature (12 total). While this can be viewed as a significant loss of information, the goal of this proposal is to start xxx.
-# \end{anfxnote}
+All examples from the relevance propagation literature focus on explaining image classification decisions using heat maps overlaid on the input image decision boundary. Instead of performing image classification, the neural networks trained in aim #1 perform regression using a graph-type, heterogeneous input, so a different form of interpreting the results will be needed. LRP produces output on a per-sample basis with a signed relevance value for each input feature, where the sum of all relevance values equals the prediction output. For each molecule in the QM9 dataset, I will run the LRP implementation and perform the equivalent of feature normalization and scaling so that the relevances have zero mean with a minimum and maximum corresponding to the largest absolute values in the QM9 dataset. Not all molecules in QM9 have the same number of atoms, so for each molecule I will average together the relevances over all atoms to produce a single relevance for each type of feature (12 total). While this can be viewed as a significant loss of information, the goal of this proposal is to identify what types of features are generally important for different molecular properties, _not_ the quality of a prediction for a specific molecule.
 
-\fxwarning{Fact check the statement above from the sum onward. How the LRP output is normalized/manipulated may depend on if feature normalization is performed before/after training the NNs?}
+# \fxwarning{Fact check the statement above from the sum onward. How the LRP output is normalized/manipulated may depend on if feature normalization is performed before/after training the NNs?}
 
 #  Since the density distributions for \(\bar{\alpha}\) and \(E_{\text{ZPVE}}\) \cite{2015arXiv150204563R}
 # - derive form for analyzing contributions of input features to results, such as coefficients \(\{c\}\) where \(\sum_{i}^{\text{input features}} c_{i}^{2} = 1\)
@@ -301,32 +301,46 @@ All examples from the relevance propagation literature focus on explaining image
 
 *** Expected Outcomes
 
-- \fxnote{Evidence for or against published ML models having learned chemically-intuitive parameters}
-- \fxnote{A model ML pipeline for applying relevance propagation to quantum chemistry models}
+# - \fxnote{Evidence for or against published ML models having learned chemically-intuitive parameters}
+# - \fxnote{A model ML pipeline for applying relevance propagation to quantum chemistry models}
 
-** Specific Aim #3: Construction and Training of Novel Neural Networks
+Once LRP is applied to the trained models, \fxnote{TODO}
+
+Additionally, the LRP analysis will be attached to the pipeline developed in aim #1, with complete documentation and code that replicates the work from this proposal.
+
+** Specific Aim #3: Training Neural Networks for Complex Molecular Properties
 
 *** Introduction
 
-The _objective_ is to see how currently used neural network architectures perform for more complex molecular properties and how this performance changes with generative pretraining. The _hypothesis_ is that the more complex properties \(\beta_{\parallel}\) and \(\{\tilde{\nu}\}\) are expected to have larger relative errors compared to \(\bar{\alpha}\) and \(E_{\text{ZPVE}}\), in particular the set of vibrational frequencies, as predictions of the highest fundamental frequency \(\omega_1\) alone already have large errors \cite{2017arXiv170205532F}.
+The _objective_ is to see how currently used neural network architectures perform for more complex molecular properties than those found in the literature. The _hypothesis_ is that the more complex properties \(\beta_{\parallel}\) and \(\{\tilde{\nu}\}\) are expected to have larger relative errors compared to \(\bar{\alpha}\) and \(E_{\text{ZPVE}}\), in particular the set of vibrational frequencies, as predictions of the highest fundamental frequency \(\omega_1\) alone already have large errors \cite{2017arXiv170205532F}. Testing this hypothesis first requires calculating the hyperpolarizability for each of the training samples, followed by training the network itself.
 
-\fxnote{What I will do is put the entire generative pretraining/DAE as part of aim 4, and aim 3 will only be about training on the new properties.}
+# To test this hypothesis, I will first train the neural network architectures from aim #1 to predict the static parallel first hyperpolarizability, \(\beta_{\parallel}\), and full vibrational (stick) spectra, the set of frequencies \(\{\tilde{\nu}\}\). Then, I will train a molecular property-independent neural network to reconstruct its inputs
 
-To test this hypothesis, I will first train the neural network architectures from aim #1 to predict the static parallel first hyperpolarizability, \(\beta_{\parallel}\), and full vibrational (stick) spectra, the set of frequencies \(\{\tilde{\nu}\}\). Then, I will train a molecular property-independent neural network to reconstruct its inputs
+# Applying new ML architectures to already well-studied properties is a safety check for the architeture's use; if it performs worse than current models for existing property predictions than it cannot be expected that it will perform well for new or more complex property predictions.
 
-Applying new ML architectures to already well-studied properties is a safety check for the architeture's use; if it performs worse than current models for existing property predictions than it cannot be expected that it will perform well for new or more complex property predictions.
-
-\fxwarning{How is variable-dimension ML model output handled? If not possible, then I will eliminate the prediction of vibrational frequencies.}
+# \fxwarning{How is variable-dimension ML model output handled? If not possible, then I will eliminate the prediction of vibrational frequencies.}
 
 *** Research Design
 
-- Results for \(\bar{\alpha}\), \(E_{\text{ZPVE}}\), and \(\{\tilde{\nu}\}\) are already present in the labeled data that was used is inputs in aim #1 (that is, the QM9 dataset \cite{Ramakrishnan:2014ij}).
+Results for \(\{\tilde{\nu}\}\) are already present as labeled data in the QM9 dataset \cite{Ramakrishnan:2014ij}. I will use the \textsc{Dalton} quantum chemistry program package \cite{daltonpaper} for the hyperpolarizability calculations, as it is free for academic use and designed especially for the calculation of molecular response properties such as hyperpolarizabilities. These calculations will employ the B3LYP density functional in combination with the 6-31G(2df,p) basis set to maintain comparability with past calculations from the QM9 dataset \cite{Ramakrishnan:2014ij}.
 
-- I will use the \textsc{Dalton} quantum chemistry program package \cite{daltonpaper} for the hyperpolarizability calculations, as it is free for academic use and designed especially for the calculation of molecular response properties such as hyperpolarizabilities. These calculations will employ the B3LYP density functional in combination with the 6-31G(2df,p) basis set to maintain comparability with past calculations from the QM9 dataset \cite{Ramakrishnan:2014ij}.
+Training the NN-based model for the hyperpolarizability will not require any modifications to the NN architecture, as \(\beta_{\parallel}\) is a scalar quantity. As the set of vibrational modes is dependent on molecular size, the architecture that will be trained to reproduce \(\{\tilde{\nu}\}\) will be modified to output the maximum possible number of vibrational frequencies, with the first \(3N-6\) output nodes returning predictions and the remainder padded with zeros. This is a well-known limitation of many ML architectures using variable-dimension input and output.
 
-- Start with the resulting (supervised) NN architectures/models from the literature that were used in aim #1.
+The error metric used for the set of vibrational frequencies will be identical to that for \(\omega_1\), which is nnn.
 
-- Build a "small" unsupervised NN architecture that can be connected to the front of the existing GC NN architecture (the "combined" architecture).
+# \fxnote{What is a good error/accuracy metric for the hyperpolarizability?}
+
+*** Expected Outcomes
+
+** Specific Aim #4: Characterization of Novel Neural Networks
+
+*** Introduction
+
+- The _objective_ is to determine the relative importance of each component in the molecular representation to predictions of complex molecular properties. This will be done by applying the analysis techniques developed in aim #1 to the neural networks trained in aim #2.
+
+- The _hypothesis_ is that the most important input features for \(\beta_{\parallel}\) and \(\{\tilde{\nu}\}\) are similar to those for \(\bar{\alpha}\) and \(E_{\text{ZPVE}}\), respectively.
+
+*** Research Design
 
 \begin{anfxnote}{nn construction}
 The basic structure of the unsupervised network will be as follows. It will be a denoising autoencoder (DAE) with an input layer of the same dimension as the GC input, a coding layer of dimension ???, and a hidden layer between the input and coding layers. This will be a symmetric structure where the weights of the encoding and decoding sections are tied, meaning they are constrained to be identical. I will adapt the Molecular Graph input from aim 1 on top of this denoising autoencoder as implemented in TensorFlow\cite{tensorflow2015-whitepaper,github:tf,github:tf_dae}. Because a DAE reconstructs its inputs and does not make a classification or regression prediction, only one model needs to be trained, not four. Here I should describe how the DAE will be trained? How to decide on dimension of intermediate and coding layers? Once the DAE model is trained, it will replace the input layer for each of the trained supervised networks. If the DAE is capable of performing good input reconstruction, then the prediction performance of these combined networks should not be much worse than the supervised networks for the training, but may be improved on validation and testing.
@@ -351,20 +365,6 @@ In the future, it may make sense to unfreeze the autoencoder weights and change 
 *** Expected Outcomes
 
 - Models with unsupervised learning steps have improved prediction accuracy of chemical properties compared to those without. \fxnote{That is, the models developed and trained in this aim should show better prediction performance than the literature models from aim \#1. This implies the models from this aim are of higher-quality and are more likely to have "learned correctly" in the sense that they learned "chemical intutition".}
-
-** Specific Aim #4: Characterization of Novel Neural Networks
-
-*** Introduction
-
-- The _objective_ is to determine the relative importance of each component in the molecular representation to predictions of complex molecular properties. This will be done by applying the analysis techniques developed in aim #1 to the neural networks trained in aim #2.
-
-- The _hypothesis_ is that the most important input features for \(\beta_{\parallel}\) and \(\{\tilde{\nu}\}\) are similar to those for \(\bar{\alpha}\) and \(E_{\text{ZPVE}}\), respectively.
-
-*** Research Design
-
-\fxnote{This specific aim, as currently planned, is just the application of the analysis from aim \#1 to the models developed and trained in aim \#2. Although the goal of each specific aim sounds logical, the actual division of work between each of the specific aims seems very uneven.}
-
-*** Expected Outcomes
 
 - The parameters learned by ML models, and therefore their predictions, will show a strong dependence on the input features in chemically-intuitive manner.
 - Neural network-based ML architectures are a valid path forward for predicting novel and more complex chemical properties.
