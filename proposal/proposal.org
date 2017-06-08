@@ -10,7 +10,6 @@
 
 # \doublespace
 # \onehalfspacing
-\listoffixmes
 
 * Overview and Objectives
 
@@ -314,11 +313,7 @@ Additionally, the LRP analysis will be attached to the pipeline developed in aim
 
 The _objective_ is to see how currently used neural network architectures perform for more complex molecular properties than those found in the literature. The _hypothesis_ is that the more complex properties \(\beta_{\parallel}\) and \(\{\tilde{\nu}\}\) are expected to have larger relative errors compared to \(\bar{\alpha}\) and \(E_{\text{ZPVE}}\), in particular the set of vibrational frequencies, as predictions of the highest fundamental frequency \(\omega_1\) alone already have large errors \cite{2017arXiv170205532F}. Testing this hypothesis first requires calculating the hyperpolarizability for each of the training samples, followed by training the network itself.
 
-# To test this hypothesis, I will first train the neural network architectures from aim #1 to predict the static parallel first hyperpolarizability, \(\beta_{\parallel}\), and full vibrational (stick) spectra, the set of frequencies \(\{\tilde{\nu}\}\). Then, I will train a molecular property-independent neural network to reconstruct its inputs
-
 # Applying new ML architectures to already well-studied properties is a safety check for the architeture's use; if it performs worse than current models for existing property predictions than it cannot be expected that it will perform well for new or more complex property predictions.
-
-# \fxwarning{How is variable-dimension ML model output handled? If not possible, then I will eliminate the prediction of vibrational frequencies.}
 
 *** Research Design
 
@@ -326,9 +321,9 @@ Results for \(\{\tilde{\nu}\}\) are already present as labeled data in the QM9 d
 
 Training the NN-based model for the hyperpolarizability will not require any modifications to the NN architecture, as \(\beta_{\parallel}\) is a scalar quantity. As the set of vibrational modes is dependent on molecular size, the architecture that will be trained to reproduce \(\{\tilde{\nu}\}\) will be modified to output the maximum possible number of vibrational frequencies, with the first \(3N-6\) output nodes returning predictions and the remainder padded with zeros. This is a well-known limitation of many ML architectures using variable-dimension input and output.
 
-The error metric used for the set of vibrational frequencies will be identical to that for \(\omega_1\), which is nnn.
+The error metric used for the set of vibrational frequencies will be identical to that for \(\omega_1\), which has an MAE of 3.15 cm\(^{-1}\). The error in harmonic vibrational frequencies is not uniformly distributed among all normal modes\fxnote{[REF]}, but comparing the literature error for \(\omega_1\) against the same value trained on a network for all vibrational frequencies is a measure of how a joint NN compares to a separate NN for each vibrational frequency. For the hyperpolarizability, the MAD of the DFT calculations used in training will be used as the baseline for the MAE of the trained NN prediction. In both cases, since training is occurring on novel properties rather than replicating literature values, achieving DFT accuracy is the goal for training convergence.
 
-# \fxnote{What is a good error/accuracy metric for the hyperpolarizability?}
+# \fxnote{What is a good error/accuracy metric for the hyperpolarizability? If no good benchmarking results in the literature, one could consider beating the DFT mean absolute deviation, but here may be the chance to use better error metrics than MAE/MAD.}
 
 *** Expected Outcomes
 
@@ -336,9 +331,7 @@ The error metric used for the set of vibrational frequencies will be identical t
 
 *** Introduction
 
-- The _objective_ is to determine the relative importance of each component in the molecular representation to predictions of complex molecular properties. This will be done by applying the analysis techniques developed in aim #1 to the neural networks trained in aim #2.
-
-- The _hypothesis_ is that the most important input features for \(\beta_{\parallel}\) and \(\{\tilde{\nu}\}\) are similar to those for \(\bar{\alpha}\) and \(E_{\text{ZPVE}}\), respectively.
+The _objective_ is to determine the relative importance of each component in the molecular representation to predictions of complex molecular properties. The _hypothesis_ is that the most important input features for \(\beta_{\parallel}\) and \(\{\tilde{\nu}\}\) are similar to those for \(\bar{\alpha}\) and \(E_{\text{ZPVE}}\), respectively. This will be done by applying the analysis techniques developed in aim #2 to the neural networks trained in aim #3, along with
 
 *** Research Design
 
@@ -378,3 +371,4 @@ As the application of machine learning within quantum chemistry is relatively ne
 # In reality, just adding a bunch of stuff on GitHub makes the problem worse, not better, at least in my opinion. A better option would be something like a GitHub group or external organization that serves as a steward of sorts for "machine learning in chemistry", but this will never happen due to academic competition and pushback. I cannot propose the creation of such a stewardship due to this problem and the scope of the proposal; doing this above stuff on GitHub is more feasible.
 
 \printbibliography
+\listoffixmes
