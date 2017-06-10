@@ -22,6 +22,8 @@
 %% \setbeamertemplate{caption}{\raggedright\insertcaption\par}
 
 % Define some colors:
+\definecolor{PittBlue}{RGB}{0,43,94}
+\definecolor{PittGold}{RGB}{197,168,118}
 \definecolor{DarkFern}{HTML}{407428}
 \definecolor{DarkCharcoal}{HTML}{4D4944}
 \colorlet{Fern}{DarkFern!85!white}
@@ -32,9 +34,9 @@
 \colorlet{DarkBlue}{blue!70!black}
 \colorlet{DarkGreen}{green!70!black}
 % Use the colors:
-\setbeamercolor{title}{fg=Fern}
-\setbeamercolor{frametitle}{fg=Fern}
-\setbeamercolor{normal text}{fg=Charcoal}
+\setbeamercolor{title}{fg=PittBlue}
+\setbeamercolor{frametitle}{fg=PittBlue}
+\setbeamercolor{normal text}{fg=DarkCharcoal}
 \setbeamercolor{block title}{fg=black,bg=Fern!25!white}
 \setbeamercolor{block body}{fg=black,bg=Fern!25!white}
 \setbeamercolor{alerted text}{fg=AlertColor}
@@ -79,7 +81,8 @@
 
 \title{Deciphering the Contents of Chemically-Trained Neural Networks into Physical Intuition}
 \author[Berquist]{Eric Berquist}
-\institute[Pitt]{University of Pittsburgh}
+%% \institute[Pitt]{University of Pittsburgh}
+\institute[Pitt]{\includegraphics[width=1in]{./logo.png}}
 \date{June 15th, 2017}
 
 \begin{document}
