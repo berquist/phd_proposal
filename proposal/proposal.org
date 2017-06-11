@@ -8,7 +8,7 @@
 
 # A measure such as ROC is a good statistical metric for evaluating the quality of the learned model, but is only an indirect probe of the learned parameters. In order to even qualitatively understand the dependence of model quality on the input featurization, features would have to be added and removed in a combinatorial process.
 
-# \onehalfspacing
+\onehalfspacing
 
 # \begin{anfxnote}{aims simplification}
 # I'm not sure about how to deal with this and it's kinda style dependent but I would consider making the aims section a bit lighter on the literature and terms. Like, try focusing on the overall goal of the aim and describe that rather than being very specific, I hate being vague but this is the best part to give the reviewer the overall view of the whole thing and if they don't know the terms it might make it harder for them to see the big picture (I had similar issues with my document as well honestly).
