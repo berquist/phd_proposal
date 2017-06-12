@@ -53,6 +53,7 @@
 \usepackage{braket}
 \usepackage{wrapfig}
 \usepackage[export]{adjustbox}
+\usepackage{booktabs}
 
 \makeatletter
 \g@addto@macro\@floatboxreset\centering
@@ -91,53 +92,6 @@
   \titlepage
 }
 
-%% \begin{frame}{Outline}
-%%   \tableofcontents
-%% \end{frame}
-
-\begin{frame}{Roadmap}
-  \begin{itemize}
-  \item Quantum chemical calculations of EPR parameters aid in the
-    interpretation and rationalization of experimental results
-  \item DFT calculations of EPR \textit{g}-tensors for \ch{Cu^{2+}}
-    systems show large deviations from experimental measurements and
-    between different density functionals
-  \item Understanding the differences in electronic structure between
-    DFT and benchmark-quality wavefunction methods is necessary for
-    proposing improvements to DFT
-  \item Hypothesis: Parametrization of DFT is a viable method for
-    improvement
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Literature Survey}
-  In published work, how do \textit{g}-tensors calculated using
-  density functional theory of \ch{Cu^{2+}}-containing systems compare
-  to experimental results?
-\end{frame}
-
-\begin{frame}{Methodology of the Literature Analysis}
-  For each paper:
-  \begin{itemize}
-  \item Extract available parameters: \(g_{xx}\),
-    \(g_{yy}\),
-    \(g_{zz}\),
-    \(g_{11}\),
-    \(g_{22}\),
-    \(g_{33}\), \(g_{\perp}\), \(g_{\parallel}\), \(g_{\text{iso}}\)
-  \item Where there are multiple calculations for one experimental
-    data point, use the one with best agreement
-  \item Calculate missing values of \(g_{\parallel}\),
-    \(g_{\text{iso}}\), and \(g_{\perp}\)if possible
-  \end{itemize}
-  \vspace{\baselineskip} For each of \(g_{\parallel}\),
-  \(g_{\text{iso}}\), and \(g_{\perp}\):
-  \begin{itemize}
-  \item Perform linear regression for the set of points
-  \item Calculate the ``percent incorrect trend''
-  \end{itemize}
-\end{frame}
-
 %% \begin{frame}
 %% \end{frame}
 
@@ -146,6 +100,7 @@
   \begin{quote}
     computers the ability to learn without being explicitly programmed.
   \end{quote}
+  TODO where is this quote from?
   \begin{quote}
     A computer program is said to learn from experience \textit{E} with respect to some class of tasks \textit{T} and performance measure \textit{P} if its performance at tasks in \textit{T}, as measured by \textit{P}, improves with experience \textit{E}.
   \end{quote}
@@ -163,6 +118,117 @@
   \end{center}
 \end{frame}
 
+\begin{frame}{Problem statement}
+  \begin{itemize}
+  \item Machine learning is a fad and produces all these great results, but we joke semi-seriously that we don't know what's going on under the hood even though it'll solve all our problems (something about robot overlords)
+  \item introduce black boxes here
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Need}
+  \begin{itemize}
+  \item Interpreting the models themselves
+  \item We want the models to learn chemistry!
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Rationale}
+  \begin{itemize}
+  \item Building ML models that can do real, useful chemistry in a general manner is impossible without proving meaningfulness (not correctness) of simpler models
+  \item Clearly the dozen or so papers from 2016-2017 show that accurate predictions can be made even under the assumption of black-box models
+  \item Additionally, if we can interpret the model directly, then perhaps eventually we can interpret chemistry using the model itself and not just predictions
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Objective}
+  \begin{itemize}
+  \item Peek inside the black box and see if models are ``learning chemistry''
+  \item If they aren't, consider other NN architectures (mention ANAKIN-ME, DTNN)
+  \item Is it alright to accept the use of NNs that are not truly transferable (B3LYP, M06)? Maybe this works for prediction results, but we will repeat the history of DFT! (PMWG obituary)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Specific Aims}
+  \begin{itemize}
+  %% \item[1.] Reproduction of Existing Literature Neural Networks
+  %% \item[2.] Characterization of Existing Literature Neural Networks
+  %% \item[3.] Training Neural Networks for Complex Molecular Properties
+  %% \item[4.] Characterization of Novel Neural Networks
+  \item[1.] Reproduce existing machine learning models for molecular properties from the literature.
+  \item[2.] Characterize the parameters learned by existing machine learning models from the literature.
+  \item[3.] Train supervised neural networks on complex molecular properties.
+  \item[4.] Characterize the parameters learned for complex molecular properties using unsupervised neural networks.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Background}
+  \begin{itemize}
+  \item Introduction to machine learning
+  \item Simplest form: univariate linear regression
+  \item Neural networks
+  \item LR using a NN
+  \item Pictorial representation of NN structures
+  \item Training a NN
+  \item Relevance propagation: examples
+  \item Relevance propagation: analogies go here
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Aim \#1: Reproduction of Existing Literature Neural Networks}
+  \begin{itemize}
+  \item Discuss GC architecture, why choose GC architecture over DTNN, ANAKIN-ME, ...?
+  \item Want comparison against literature results (more on this later), these so far are molecular energies only
+  \item Where is the code?
+  \item Why \emph{not} look at molecular energies? Want ML to do spectroscopy too, calculations for which are much more expensive than energies/trajectories.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Aim \#2: Characterization of Existing Literature Neural Networks}
+  \begin{itemize}
+  \item Math w/ example pictures
+  \item Expected outcomes
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Aim \#3: Training Neural Networks for Complex Molecular Properties}
+  \begin{itemize}
+  \item What are the properties, logic behind the choice
+  \item Expected outcomes
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Aim \#4: Characterization of Novel Neural Networks}
+  \begin{itemize}
+  \item Unsupervised learning (PCA analogy)
+  \item Denoising autoencoder
+  \item Expected outcomes
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Approximate Timeline}
+\begin{table}[]
+\centering
+\begin{tabular}{@{}rll@{}}
+\toprule
+Specific Aim & Task                                    & \# of Months \\ \midrule
+1            & code development: forming pipeline      & 2            \\
+1            & model training                          & 1-2          \\
+2            & code development: adapt LRP to pipeline & 2            \\
+2            & analysis development                    & 1            \\
+3            & hyperpolarizability calculations        & 1-2          \\
+3            & model training                          & 2-3          \\
+4            & code development: DAE                   & 2            \\
+4            & model training                          & 2            \\
+4            & analysis                                & 1            \\ \midrule
+Total        &                                         & 14-17        \\ \bottomrule
+\end{tabular}
+\end{table}\end{frame}
+
+\begin{frame}{Future challenges}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}{An (imperfect) analogy between neural networks and quantum chemistry}
   \begin{itemize}
   \item The fundamental components of the network (kind of neuron activation functions, convolution or direct connection) are like the \emph{Hamiltonian}.
@@ -177,8 +243,14 @@
   \end{itemize}
 \end{frame}
 
+%% definition of one-hot
+
 %% Changing the number of layers and number of nodes per layer is like altering the variational upper bound of the network
 %% Weights are like MO coefficients
+
+%% How does LRP prove that a NN is transferable?
+
+%% Find the picture of the horse where importance was placed on the text in the corner
 
 %% Review of the relevant literature I missed: ANI-1, DTNN
 
@@ -193,6 +265,16 @@
 %% \begin{frame}{}
 %% \fxnote{Also, what to do in the event that the lit model isn't reproducible? It may indicate that not enough information is given in the literature: publications are notorious for not providing enough information about code/model parameters for reproduction. Even in the event of supposed failure to fall within the error metric, the architecture is still a valuable building block. Is it safe to assume that the PI (me) will not make any mistakes in the implementation? Another possible point of failure may be due to the non-convex optimization problem posed by NNs. What is the likelihood of training a network into a local minimum?}
 %% \end{frame}
+
+\begin{frame}{}
+  This is not a direct inspection of what the NN has learned!
+
+  Time for an analogy. Looking directly at NN weights is like looking at MO coefficients. Once the number of them grows, the ``importance'' of a single one diminishes greatly, and the number of nodes/weights grows even quicker than the number of MO coefficients for a reasonable quantum chemical calculation. The ability for direct inspection becomes impossible.
+
+  Toy models are unlikely to be useful for any kind of understanding the effect of chemical data on NNs because of the complexity of \emph{any} molecule compared to NNs. In a way, a toy or model molecule w/ ab initio calculation can give more insight than a model NN. We are asking NN parameters to be both more efficient and more general than MO coefficients at describing the many-particle wavefunction!
+\end{frame}
+
+%% most likely diminishes greatly. If one is particularly important, how to identify it? Do the weights form a distribution that can be inspected?
 
 \begin{frame}{Timeline}
 \end{frame}
