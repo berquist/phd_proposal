@@ -83,7 +83,7 @@
 \title{Deciphering the Contents of Chemically-Trained Neural Networks into Physical Intuition}
 \author[Berquist]{Eric Berquist}
 %% \institute[Pitt]{University of Pittsburgh}
-\institute[Pitt]{\includegraphics[width=1in]{./logo.png}}
+\institute[Pitt]{\includegraphics[width=1in]{./figures/logo.png}}
 \date{June 15th, 2017}
 
 \begin{document}
@@ -107,6 +107,17 @@
   \item The \underline{objective} is to quantify what ML models trained on quantum chemical data are learning.
   \item The \underline{central hypothesis} is that models are learning about molecular structure identically to how we apply chemical intuition.
   \end{itemize}
+  This hypothesis will be tested by
+  \begin{itemize}
+  \item training neural networks (NNs) to replicate literature results,
+  \item ``seeing'' what the currently-available models have learned using \textbf{relevance propagation},
+  \item attempt to predict more complex molecular properties than those found in the literature, and
+  \item quantify if learning changes for more complex properties.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Disclaimer}
+  The goal of this work is \emph{not} to produce more accurate or more transferable models. The goal is to understand \emph{how} and \emph{why} models make (in)accurate predictions in terms of what they have learned.
 \end{frame}
 
 \begin{frame}{Transferability (TODO where to put this?)}
@@ -125,32 +136,38 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{What is machine learning}
+\begin{frame}{What is machine learning?}
   Arthur Samuel, 1959, the subfield of computer science that gives:
   \begin{quote}
     computers the ability to learn without being explicitly programmed.
   \end{quote}
-  TODO where is this quote from?
+  An updated definition: (TODO where is this quote from?)
   \begin{quote}
     A computer program is said to learn from experience \textit{E} with respect to some class of tasks \textit{T} and performance measure \textit{P} if its performance at tasks in \textit{T}, as measured by \textit{P}, improves with experience \textit{E}.
   \end{quote}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Machine learning will solve all our problems}
   \begin{center}
-    \includegraphics[width=0.75\textwidth]{./machine_learning.png}
+    \includegraphics[width=1.00\textwidth]{./figures/headline.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Machine learning will solve all our problems}
+  \begin{center}
+    \includegraphics[width=1.10\textwidth]{./figures/twitter.jpeg}
   \end{center}
 \end{frame}
 
 \begin{frame}{}
   \begin{center}
-    \includegraphics[width=1.10\textwidth]{./twitter.jpeg}
+    \includegraphics[width=0.75\textwidth]{./figures/machine_learning.png}
   \end{center}
 \end{frame}
 
-\begin{frame}{Problem statement}
+\begin{frame}{Machine learning has a perception problem}
   \begin{itemize}
-  \item Machine learning is a fad and produces all these great results, but we joke semi-seriously that we don't know what's going on under the hood even though it'll solve all our problems (something about robot overlords).
+  \item Machine learning is a ``fad'' and produces all these great results, but we joke semi-seriously that we don't know what's going on under the hood even though it'll solve all our problems (something about robot overlords).
   \item introduce black boxes here
   \end{itemize}
 \end{frame}
@@ -254,10 +271,14 @@ Total        &                                         & 14-17        \\ \bottom
 \end{tabular}
 \end{table}\end{frame}
 
-\begin{frame}{Future challenges}
+\begin{frame}{A future challenge: building databases}
+  \begin{itemize}
+  \item GDB9/QM9 is the most commonly-used training set, the equivalent of the MNIST set of \~10,000 labeled handwritten digits.
+  \item It is now suffering from the same problem as MNIST: it is too simple and not representative of real-world training cases (molecules).
+  \item Analogy: Pople basis sets (6-31G and derivatives) are still extremely common, not even because we don't know better, but because we ``need to compare to past work''.
+  \item If a \emph{general and transferable} ML model fails on GDB9, that is a warning sign, but the above cannot be a reason against extending deeper into chemical space for ML model training.
+  \end{itemize}
 \end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{An (imperfect) analogy between neural networks and quantum chemistry}
   \begin{itemize}
@@ -305,15 +326,6 @@ Total        &                                         & 14-17        \\ \bottom
 \end{frame}
 
 %% most likely diminishes greatly. If one is particularly important, how to identify it? Do the weights form a distribution that can be inspected?
-
-\begin{frame}{A future challenge: building databases}
-  \begin{itemize}
-  \item GDB9/QM9 is the most commonly-used training set, the equivalent of the MNIST set of \~10,000 labeled handwritten digits.
-  \item It is now suffering from the same problem as MNIST: it is too simple and not representative of real-world training cases (molecules).
-  \item Analogy: Pople basis sets (6-31G and derivatives) are still extremely common, not even because we don't know better, but because we ``need to compare to past work''.
-  \item If a \emph{general and transferable} ML model fails on GDB9, that is a warning sign, but the above cannot be a reason against extending deeper into chemical space for ML model training.
-  \end{itemize}
-\end{frame}
 
 \begin{frame}{Backup Slides}
 \end{frame}
