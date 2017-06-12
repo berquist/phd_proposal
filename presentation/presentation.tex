@@ -95,6 +95,19 @@
 %% \begin{frame}
 %% \end{frame}
 
+\begin{frame}{Overview}
+  Machine learning (ML) is seeing rapid growth in areas relevant to quantum chemistry, but how does it work?
+  \begin{itemize}
+  \item \underline{Topic}: Are correct ML predictions in quantum chemistry \emph{right for the right reasons}?
+  \item \underline{Gap}: We don't know if current approaches (ML architectures) will be transferable to more complex molecules or properties.
+  \item \underline{Challenge}: If a ML model is not right for the right reasons, there cannot be an expectation that it is transferable or extendable in any way.
+  \end{itemize}
+  We need to know if ML models are learning chemistry! (polynomial elephant analogy)
+\end{frame}
+
+\begin{frame}{Transferability}
+\end{frame}
+
 \begin{frame}{What is machine learning}
   Arthur Samuel, 1959, the subfield of computer science that gives:
   \begin{quote}
@@ -120,7 +133,7 @@
 
 \begin{frame}{Problem statement}
   \begin{itemize}
-  \item Machine learning is a fad and produces all these great results, but we joke semi-seriously that we don't know what's going on under the hood even though it'll solve all our problems (something about robot overlords)
+  \item Machine learning is a fad and produces all these great results, but we joke semi-seriously that we don't know what's going on under the hood even though it'll solve all our problems (something about robot overlords).
   \item introduce black boxes here
   \end{itemize}
 \end{frame}
@@ -267,17 +280,14 @@ Total        &                                         & 14-17        \\ \bottom
 %% \end{frame}
 
 \begin{frame}{}
-  This is not a direct inspection of what the NN has learned!
-
-  Time for an analogy. Looking directly at NN weights is like looking at MO coefficients. Once the number of them grows, the ``importance'' of a single one diminishes greatly, and the number of nodes/weights grows even quicker than the number of MO coefficients for a reasonable quantum chemical calculation. The ability for direct inspection becomes impossible.
-
-  Toy models are unlikely to be useful for any kind of understanding the effect of chemical data on NNs because of the complexity of \emph{any} molecule compared to NNs. In a way, a toy or model molecule w/ ab initio calculation can give more insight than a model NN. We are asking NN parameters to be both more efficient and more general than MO coefficients at describing the many-particle wavefunction!
+  \begin{itemize}
+    \item This is \emph{not} a direct inspection of what the NN has learned!
+    \item Looking directly at NN weights is like looking at MO coefficients. Once the number of them grows, the ``importance'' of a single one diminishes greatly, and the number of nodes/weights grows even quicker than the number of MO coefficients for a reasonable quantum chemical calculation. The ability for direct inspection becomes impossible.
+    \item Toy models are unlikely to be useful for any kind of understanding the effect of chemical data on NNs because of the complexity of \emph{any} molecule compared to NNs. In a way, a toy or model molecule w/ ab initio calculation can give more insight than a model NN. We are asking NN parameters to be both more efficient and more general than MO coefficients at describing the many-particle wavefunction!
+  \end{itemize}
 \end{frame}
 
 %% most likely diminishes greatly. If one is particularly important, how to identify it? Do the weights form a distribution that can be inspected?
-
-\begin{frame}{Timeline}
-\end{frame}
 
 \begin{frame}{A future challenge: building databases}
   \begin{itemize}
