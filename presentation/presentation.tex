@@ -92,20 +92,37 @@
   \titlepage
 }
 
-%% \begin{frame}
-%% \end{frame}
-
 \begin{frame}{Overview}
   Machine learning (ML) is seeing rapid growth in areas relevant to quantum chemistry, but how does it work?
   \begin{itemize}
   \item \underline{Topic}: Are correct ML predictions in quantum chemistry \emph{right for the right reasons}?
-  \item \underline{Gap}: We don't know if current approaches (ML architectures) will be transferable to more complex molecules or properties.
-  \item \underline{Challenge}: If a ML model is not right for the right reasons, there cannot be an expectation that it is transferable or extendable in any way.
+  \item \underline{Gap}: We don't know if current approaches (ML architectures) will work more complex molecules or properties.
+  \item \underline{Rationale}: If a ML model is not right for the right reasons, there cannot be an expectation that it is transferable or extendable in any way.
   \end{itemize}
-  We need to know if ML models are learning chemistry! (polynomial elephant analogy)
+  We need to know if ML models are learning chemistry! (polynomial elephant analogy?)
 \end{frame}
 
-\begin{frame}{Transferability}
+\begin{frame}{Overview}
+  \begin{itemize}
+  \item The \underline{objective} is to quantify what ML models trained on quantum chemical data are learning.
+  \item The \underline{central hypothesis} is that models are learning about molecular structure identically to how we apply chemical intuition.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Transferability (TODO where to put this?)}
+  Literature usage:
+  \begin{itemize}
+  \item No need for reparametrization from system to system
+  \item More to do with the \underline{input representation} than the \underline{molecules} it can be applied to
+  \item Limited to organic molecules, train small (9 heavy atoms), test larger (10 heavy atoms)
+  \item Charge and spin: neutral and closed-shell singlet
+  \end{itemize}
+  A better definition in terms of examples:
+  \begin{itemize}
+  \item Does the same model work for optimized and non-equilibrium (MD) structures?
+  \item Does the model work for charged systems?
+  \item Does the model work for systems with unpaired electrons?
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{What is machine learning}
