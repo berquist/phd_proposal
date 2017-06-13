@@ -120,22 +120,6 @@
   The goal of this work is \emph{not} to produce more accurate or more transferable models. The goal is to understand \emph{how} and \emph{why} models make (in)accurate predictions in terms of what they have learned.
 \end{frame}
 
-\begin{frame}{Transferability (TODO where to put this?)}
-  Literature usage:
-  \begin{itemize}
-  \item No need for reparametrization from system to system
-  \item More to do with the \underline{input representation} than the \underline{molecules} it can be applied to
-  \item Limited to organic molecules, train small (9 heavy atoms), test larger (10 heavy atoms)
-  \item Charge and spin: neutral and closed-shell singlet
-  \end{itemize}
-  A better definition in terms of examples:
-  \begin{itemize}
-  \item Does the same model work for optimized and non-equilibrium (MD) structures?
-  \item Does the model work for charged systems?
-  \item Does the model work for systems with unpaired electrons?
-  \end{itemize}
-\end{frame}
-
 \begin{frame}{What is machine learning?}
   Arthur Samuel, 1959, the subfield of computer science that gives:
   \begin{quote}
@@ -200,6 +184,22 @@
   \end{center}
 \end{frame}
 
+\begin{frame}{Transferability (TODO where to put this?)}
+  Literature usage:
+  \begin{itemize}
+  \item No need for reparametrization from system to system
+  \item More to do with the \underline{input representation} than the \underline{molecules} it can be applied to
+  \item Limited to organic molecules, train small (9 heavy atoms), test larger (10 heavy atoms)
+  \item Charge and spin: neutral and closed-shell singlet
+  \end{itemize}
+  A better definition in terms of examples:
+  \begin{itemize}
+  \item Does the same model work for optimized and non-equilibrium (MD) structures?
+  \item Does the model work for charged systems?
+  \item Does the model work for systems with unpaired electrons?
+  \end{itemize}
+\end{frame}
+
 \begin{frame}{Specific Aims}
   \begin{itemize}
   %% \item[1.] Reproduction of Existing Literature Neural Networks
@@ -226,22 +226,100 @@
 %%   \end{itemize}
 %% \end{frame}
 
+\begin{frame}{Background}
+\end{frame}
+
 \begin{frame}{Introduction to machine learning}
+  \textbf{Supervised learning}:
+  \begin{itemize}
+  \item Learn to predict an output given an input
+  \end{itemize}
+  \textbf{Unsupervised learning}:
+  \begin{itemize}
+  \item Discover a good internal representation of the input
+  \item Learn to reconstruct the input from itself
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Simplest form: univariate linear regression}
 \end{frame}
 
-\begin{frame}{Neural networks (NNs)}
+\begin{frame}{placeholder}
+  \begin{center}
+    \includegraphics[width=0.75\textwidth]{./figures/andrew_ng_1.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}{placeholder}
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/andrew_ng_2.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}{placeholder}
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/andrew_ng_3.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}{placeholder}
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/andrew_ng_4.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}{placeholder}
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/andrew_ng_5.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}{placeholder}
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/andrew_ng_6.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}{placeholder}
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/andrew_ng_7.pdf}
+  \end{center}
 \end{frame}
 
 \begin{frame}{Linear regression using a neural network}
+  \begin{center}
+    \includegraphics[width=0.50\textwidth]{./figures/drawing.jpg}
+  \end{center}
 \end{frame}
 
-\begin{frame}{More complex neural networks}
+\begin{frame}{Neural networks (NNs)}
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/brain_to_model.pdf}
+  \end{center}
 \end{frame}
 
-\begin{frame}{Training neural networks}
+\begin{frame}{Neural networks perform nonlinear transformations}
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/activations.pdf}
+  \end{center}
+  The combination of hidden layers and nonlinear connections between layers makes them \emph{universal function approximators}.
+\end{frame}
+
+%% \begin{frame}{More complex neural networks}
+%% \end{frame}
+
+\begin{frame}{Training neural networks (placeholder)}
+  \begin{center}
+    \includegraphics[width=0.50\textwidth]{./figures/fprop_bprop5.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{An (imperfect) connection between neural networks and quantum chemistry}
+  \begin{itemize}
+  \item The fundamental components of the network (kind of neuron activation functions, convolution or direct connection) are like the \underline{Hamiltonian}, and
+  \item the number of components in each network layer, the number of layers, and the input representation are like the size and type of \underline{basis set}.
+  \end{itemize}
+  Increasing the number of layers and number of nodes per layer is like lowering the variational bound of the network, and weights play a similar role to MO coefficients.
 \end{frame}
 
 \begin{frame}{Layer-wise Relevance Propagation (LRP)}
@@ -274,12 +352,6 @@
   \end{center}
 \end{frame}
 
-\begin{frame}{Relationship between feed-forward pass and LRP pass}
-  \begin{center}
-    \includegraphics[width=1.05\textwidth]{./figures/fig2_trimmed.pdf}
-  \end{center}
-\end{frame}
-
 \begin{frame}{Aim \#1: Reproduction of Existing Literature Neural Networks}
   \begin{itemize}
   \item Discuss GC architecture, why choose GC architecture over DTNN, ANAKIN-ME, ...?
@@ -303,6 +375,44 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}{Relationship between feed-forward pass and LRP pass}
+  \begin{center}
+    \includegraphics[width=1.05\textwidth]{./figures/fig2_trimmed.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}{What LRP is \protect\emph{not} doing}
+  \begin{itemize}
+    \item This is \emph{not} a direct inspection of what the NN has learned!
+    \item Looking directly at NN weights is like looking at MO coefficients. Once the number of them grows, the ``importance'' of a single one diminishes greatly, and the number of nodes/weights grows even quicker than the number of MO coefficients for a reasonable quantum chemical calculation. The ability for direct inspection becomes impossible.
+    %% \item Toy models are unlikely to be useful for any kind of understanding the effect of chemical data on NNs because of the complexity of \emph{any} molecule compared to NNs. In a way, a toy or model molecule w/ an \textit{ab initio} calculation can give more insight than a model NN. We are asking NN parameters to be both more efficient and more general than MO coefficients at describing the many-particle wavefunction!
+  \end{itemize}
+\end{frame}
+
+%% most likely diminishes greatly. If one is particularly important, how to identify it? Do the weights form a distribution that can be inspected?
+
+\begin{frame}{A better analogy}
+  %% between relevance propagation and interaction energy decomposition approaches (SAPT, EDA):
+  The use of layer-wise relevance propagation is identical to intermolecular interaction energies.
+  \begin{itemize}
+  \item SAPT and ALMO-EDA give the best theoretical, physically-intuitive, and \emph{quantitative} insight into how molecules interact.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{}
+  \begin{center}
+    \includegraphics[scale=0.50]{./figures/almo_water_combined.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}{}
+  \begin{center}
+    \includegraphics[scale=0.30]{./figures/slide_ionic_liquid.pdf}
+  \end{center}
+\end{frame}
+
+%% How does LRP prove that a NN is transferable?
+
 \begin{frame}{Aim \#3: Training Neural Networks for Complex Molecular Properties}
   \begin{itemize}
   \item What are the properties, logic behind the choice
@@ -325,6 +435,13 @@
   \item Denoising autoencoder
   \item Expected outcomes
   \end{itemize}
+\end{frame}
+
+\begin{frame}{Autoencoder structure}
+  \begin{center}
+    \includegraphics[width=0.80\textwidth]{./figures/autoencoder.pdf}
+  \end{center}
+  A \textit{denoising} autoencoder adds noise to the input during training.
 \end{frame}
 
 \begin{frame}{Approximate Timeline}
@@ -354,46 +471,6 @@ Total        &                                         & 14-17        \\ \bottom
   \item If a \emph{general and transferable} ML model fails on GDB9, that is a warning sign, but the above cannot be a reason against extending deeper into chemical space for ML model training.
   \end{itemize}
 \end{frame}
-
-\begin{frame}{An (imperfect) conenction between neural networks and quantum chemistry}
-  \begin{itemize}
-  \item The fundamental components of the network (kind of neuron activation functions, convolution or direct connection) are like the \emph{Hamiltonian}.
-  \item The number of components in each network layer and the number of layers are like the size of the \emph{basis set}.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{A better analogy}
-  between relevance propagation and interaction energy decomposition approaches (SAPT, EDA):
-  \begin{itemize}
-  \item I am an item
-  \end{itemize}
-\end{frame}
-
-%% definition of one-hot
-
-%% Changing the number of layers and number of nodes per layer is like altering the variational upper bound of the network
-%% Weights are like MO coefficients
-
-%% How does LRP prove that a NN is transferable?
-
-%% Find the picture of the horse where importance was placed on the text in the corner
-
-%% Review of the relevant literature I missed: ANI-1, DTNN
-
-
-%% \begin{frame}{}
-%% \fxnote{Also, what to do in the event that the lit model isn't reproducible? It may indicate that not enough information is given in the literature: publications are notorious for not providing enough information about code/model parameters for reproduction. Even in the event of supposed failure to fall within the error metric, the architecture is still a valuable building block. Is it safe to assume that the PI (me) will not make any mistakes in the implementation? Another possible point of failure may be due to the non-convex optimization problem posed by NNs. What is the likelihood of training a network into a local minimum?}
-%% \end{frame}
-
-\begin{frame}{}
-  \begin{itemize}
-    \item This is \emph{not} a direct inspection of what the NN has learned!
-    \item Looking directly at NN weights is like looking at MO coefficients. Once the number of them grows, the ``importance'' of a single one diminishes greatly, and the number of nodes/weights grows even quicker than the number of MO coefficients for a reasonable quantum chemical calculation. The ability for direct inspection becomes impossible.
-    \item Toy models are unlikely to be useful for any kind of understanding the effect of chemical data on NNs because of the complexity of \emph{any} molecule compared to NNs. In a way, a toy or model molecule w/ ab initio calculation can give more insight than a model NN. We are asking NN parameters to be both more efficient and more general than MO coefficients at describing the many-particle wavefunction!
-  \end{itemize}
-\end{frame}
-
-%% most likely diminishes greatly. If one is particularly important, how to identify it? Do the weights form a distribution that can be inspected?
 
 \begin{frame}{Backup Slides}
 \end{frame}
