@@ -213,17 +213,71 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Background}
-  \begin{itemize}
-  \item Introduction to machine learning
-  \item Simplest form: univariate linear regression
-  \item Neural networks
-  \item LR using a NN
-  \item Pictorial representation of NN structures
-  \item Training a NN
-  \item Relevance propagation: examples
-  \item Relevance propagation: analogies go here
-  \end{itemize}
+%% \begin{frame}{Background}
+%%   \begin{itemize}
+%%   \item Introduction to machine learning
+%%   \item Simplest form: univariate linear regression
+%%   \item Neural networks (NNs)
+%%   \item Linear regression using a NN
+%%   \item More complex neural networks
+%%   \item Training neural networks
+%%   \item Relevance propagation: examples
+%%   \item Relevance propagation: analogies go here
+%%   \end{itemize}
+%% \end{frame}
+
+\begin{frame}{Introduction to machine learning}
+\end{frame}
+
+\begin{frame}{Simplest form: univariate linear regression}
+\end{frame}
+
+\begin{frame}{Neural networks (NNs)}
+\end{frame}
+
+\begin{frame}{Linear regression using a neural network}
+\end{frame}
+
+\begin{frame}{More complex neural networks}
+\end{frame}
+
+\begin{frame}{Training neural networks}
+\end{frame}
+
+\begin{frame}{Layer-wise Relevance Propagation (LRP)}
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/2-Figure1-1.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{LRP examples}
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/lrp_example_1.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{LRP examples}
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/lrp_example_2.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{LRP examples}
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/lrp_example_3.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Learning the right thing for the right reason}
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/fv_vs_dnn.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Relationship between feed-forward pass and LRP pass}
+  \begin{center}
+    \includegraphics[width=1.05\textwidth]{./figures/fig2_trimmed.pdf}
+  \end{center}
 \end{frame}
 
 \begin{frame}{Aim \#1: Reproduction of Existing Literature Neural Networks}
@@ -232,6 +286,13 @@
   \item Want comparison against literature results (more on this later), these so far are molecular energies only
   \item Where is the code?
   \item Why \emph{not} look at molecular energies? Want ML to do spectroscopy too, calculations for which are much more expensive than energies/trajectories.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Definitions of trained molecular properties}
+  \begin{itemize}
+  \item Zero-point (vibrational) energy: \(E_{\text{ZPVE}} = \frac{1}{2} h \sum_{i}^{\text{normal modes}} \nu_{i}\)
+  \item Isotropic polarizability (static, \(\omega = 0\)): \(\alpha_{\text{iso}} = \bar{\alpha} \equiv \frac{1}{3} (\alpha_{xx} + \alpha_{yy} + \alpha_{zz})\)
   \end{itemize}
 \end{frame}
 
@@ -246,6 +307,15 @@
   \begin{itemize}
   \item What are the properties, logic behind the choice
   \item Expected outcomes
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Definitions of trained molecular properties}
+  \begin{itemize}
+  \item Zero-point (vibrational) energy: \(E_{\text{ZPVE}} = \frac{1}{2} h \sum_{i}^{\text{normal modes}} \nu_{i}\)
+  \item Isotropic polarizability (static, \(\omega = 0\)): \(\alpha_{\text{iso}} = \bar{\alpha} \equiv \frac{1}{3} (\alpha_{xx} + \alpha_{yy} + \alpha_{zz})\)
+  \item Parallel 1st hyperpolarizability (static, \(\omega_{a} = \omega_{b} = 0\)): \(\beta_{\parallel} \equiv \frac{3}{5}\beta_j = \frac{1}{5} \sum_{i=x,y,z} (\beta_{iij} + \beta_{iji} + \beta_{jii})\)
+  \item All vibrational frequencies: \(\{\tilde{\nu}\}_{\text{normal modes}}\)
   \end{itemize}
 \end{frame}
 
@@ -310,14 +380,6 @@ Total        &                                         & 14-17        \\ \bottom
 
 %% Review of the relevant literature I missed: ANI-1, DTNN
 
-\begin{frame}{Definitions of trained molecular properties}
-  \begin{itemize}
-  \item Zero-point (vibrational) energy: \(E_{\text{ZPVE}} = \frac{1}{2} h \sum_{i}^{\text{normal modes}} \nu_{i}\)
-  \item Isotropic polarizability (static, \(\omega = 0\)): \(\alpha_{\text{iso}} = \bar{\alpha} \equiv \frac{1}{3} (\alpha_{xx} + \alpha_{yy} + \alpha_{zz})\)
-  \item Parallel 1st hyperpolarizability (static, \(\omega_{a} = \omega_{b} = 0\)): \(\beta_{\parallel} \equiv \frac{3}{5}\beta_j = \frac{1}{5} \sum_{i=x,y,z} (\beta_{iij} + \beta_{iji} + \beta_{jii})\)
-  \item All vibrational frequencies: \(\{\tilde{\nu}\}_{\text{normal modes}}\)
-  \end{itemize}
-\end{frame}
 
 %% \begin{frame}{}
 %% \fxnote{Also, what to do in the event that the lit model isn't reproducible? It may indicate that not enough information is given in the literature: publications are notorious for not providing enough information about code/model parameters for reproduction. Even in the event of supposed failure to fall within the error metric, the architecture is still a valuable building block. Is it safe to assume that the PI (me) will not make any mistakes in the implementation? Another possible point of failure may be due to the non-convex optimization problem posed by NNs. What is the likelihood of training a network into a local minimum?}
@@ -332,36 +394,6 @@ Total        &                                         & 14-17        \\ \bottom
 \end{frame}
 
 %% most likely diminishes greatly. If one is particularly important, how to identify it? Do the weights form a distribution that can be inspected?
-
-\begin{frame}{LRP example}
-  \begin{center}
-    \includegraphics[width=1.00\textwidth]{./figures/2-Figure1-1.png}
-  \end{center}
-\end{frame}
-
-\begin{frame}{LRP example}
-  \begin{center}
-    \includegraphics[width=1.00\textwidth]{./figures/lrp_example_1.png}
-  \end{center}
-\end{frame}
-
-\begin{frame}{LRP example}
-  \begin{center}
-    \includegraphics[width=1.00\textwidth]{./figures/lrp_example_2.png}
-  \end{center}
-\end{frame}
-
-\begin{frame}{LRP example}
-  \begin{center}
-    \includegraphics[width=1.00\textwidth]{./figures/lrp_example_3.png}
-  \end{center}
-\end{frame}
-
-\begin{frame}{Relationship between feed-forward pass and LRP pass}
-  \begin{center}
-    \includegraphics[width=1.05\textwidth]{./figures/fig2_trimmed.pdf}
-  \end{center}
-\end{frame}
 
 \begin{frame}{Backup Slides}
 \end{frame}
