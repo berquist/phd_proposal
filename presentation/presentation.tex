@@ -55,6 +55,13 @@
 \usepackage[export]{adjustbox}
 \usepackage{booktabs}
 
+%% https://tex.stackexchange.com/questions/229355/algorithm-algorithmic-algorithmicx-algorithm2e-algpseudocode-confused
+%% https://tex.stackexchange.com/questions/29429/how-to-use-algorithmicx-package#29434
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+%% https://tex.stackexchange.com/questions/33969/changing-font-size-of-selected-slides-in-beamer#33973
+\newcommand\Fontsmaller{\fontsize{9pt}{10.0}\selectfont}
+
 \makeatletter
 \g@addto@macro\@floatboxreset\centering
 \makeatother
@@ -558,6 +565,46 @@ Total        &                                         & 21           \\ \bottom
   \begin{center}
     \includegraphics[width=1.00\textwidth]{./figures/nonlinear_activation_gradients.pdf}
   \end{center}
+\end{frame}
+
+%% Use of \odot for Hadamard or element-wise product:
+%% https://math.stackexchange.com/questions/20412/element-wise-or-pointwise-operations-notation#24445
+
+\begin{frame}{Backpropagation algorithm}
+  \Fontsmaller
+  for computing weight updates in a fully-connected neural network:
+  %% \begin{algorithm}[H]
+  %% \begin{algorithmic}[1]
+  %%   \Repeat
+  %%   \Comment{forever}
+  %%   \State this\Until{you die.}
+  %% \end{algorithmic}
+  %% \end{algorithm}
+  %% \(i,j\) are input/output node indices into the weight coefficient matrix.
+  %% \begin{algorithm}[H]
+  %% \Fontsmaller
+  %% \caption{Backpropagation through a fully-connected neural network}
+  \begin{algorithmic}[1]
+    \State Training set \(\gets \{ (x^{(1)},y^{(1)}), ..., (x^{(m)},y^{(m)}) \}\)
+    \State \(\Delta_{ij}^{(l)} \gets 0\) for all \(l,i,j\)
+    \For{training example \(t \gets 1, m\)}
+      \State \(a^{(1)} \gets x^{(t)}\)
+      \State Perform forward propagation to compute \(a^{(l)}\) for \(l=2,3,...,L\)
+      \State \(\delta^{(L)} \gets a^{(L)} - y^{(t)}\)
+      \Comment{Initialize backpropagation routine at output layer.}
+      \For{\(l \gets L-2, 2\)}
+        \Comment{Work backwards through layers.}
+        \State \( g'(s^{(l)}) \gets a^{(l)} \odot (1 - a^{(l)}) \)
+        \State \( \delta^{(l)} \gets ( (w^{(l)})^{T} \delta^{(l+1)} ) \odot g'(s^{(l)}) \)
+        %% \State \( \Delta_{ij}^{(l)} \gets \Delta_{ij}^{(l)} + a_{j}^{(l)} \delta_{i}^{(l+1)} \) for all \(i,j\)
+        \State \( \Delta^{(l)} \gets \Delta^{(l)} + \delta^{(l+1)} (a^{(l)})^{T}  \)
+        \State \(D_{ij}^{(l)} \gets \frac{1}{m} \Delta_{ij}^{(l)} + \lambda w_{ij}^{(l)} \)
+      \EndFor
+    \EndFor
+    \State \( \frac{\partial}{\partial w_{ij}^{(l)}} J(w) \gets D_{ij}^{(l)} \)
+  \end{algorithmic}
+  %% \end{algorithm}
+  The regularization term with hyperparameter \(\lambda\) is set to zero if \(j = 0\) (the bias node).
 \end{frame}
 
 \end{document}
