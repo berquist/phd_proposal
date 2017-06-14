@@ -149,7 +149,7 @@
   \end{center}
 \end{frame}
 
-\begin{frame}{Machine learning has a perception problem}
+\begin{frame}{Machine learning has a perception problem (placeholder)}
   Machine learning is a ``fad'' and produces all these great results, but we joke semi-seriously that we don't know what's going on under the hood, even though it will solve all our problems.
   \begin{center}
     \includegraphics[width=1.00\textwidth]{./figures/black_box_prediction.pdf}
@@ -238,6 +238,22 @@
   \begin{itemize}
   \item Discover a good internal representation of the input
   \item Learn to reconstruct the input from itself
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Introduction to machine learning}
+  \textbf{Classification}:
+  \begin{itemize}
+  \item Given a set of data, identify the classes that the data belongs to
+  \item Predict what group a piece of data is a member of
+  \item Output: Discrete, categorical
+  \item Example: \(x\) could be a cat, dog, or bird, and is a bird \(\rightarrow y = (0, 0, 1)\)
+  \end{itemize}
+  \textbf{Regression}:
+  \begin{itemize}
+  \item Given a set of data, find the best relationship that represents the set of data
+  \item Output: Continuous, numerical
+  \item Example: Find \(m\) and \(b\) in \(y=mx+b\)
   \end{itemize}
 \end{frame}
 
@@ -450,18 +466,21 @@
 \begin{tabular}{@{}rll@{}}
 \toprule
 Specific Aim & Task                                    & \# of Months \\ \midrule
-1            & code development: forming pipeline      & 2            \\
-1            & model training                          & 1-2          \\
-2            & code development: adapt LRP to pipeline & 2            \\
-2            & analysis development                    & 1            \\
-3            & hyperpolarizability calculations        & 1-2          \\
-3            & model training                          & 2-3          \\
+1            & code development: forming pipeline      & 3            \\
+1            & model training                          & 2            \\
+2            & code development: adapt LRP to pipeline & 3            \\
+2            & analysis development                    & 2            \\
+3            & hyperpolarizability calculations        & 2            \\
+3            & model training                          & 3            \\
 4            & code development: DAE                   & 2            \\
 4            & model training                          & 2            \\
-4            & analysis                                & 1            \\ \midrule
-Total        &                                         & 14-17        \\ \bottomrule
+4            & analysis                                & 2            \\ \midrule
+Total        &                                         & 21           \\ \bottomrule
 \end{tabular}
 \end{table}\end{frame}
+
+\begin{frame}{Backup Slides}
+\end{frame}
 
 \begin{frame}{A future challenge: building databases}
   \begin{itemize}
@@ -470,9 +489,6 @@ Total        &                                         & 14-17        \\ \bottom
   \item Analogy: Pople basis sets (6-31G and derivatives) are still extremely common, not even because we don't know better, but because we ``need to compare to past work''.
   \item If a \emph{general and transferable} ML model fails on GDB9, that is a warning sign, but the above cannot be a reason against extending deeper into chemical space for ML model training.
   \end{itemize}
-\end{frame}
-
-\begin{frame}{Backup Slides}
 \end{frame}
 
 \begin{frame}{Hyperpolarizability equations from paper}
@@ -488,6 +504,22 @@ Total        &                                         & 14-17        \\ \bottom
   \begin{equation}
     \beta_{ijk} = \left<\left<\mu_{i};\mu_{j},\mu_{k}\right>\right>.
   \end{equation}
+\end{frame}
+
+\begin{frame}{What is a ``one-hot'' vector?}
+  \begin{quote}
+    (...) a group of bits among which the legal combinations of values are only those with a single high (1) bit and all the others low (0).
+  \end{quote}
+  For a variable that can take a finite set of \(n\) values, it can be represented as binary vector of length \(n\).
+  \begin{table}[htbp]
+    \centering
+    \begin{tabular}{@{}lll@{}}
+      \toprule
+      Feature & Description & Size \\ \midrule
+      Atom type & H, C, N, O, or F (one-hot) & 5 \\ \bottomrule
+    \end{tabular}
+  \end{table}
+  If atom type is the first feature, this is the third atom in the input, and the element is oxygen, then \(x_{1}^{(3)} = (0, 0, 0, 1, 0)\).
 \end{frame}
 
 \end{document}
