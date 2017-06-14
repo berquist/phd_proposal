@@ -315,15 +315,16 @@
   \end{center}
 \end{frame}
 
-\begin{frame}{Neural networks (NNs)}
+\begin{frame}{General architecture of neural networks}
   \begin{center}
     \includegraphics[width=1.00\textwidth]{./figures/brain_to_model.pdf}
   \end{center}
+  Read from left \(\rightarrow\) right or bottom \(\rightarrow\) top.
 \end{frame}
 
 \begin{frame}{Neural networks perform nonlinear transformations}
   \begin{center}
-    \includegraphics[width=1.00\textwidth]{./figures/activations.pdf}
+    \includegraphics[width=1.00\textwidth]{./figures/nonlinear_activation.pdf}
   \end{center}
   The combination of hidden layers and nonlinear connections between layers makes them \emph{universal function approximators}.
 \end{frame}
@@ -552,5 +553,11 @@ Total        &                                         & 21           \\ \bottom
 %%   \end{align}
 %%   In the context of a neural network:
 %% \end{frame}
+
+\begin{frame}{Gradients of nonlinear activation functions}
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/nonlinear_activation_gradients.pdf}
+  \end{center}
+\end{frame}
 
 \end{document}
