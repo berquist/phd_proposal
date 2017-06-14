@@ -99,7 +99,7 @@
   \item \underline{Gap}: We don't know if current approaches (ML architectures) will work more complex molecules or properties.
   \item \underline{Rationale}: If a ML model is not right for the right reasons, there cannot be an expectation that it is transferable or extendable in any way.
   \end{itemize}
-  We need to know if ML models are learning chemistry! (polynomial elephant analogy?)
+  We need to know if ML models are learning chemistry and not just numbers (von Neumann's elephant).
 \end{frame}
 
 \begin{frame}{Overview}
@@ -116,7 +116,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Disclaimer}
+\begin{frame}{\protect\alert{!!! Disclaimer !!!}}
   The goal of this work is \emph{not} to produce more accurate or more transferable models. The goal is to understand \emph{how} and \emph{why} models make (in)accurate predictions in terms of what they have learned.
 \end{frame}
 
@@ -158,16 +158,17 @@
 
 \begin{frame}{Objective}
   \begin{itemize}
-  \item Peek inside the black box and see if models are ``learning chemistry''
-  \item If they aren't, consider other NN architectures (DTNN, ANAKIN-ME, ...) that have different input \textit{representations} or \textit{featurizations} for molecules
+  \item Peek inside the black box and see if ML models are ``learning chemistry''.
+  \item If they aren't, consider other NN architectures (DTNN, ANAKIN-ME, ...) that have different input \textit{representations} or \textit{featurizations} for molecules, or
+  \item make the architecture larger and use more training data.
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Rationale}
   \begin{itemize}
-  \item Building complex ML models that can do real, useful chemistry in a \emph{general} manner is impossible without proving meaningfulness of simpler models
-  \item Clearly the dozen or so papers from 2016-2017 show that accurate predictions can be made even under the assumption of black-box models
-  \item Additionally, if we can interpret the model directly, then perhaps eventually we can interpret chemistry using the model itself and not just predictions
+  \item Building complex ML models that can do real, useful chemistry in a \emph{general} manner is impossible without proving meaningfulness of simpler models.
+  \item Clearly the dozen or so papers from 2016-2017 show that accurate predictions can be made even under the assumption of black-box models.
+  \item Additionally, if we can interpret the model directly, then perhaps eventually we can interpret chemistry using the model itself and not just predictions.
   \end{itemize}
 \end{frame}
 
@@ -184,11 +185,11 @@
   \end{center}
 \end{frame}
 
-\begin{frame}{Transferability (TODO where to put this?)}
+\begin{frame}{Transferability}
   Literature usage:
   \begin{itemize}
   \item No need for reparametrization from system to system
-  \item More to do with the \underline{input representation} than the \underline{molecules} it can be applied to
+  %% \item More to do with the \underline{input representation} than the \underline{molecules} it can be applied to
   \item Limited to organic molecules, train small (9 heavy atoms), test larger (10 heavy atoms)
   \item Charge and spin: neutral and closed-shell singlet
   \end{itemize}
@@ -206,8 +207,8 @@
   %% \item[2.] Characterization of Existing Literature Neural Networks
   %% \item[3.] Training Neural Networks for Complex Molecular Properties
   %% \item[4.] Characterization of Novel Neural Networks
-  \item[1.] Reproduce existing machine learning models for molecular properties from the literature.
-  \item[2.] Characterize the parameters learned by existing machine learning models from the literature using relevance propagation.
+  \item[1.] Reproduce existing neural network models for molecular properties from the literature.
+  \item[2.] Characterize the parameters learned by existing neural network models from the literature using relevance propagation.
   \item[3.] Train supervised neural networks on complex molecular properties.
   \item[4.] Characterize the parameters learned for complex molecular properties using relevance propagation and unsupervised neural networks.
   \end{itemize}
@@ -237,7 +238,7 @@
   \textbf{Unsupervised learning}:
   \begin{itemize}
   \item Discover a good internal representation of the input
-  \item Learn to reconstruct the input from itself
+  \item Learn to reconstruct the input from itself \emph{non-trivially}
   \end{itemize}
 \end{frame}
 
@@ -453,6 +454,13 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}{Learning a compressed representation}
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/autoencoder_example.pdf}
+  \end{center}
+  Attempt to reduce some complex input into a smaller form (code) that can accurately be turned back into the complex input
+\end{frame}
+
 \begin{frame}{Autoencoder structure}
   \begin{center}
     \includegraphics[width=0.80\textwidth]{./figures/autoencoder.pdf}
@@ -463,7 +471,7 @@
 \begin{frame}{Approximate Timeline}
 \begin{table}[]
 \centering
-\begin{tabular}{@{}rll@{}}
+\begin{tabular}{@{}rp{0.55\textwidth}l@{}}
 \toprule
 Specific Aim & Task                                    & \# of Months \\ \midrule
 1            & code development: forming pipeline      & 3            \\
@@ -521,5 +529,14 @@ Total        &                                         & 21           \\ \bottom
   \end{table}
   If atom type is the first feature, this is the third atom in the input, and the element is oxygen, then \(x_{1}^{(3)} = (0, 0, 0, 1, 0)\).
 \end{frame}
+
+%% \begin{frame}{Convolution}
+%%   Mathematical form:
+%%   \begin{align}
+%%     (f * g)(t) &= \int_{-\infty}^{\infty} f(\tau) g(t-\tau) \,d\tau \\
+%%                &= \int_{-\infty}^{\infty} f(t-\tau) g(\tau) \,d\tau
+%%   \end{align}
+%%   In the context of a neural network:
+%% \end{frame}
 
 \end{document}
