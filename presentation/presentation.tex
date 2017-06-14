@@ -259,48 +259,40 @@
 \end{frame}
 
 \begin{frame}{Simplest form: univariate linear regression}
+  \underline{Hypothesis}:
+  \begin{equation*}
+    h_{\theta}(x) = \theta_0 + \theta_1 x
+  \end{equation*}
+  \underline{Parameters}:
+  \begin{equation*}
+    \theta_{0}, \theta_{1}
+  \end{equation*}
+  \underline{Cost/penalty function} (\(m = \text{\# of training inputs}, y = \text{exact prediction}\)):
+  \begin{equation*}
+    J(\theta_{0}, \theta_{1}) = \frac{1}{2m} \sum_{i=1}^{m} \left( h_{\theta}(x^{(i)}) - y^{(i)} \right)^2
+  \end{equation*}
+  \underline{Goal}:
+  %% https://tex.stackexchange.com/questions/73226/how-to-write-something-underneath-min#73228
+  \begin{equation*}
+    \min_{\theta_{0}, \theta_{1}} J(\theta_{0}, \theta_{1})
+  \end{equation*}
 \end{frame}
 
-\begin{frame}{placeholder}
-  \begin{center}
-    \includegraphics[width=0.75\textwidth]{./figures/andrew_ng_1.pdf}
-  \end{center}
-\end{frame}
-
-\begin{frame}{placeholder}
-  \begin{center}
-    \includegraphics[width=1.00\textwidth]{./figures/andrew_ng_2.pdf}
-  \end{center}
-\end{frame}
-
-\begin{frame}{placeholder}
-  \begin{center}
-    \includegraphics[width=1.00\textwidth]{./figures/andrew_ng_3.pdf}
-  \end{center}
-\end{frame}
-
-\begin{frame}{placeholder}
-  \begin{center}
-    \includegraphics[width=1.00\textwidth]{./figures/andrew_ng_4.pdf}
-  \end{center}
-\end{frame}
-
-\begin{frame}{placeholder}
-  \begin{center}
-    \includegraphics[width=1.00\textwidth]{./figures/andrew_ng_5.pdf}
-  \end{center}
-\end{frame}
-
-\begin{frame}{placeholder}
-  \begin{center}
-    \includegraphics[width=1.00\textwidth]{./figures/andrew_ng_6.pdf}
-  \end{center}
-\end{frame}
-
-\begin{frame}{placeholder}
-  \begin{center}
-    \includegraphics[width=1.00\textwidth]{./figures/andrew_ng_7.pdf}
-  \end{center}
+\begin{frame}{Parameter optimization}
+  Finding the set of coefficients that minimize the cost function:
+  %% https://tex.stackexchange.com/questions/6195/typeset-an-with-an-above#6196
+  \begin{align*}
+    \frac{\partial J}{\partial \theta_{j}} &\overset{!}{=} 0 \\
+    &= \frac{1}{m} \sum_{i=1}^{m} \left( h_{\theta}(x^{(i)}) - y^{(i)} \right) x^{(i)}
+  \end{align*}
+  which are used in gradient descent (or an equivalent) algorithm:
+  \begin{align*}
+    \text{repeat until convergence \{} \\
+    \theta_{j} := \theta_{j} - \eta \frac{\partial}{\partial \theta_{j}} J(\theta_{0},\theta_{1}) \\
+    (\text{for }j = 1\text{ and }j = 0) \\
+    \text{\}}
+  \end{align*}
+  \(\eta\) is the learning rate (a \underline{hyperparameter}).
 \end{frame}
 
 \begin{frame}{Linear regression using a neural network}
