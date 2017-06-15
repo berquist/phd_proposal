@@ -309,6 +309,7 @@
 \end{frame}
 
 \begin{frame}{Linear regression using a neural network}
+  TODO redo the bit on the right; the intermediate variable should be \(a\), not \(s\)
   \begin{center}
     \includegraphics[width=0.50\textwidth]{./figures/lr_nn_1.pdf}
     \includegraphics[width=0.50\textwidth]{./figures/lr_nn_2.pdf}
@@ -339,9 +340,28 @@
 %% \begin{frame}{More complex neural networks}
 %% \end{frame}
 
-\begin{frame}{Training neural networks (placeholder)}
+\begin{frame}{Parameter optimization: training neural networks}
+  Step 1. Forward propagation of the input signals
   \begin{center}
-    \includegraphics[width=0.50\textwidth]{./figures/fprop_bprop5.png}
+    \includegraphics[width=1.00\textwidth]{./figures/backprop_1.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Parameter optimization: training neural networks}
+  Step 2. Back propagation of the error signals
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/backprop_2.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Parameter optimization: training neural networks}
+  Step 3. Calculate parameter gradients from error signals and activations
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/backprop_3.png}
+  \end{center}
+  Step 4. Update parameters from gradients
+  \begin{center}
+    \includegraphics[scale=0.50]{./figures/backprop_4.png}
   \end{center}
 \end{frame}
 
@@ -486,7 +506,7 @@
   \begin{itemize}
   \item Zero-point (vibrational) energy: \(E_{\text{ZPVE}} = \frac{1}{2} h \sum_{i}^{\text{normal modes}} \nu_{i}\)
   \item Isotropic polarizability (static, \(\omega = 0\)): \(\alpha_{\text{iso}} = \bar{\alpha} \equiv \frac{1}{3} (\alpha_{xx} + \alpha_{yy} + \alpha_{zz})\)
-  \item Parallel 1st hyperpolarizability (static, \(\omega_{a} = \omega_{b} = 0\)): \(\beta_{\parallel} = \frac{3}{5|\mu|} \sum_{i,j=x,y,z} \beta_{iij} \mu_{j}\)
+  \item Parallel 1st hyperpolarizability (static, \(\omega_{a} = \omega_{b} = 0\)): \(\beta_{\parallel} \equiv \frac{3}{5|\mu|} \sum_{i,j=x,y,z} \beta_{iij} \mu_{j}\)
   \item All vibrational frequencies: \(\{\tilde{\nu}\}_{\text{normal modes}}\)
   \end{itemize}
 \end{frame}
