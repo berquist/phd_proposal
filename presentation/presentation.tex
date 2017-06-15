@@ -57,6 +57,17 @@
 
 %% \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
 
+%% https://tex.stackexchange.com/questions/21598/how-to-color-math-symbols#21600
+\makeatletter
+\def\mathcolor#1#{\@mathcolor{#1}}
+\def\@mathcolor#1#2#3{%
+  \protect\leavevmode
+  \begingroup
+    \color#1{#2}#3%
+  \endgroup
+}
+\makeatother
+
 %% https://tex.stackexchange.com/questions/229355/algorithm-algorithmic-algorithmicx-algorithm2e-algpseudocode-confused
 %% https://tex.stackexchange.com/questions/29429/how-to-use-algorithmicx-package#29434
 \usepackage{algorithm}
@@ -451,25 +462,55 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{TODO}
+\begin{frame}{LRP concrete example}
   \begin{center}
     \includegraphics[width=0.75\textwidth]{./figures/lr_nn_4.pdf}
   \end{center}
 \end{frame}
 
-\begin{frame}{TODO}
+\begin{frame}{LRP concrete example}
   \begin{center}
     \includegraphics[width=0.75\textwidth]{./figures/lr_nn_5.pdf}
   \end{center}
 \end{frame}
 
-\begin{frame}{TODO}
+\begin{frame}{LRP concrete example}
   \begin{center}
     \includegraphics[width=0.75\textwidth]{./figures/lr_nn_6.pdf}
   \end{center}
 \end{frame}
 
+%% https://tex.stackexchange.com/questions/228271/creating-two-columns-in-beamer#228272
+
+\begin{frame}{LRP concrete example}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[width=1.0\textwidth]{./figures/lr_nn_6.pdf} \\
+      Relevance of a single message: TODO
+      \begin{equation*}
+        R_{i \leftarrow k}^{(l,l+1)} = R_{k}^{(l+1)} \frac{a_{i} w_{ik}}{\sum_{h} a_{h} w_{hk}}
+      \end{equation*}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      Relevance of an individual node is the sum of all incoming messages:
+      \begin{equation*}
+        \mathcolor{green}{R}_{\mathcolor{red}{2}}^{\mathcolor{purple}{(1)}} = \mathcolor{green}{R}_{\mathcolor{red}{2\leftarrow 3}}^{\mathcolor{purple}{(1,2)}}
+      \end{equation*}
+      Total relevance per layer is the sum of relevances of individual nodes in layer:
+      \begin{align*}
+        \mathcolor{green}{R}^{\mathcolor{purple}{(1)}} &= \mathcolor{green}{R}_{\mathcolor{red}{1}}^{\mathcolor{purple}{(1)}} + \mathcolor{green}{R}_{\mathcolor{red}{2}}^{\mathcolor{purple}{(1)}} \\
+        \mathcolor{green}{R}^{\mathcolor{purple}{(2)}} &= \mathcolor{green}{R}_{\mathcolor{red}{3}}^{\mathcolor{purple}{(2)}}
+      \end{align*}
+      Relevance is conserved layer-by-layer:
+      \begin{equation*}
+        \mathcolor{green}{R}^{\mathcolor{purple}{(1)}} = \mathcolor{green}{R}^{\mathcolor{purple}{(2)}} = f(x) = y_1
+      \end{equation*}
+    \end{column}
+  \end{columns}
+\end{frame}
+
 \begin{frame}{Relationship between feed-forward pass and LRP pass}
+  TODO
   \begin{center}
     \includegraphics[width=1.05\textwidth]{./figures/fig2_trimmed.pdf}
   \end{center}
