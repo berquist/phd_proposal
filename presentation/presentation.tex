@@ -21,6 +21,15 @@
 }
 %% \setbeamertemplate{caption}{\raggedright\insertcaption\par}
 
+\definecolor{NoteBrown}{RGB}{152,101,47}
+\definecolor{NoteBlue}{RGB}{31,91,255}
+\definecolor{NoteGreen}{RGB}{62,195,74}
+\definecolor{NoteRed}{RGB}{191,0,0}
+\definecolor{NotePurple}{RGB}{151,54,208}
+\definecolor{NoteDarkGreen}{RGB}{0,121,62}
+\definecolor{NoteGrey}{RGB}{150,150,150}
+\definecolor{NoteOrange}{RGB}{255,155,0}
+
 % Define some colors:
 \definecolor{PittBlue}{RGB}{0,43,94}
 \definecolor{PittGold}{RGB}{197,168,118}
@@ -325,23 +334,41 @@
 
 \begin{frame}{Linear regression using a neural network}
   \begin{center}
-    \includegraphics[width=0.75\textwidth]{./figures/lr_nn_1.pdf}
+    \includegraphics[width=0.50\textwidth]{./figures/lr_nn_1_noeqn.pdf}
   \end{center}
+  \begin{equation*}
+    y = (\mathcolor{NoteGreen}{m} * x) + (\mathcolor{NoteBlue}{b} * \mathcolor{NoteBrown}{1})
+  \end{equation*}
 \end{frame}
 
 \begin{frame}{Linear regression using a neural network}
-  \begin{center}
-    \includegraphics[width=0.50\textwidth]{./figures/lr_nn_1.pdf}
-    \includegraphics[width=0.50\textwidth]{./figures/lr_nn_2.pdf}
-  \end{center}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[width=1.00\textwidth]{./figures/lr_nn_1_noeqn.pdf}
+      \begin{equation*}
+        y = (\mathcolor{NoteGreen}{m} * x) + (\mathcolor{NoteBlue}{b} * \mathcolor{NoteBrown}{1})
+      \end{equation*}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{align*}
+        \mathcolor{NoteGrey}{a} &= (\mathcolor{NoteGreen}{m} * x) + (\mathcolor{NoteBlue}{b} * \mathcolor{NoteBrown}{1}) \\
+        y &= \mathcolor{NoteOrange}{g(}\mathcolor{NoteGrey}{a}\mathcolor{NoteOrange}{)} \\
+        \mathcolor{NoteOrange}{g(z)} &= \mathcolor{NoteOrange}{z} \\
+      \end{align*}
+    \end{column}
+  \end{columns}
+  %% \begin{center}
+  %%   \includegraphics[width=0.50\textwidth]{./figures/lr_nn_1.pdf}
+  %%   \includegraphics[width=0.50\textwidth]{./figures/lr_nn_2.pdf}
+  %% \end{center}
 \end{frame}
 
-\begin{frame}{Linear regression using a neural network}
-  \begin{center}
-    \includegraphics[width=0.50\textwidth]{./figures/lr_nn_1.pdf}
-    \includegraphics[width=0.50\textwidth]{./figures/lr_nn_3.pdf}
-  \end{center}
-\end{frame}
+%% \begin{frame}{Linear regression using a neural network}
+%%   \begin{center}
+%%     \includegraphics[width=0.50\textwidth]{./figures/lr_nn_1.pdf}
+%%     \includegraphics[width=0.50\textwidth]{./figures/lr_nn_3.pdf}
+%%   \end{center}
+%% \end{frame}
 
 \begin{frame}{General architecture of neural networks}
   \begin{center}
@@ -549,28 +576,31 @@
 %% https://tex.stackexchange.com/questions/228271/creating-two-columns-in-beamer#228272
 
 \begin{frame}{LRP concrete example}
-  TODO latex colors
   \begin{columns}
     \begin{column}{0.5\textwidth}
       \includegraphics[width=1.0\textwidth]{./figures/lr_nn_6.pdf} \\
       Relevance of a single message:
-      \begin{equation*}
-        R_{i \leftarrow k}^{(l,l+1)} = R_{k}^{(l+1)} \frac{a_{i} w_{ik}}{\sum_{h} a_{h} w_{hk}}
-      \end{equation*}
+      %% \begin{equation*}
+      %%   R_{i \leftarrow k}^{(l,l+1)} = R_{k}^{(l+1)} \frac{a_{i} w_{ik}}{\sum_{h} a_{h} w_{hk}}
+      %% \end{equation*}
+      \begin{align*}
+        R_{i \leftarrow k}^{(l,l+1)} &= R_{k}^{(l+1)} \frac{a_{i} w_{ik}}{\sum_{h} a_{h} w_{hk}} \\
+        R_{\mathcolor{NoteRed}{2 \leftarrow 3}}^{\mathcolor{NotePurple}{(1,2)}} &= R_{\mathcolor{NoteRed}{3}}^{\mathcolor{NotePurple}{(2)}} \frac{\mathcolor{NoteGrey}{a_{23}} \mathcolor{NoteGreen}{w_{23}}}{\mathcolor{NoteGrey}{a_{23}} \mathcolor{NoteGreen}{w_{23}}}
+      \end{align*}
     \end{column}
     \begin{column}{0.5\textwidth}
       Relevance of an individual node is the sum of all incoming messages:
       \begin{equation*}
-        \mathcolor{green}{R}_{\mathcolor{red}{2}}^{\mathcolor{purple}{(1)}} = \mathcolor{green}{R}_{\mathcolor{red}{2\leftarrow 3}}^{\mathcolor{purple}{(1,2)}}
+        \mathcolor{NoteDarkGreen}{R}_{\mathcolor{NoteRed}{2}}^{\mathcolor{NotePurple}{(1)}} = \mathcolor{NoteDarkGreen}{R}_{\mathcolor{NoteRed}{2\leftarrow 3}}^{\mathcolor{NotePurple}{(1,2)}}
       \end{equation*}
       Total relevance per layer is the sum of relevances of individual nodes in layer:
       \begin{align*}
-        \mathcolor{green}{R}^{\mathcolor{purple}{(1)}} &= \mathcolor{green}{R}_{\mathcolor{red}{1}}^{\mathcolor{purple}{(1)}} + \mathcolor{green}{R}_{\mathcolor{red}{2}}^{\mathcolor{purple}{(1)}} \\
-        \mathcolor{green}{R}^{\mathcolor{purple}{(2)}} &= \mathcolor{green}{R}_{\mathcolor{red}{3}}^{\mathcolor{purple}{(2)}}
+        \mathcolor{NoteDarkGreen}{R}^{\mathcolor{NotePurple}{(1)}} &= \mathcolor{NoteDarkGreen}{R}_{\mathcolor{NoteRed}{1}}^{\mathcolor{NotePurple}{(1)}} + \mathcolor{NoteDarkGreen}{R}_{\mathcolor{NoteRed}{2}}^{\mathcolor{NotePurple}{(1)}} \\
+        \mathcolor{NoteDarkGreen}{R}^{\mathcolor{NotePurple}{(2)}} &= \mathcolor{NoteDarkGreen}{R}_{\mathcolor{NoteRed}{3}}^{\mathcolor{NotePurple}{(2)}}
       \end{align*}
       Relevance is conserved layer-by-layer:
       \begin{equation*}
-        \mathcolor{green}{R}^{\mathcolor{purple}{(1)}} = \mathcolor{green}{R}^{\mathcolor{purple}{(2)}} = f(x) = y_1
+        \mathcolor{NoteDarkGreen}{R}^{\mathcolor{NotePurple}{(1)}} = \mathcolor{NoteDarkGreen}{R}^{\mathcolor{NotePurple}{(2)}} = f(x) = y_1
       \end{equation*}
     \end{column}
   \end{columns}
@@ -676,6 +706,9 @@ Total        &                                         & 26           \\ \bottom
   \item This is the first use of relevance propagation outside of image classification and for any regression technique.
   \item The models trained here are the first proof-of-concept ML predictions of higher-order nonlinear optical properties and vibrational spectra.
   \end{itemize}
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/learning_chemistry.pdf}
+  \end{center}
 \end{frame}
 
 \begin{frame}{A future challenge: building databases}
