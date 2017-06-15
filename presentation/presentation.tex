@@ -179,8 +179,8 @@
 \begin{frame}{Objective}
   \begin{itemize}
   \item Peek inside the black box and see if ML models are ``learning chemistry''.
-  \item If they aren't, consider other NN architectures (DTNN, ANAKIN-ME, ...) that have different input \textit{representations} or \textit{featurizations} for molecules, or
-  \item make the architecture larger and use more training data.
+  %% \item If they aren't, consider other NN architectures (DTNN, ANAKIN-ME, ...) that have different input \textit{representations} or \textit{featurizations} for molecules, or
+  %% \item make the architecture larger and use more training data.
   \end{itemize}
 \end{frame}
 
@@ -306,13 +306,20 @@
     &= \frac{1}{m} \sum_{i=1}^{m} \left( h_{\theta}(x^{(i)}) - y^{(i)} \right) x^{(i)}
   \end{align*}
   which are used in gradient descent (or an equivalent) algorithm:
-  \begin{align*}
-    \text{repeat until convergence \{} \\
-    \theta_{j} := \theta_{j} - \eta \frac{\partial}{\partial \theta_{j}} J(\theta_{0},\theta_{1}) \\
-    (\text{for }j = 1\text{ and }j = 0) \\
-    \text{\}}
-  \end{align*}
-  \(\eta\) is the learning rate (a \underline{hyperparameter}).
+  %% \begin{align*}
+  %%   \text{repeat until convergence \{} \\
+  %%   \theta_{j} := \theta_{j} - \eta \frac{\partial}{\partial \theta_{j}} J(\theta_{0},\theta_{1}) \\
+  %%   (\text{for }j = 1\text{ and }j = 0) \\
+  %%   \text{\}}
+  %% \end{align*}
+  \begin{algorithmic}[1]
+    \Repeat
+    %% \State \( \theta_{j} \gets \theta_{j} - \eta \frac{\partial}{\partial \theta_{j}} J(\theta_{0},\theta_{1}) \)
+    \State \( \theta_{0} \gets \theta_{0} - \eta \frac{\partial}{\partial \theta_{0}} J(\theta_{0},\theta_{1}) \)
+    \State \( \theta_{1} \gets \theta_{1} - \eta \frac{\partial}{\partial \theta_{1}} J(\theta_{0},\theta_{1}) \)
+    \Until{convergence}
+  \end{algorithmic}
+  where \(\eta\) is the learning rate (a \underline{hyperparameter}).
 \end{frame}
 
 \begin{frame}{Linear regression using a neural network}
@@ -405,19 +412,20 @@
   \textcolor{red}{Red} is evidence \textcolor{red}{for} the classification choice, \textcolor{blue}{blue} is evidence \textcolor{blue}{against}.
 \end{frame}
 
-\begin{frame}{LRP examples}
+\begin{frame}{LRP example for image classification}
   \begin{center}
     \includegraphics[width=1.00\textwidth]{./figures/lrp_example_1.png}
   \end{center}
+  http://www.heatmapping.org/caffe.html
 \end{frame}
 
-\begin{frame}{LRP examples}
+\begin{frame}{LRP example for image classification}
   \begin{center}
     \includegraphics[width=1.00\textwidth]{./figures/lrp_example_2.png}
   \end{center}
 \end{frame}
 
-\begin{frame}{LRP examples}
+\begin{frame}{LRP example for image classification}
   \begin{center}
     \includegraphics[width=1.00\textwidth]{./figures/lrp_example_3.png}
   \end{center}
@@ -446,6 +454,11 @@
   \item ``Fast machine learning models of electronic and energetic properties consistently reach approximation errors better than DFT accuracy'', arxiv.org/abs/1702.05532
   \item Use the Graph Convolutions neural network architecture combined with the Molecular Graph input (MG/GC)
   \end{itemize}
+  Molecular properties:
+  \begin{itemize}
+  \item Zero-point (vibrational) energy: \(E_{\text{ZPVE}} = \frac{1}{2} h \sum_{i}^{\text{normal modes}} \nu_{i}\)
+  \item Isotropic polarizability (static, \(\omega = 0\)): \(\alpha_{\text{iso}} = \bar{\alpha} \equiv \frac{1}{3} (\alpha_{xx} + \alpha_{yy} + \alpha_{zz})\)
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Justification for aim \#1}
@@ -457,7 +470,14 @@
   Why \emph{not} look at molecular energies?
   \begin{itemize}
   \item ML needs to be capable of spectroscopy, calculations for which are much more expensive than energies/trajectories.
+  \item Comparison against experiment
   \end{itemize}
+\end{frame}
+
+\begin{frame}{Training inputs: the QM9 molecular database}
+  \begin{quote}
+    We report computed geometric, energetic, electronic, and thermodynamic properties for 134k stable small organic molecules made up of CHONF. These molecules correspond to the subset of all 133,885 species with up to nine heavy atoms (CONF) out of the GDB-17 chemical universe of 166 billion organic molecules. We report geometries minimal in energy, corresponding harmonic frequencies, dipole moments, polarizabilities, along with energies, enthalpies, and free energies of atomization. All properties were calculated at the B3LYP/6-31G(2df,p) level of quantum chemistry.
+  \end{quote}
 \end{frame}
 
 \begin{frame}{Molecular Graph input representation: single atom features}
@@ -496,22 +516,17 @@
   \end{table}
 \end{frame}
 
-\begin{frame}{Definitions of trained molecular properties}
-  \begin{itemize}
-  \item Zero-point (vibrational) energy: \(E_{\text{ZPVE}} = \frac{1}{2} h \sum_{i}^{\text{normal modes}} \nu_{i}\)
-  \item Isotropic polarizability (static, \(\omega = 0\)): \(\alpha_{\text{iso}} = \bar{\alpha} \equiv \frac{1}{3} (\alpha_{xx} + \alpha_{yy} + \alpha_{zz})\)
-  \end{itemize}
-\end{frame}
-
 %% In the original work (Kearnes), the GC architecture accuracy is only measured on classification, not regression, where sensitivity and specificity cannot be used as metrics for model accuracy.
 
 \begin{frame}{Aim \#2: Characterization of Existing Literature Neural Networks}
-  TODO
   \begin{itemize}
-  \item Math w/ example pictures
-  \item Expected outcomes
+  \item Transfer the layer-wise relevance propagation (LRP) technique from image classification to a regression problem.
+  \item The \underline{expected outcome} is a clear connection between the input molecular representations and predicted outputs.
+  \item If there are no connections, we still learn a substantial amount about what the neural networks have learned.
   \end{itemize}
 \end{frame}
+
+%% clear connections between the input molecular representations and predicted outputs that can be used to build quantitative structure-function relationships
 
 \begin{frame}{LRP concrete example}
   \begin{center}
@@ -534,6 +549,7 @@
 %% https://tex.stackexchange.com/questions/228271/creating-two-columns-in-beamer#228272
 
 \begin{frame}{LRP concrete example}
+  TODO latex colors
   \begin{columns}
     \begin{column}{0.5\textwidth}
       \includegraphics[width=1.0\textwidth]{./figures/lr_nn_6.pdf} \\
@@ -560,17 +576,10 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}{Relationship between feed-forward pass and LRP pass}
-  TODO
-  \begin{center}
-    \includegraphics[width=1.05\textwidth]{./figures/fig2_trimmed.pdf}
-  \end{center}
-\end{frame}
-
 \begin{frame}{What LRP is \protect\emph{not} doing}
   \begin{itemize}
     \item This is \emph{not} a direct inspection of what the NN has learned!
-    \item Looking directly at NN weights is like looking at MO coefficients. Once the number of them grows, the ``importance'' of a single one diminishes greatly, and the number of nodes/weights grows even quicker than the number of MO coefficients for a reasonable quantum chemical calculation. The ability for direct inspection becomes impossible.
+    \item Looking directly at NN weights is similar to looking at MO coefficients. Once the number of them grows, the ``importance'' of a single one diminishes greatly, and the number of nodes/weights grows even quicker than the number of MO coefficients for a reasonable quantum chemical calculation. The ability for direct inspection becomes impossible.
     %% \item Toy models are unlikely to be useful for any kind of understanding the effect of chemical data on NNs because of the complexity of \emph{any} molecule compared to NNs. In a way, a toy or model molecule w/ an \textit{ab initio} calculation can give more insight than a model NN. We are asking NN parameters to be both more efficient and more general than MO coefficients at describing the many-particle wavefunction!
   \end{itemize}
 \end{frame}
@@ -578,11 +587,10 @@
 %% most likely diminishes greatly. If one is particularly important, how to identify it? Do the weights form a distribution that can be inspected?
 
 \begin{frame}{A better analogy}
-  TODO
-  %% between relevance propagation and interaction energy decomposition approaches (SAPT, EDA):
-  The use of layer-wise relevance propagation is identical to intermolecular interaction energies.
+  The use of layer-wise relevance propagation is identical to interaction energy analysis.
   \begin{itemize}
-  \item SAPT and ALMO-EDA give the best theoretical, physically-intuitive, and \emph{quantitative} insight into how molecules interact.
+  \item SAPT and ALMO-EDA give the best theoretical, physically-intuitive, and quantitative insight into how molecules interact by \emph{decomposing} the interaction energy.
+  \item LRP gives a \emph{decomposition} of the predicted output in terms of the input features.
   \end{itemize}
 \end{frame}
 
@@ -601,17 +609,8 @@
 %% How does LRP prove that a NN is transferable?
 
 \begin{frame}{Aim \#3: Training Neural Networks for Complex Molecular Properties}
-  TODO
+  Train the same architecture from aim \#1 (MG/GC) on QM9 for more complex molecular properties:
   \begin{itemize}
-  \item What are the properties, logic behind the choice
-  \item Expected outcomes
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Definitions of trained molecular properties}
-  \begin{itemize}
-  \item Zero-point (vibrational) energy: \(E_{\text{ZPVE}} = \frac{1}{2} h \sum_{i}^{\text{normal modes}} \nu_{i}\)
-  \item Isotropic polarizability (static, \(\omega = 0\)): \(\alpha_{\text{iso}} = \bar{\alpha} \equiv \frac{1}{3} (\alpha_{xx} + \alpha_{yy} + \alpha_{zz})\)
   \item Parallel 1st hyperpolarizability (static, \(\omega_{a} = \omega_{b} = 0\)): \(\beta_{\parallel} \equiv \frac{3}{5|\mu|} \sum_{i,j=x,y,z} \beta_{iij} \mu_{j}\)
   \item All vibrational frequencies: \(\{\tilde{\nu}\}_{\text{normal modes}}\)
   \end{itemize}
@@ -624,6 +623,7 @@
   \item Denoising autoencoder
   \item Expected outcomes
   \end{itemize}
+  adding an unsupervised learning stage provides a reduced-dimensionality molecular representation connecting directly to chemical intuition
 \end{frame}
 
 \begin{frame}{Learning a compressed representation}
@@ -647,28 +647,42 @@
 \toprule
 Specific Aim & Task                                    & \# of Months \\ \midrule
 1            & code development: forming pipeline      & 3            \\
-1            & model training                          & 2            \\
+1            & model training                          & 3            \\
 2            & code development: adapt LRP to pipeline & 3            \\
-2            & analysis development                    & 2            \\
+2            & analysis development                    & 3            \\
 3            & hyperpolarizability calculations        & 2            \\
 3            & model training                          & 3            \\
-4            & code development: DAE                   & 2            \\
-4            & model training                          & 2            \\
-4            & analysis                                & 2            \\ \midrule
-Total        &                                         & 21           \\ \bottomrule
+4            & code development: DAE                   & 3            \\
+4            & model training                          & 3            \\
+4            & analysis                                & 3            \\ \midrule
+Total        &                                         & 26           \\ \bottomrule
 \end{tabular}
 \end{table}\end{frame}
 
+\begin{frame}{Significance}
+  \begin{itemize}
+  \item This is the first attempt at understanding the parameters of ML models used to predict microscopic and macroscopic molecular properties, rather than treating the models as black boxes that cannot be understood.
+  \item This is the first use of relevance propagation outside of image classification and for any regression technique.
+  \item The models trained here are the first proof-of-concept ML predictions of higher-order nonlinear optical properties and vibrational spectra.
+  \end{itemize}
+\end{frame}
+
 \begin{frame}{A future challenge: building databases}
   \begin{itemize}
-  \item GDB9/QM9 is the most commonly-used training set, the equivalent of the MNIST set of \textasciitilde{}10,000 labeled handwritten digits.
+  \item GDB-9/QM9 is the most commonly-used training set, the equivalent of the MNIST set of \textasciitilde{}10,000 labeled handwritten digits.
   \item It is now suffering from the same problem as MNIST: it is too simple and not representative of real-world training cases (molecules).
   \item Analogy: Pople basis sets (6-31G and derivatives) are still extremely common, not even because we don't know better, but because we ``need to compare to past work''.
-  \item If a \emph{general and transferable} ML model fails on GDB9, that is a warning sign, but the above cannot be a reason against extending deeper into chemical space for ML model training.
+  \item If a \emph{general and transferable} ML model fails on GDB-9, that is a warning sign, but the above cannot be a reason against extending deeper into chemical space for ML model training.
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Backup Slides}
+\end{frame}
+
+\begin{frame}{Definition of overfitting}
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/model_complexity_error_training_test.jpg}
+  \end{center}
 \end{frame}
 
 \begin{frame}{What is a ``one-hot'' vector?}
@@ -768,6 +782,12 @@ Total        &                                         & 21           \\ \bottom
     \begin{column}{0.50\textwidth}
     \end{column}
   \end{columns}
+\end{frame}
+
+\begin{frame}{Relationship between feed-forward pass and LRP pass}
+  \begin{center}
+    \includegraphics[width=1.05\textwidth]{./figures/fig2_trimmed.pdf}
+  \end{center}
 \end{frame}
 
 \begin{frame}{Hyperpolarizability equations from paper}
