@@ -437,42 +437,63 @@
   This work will show whether models are ``learning the caption'' or ``learning the head and tail''.
 \end{frame}
 
+\begin{frame}{Specific Aims}
+\end{frame}
+
 \begin{frame}{Aim \#1: Reproduction of Existing Literature Neural Networks}
-  TODO
+  O. Anatole von Lilienfeld has done the most work for predicting molecular properties using several different ML architectures
   \begin{itemize}
-  \item Discuss GC architecture, why choose GC architecture over DTNN, ANAKIN-ME, ...?
-  \item Want comparison against literature results (more on this later), these so far are molecular energies only
-  \item Where is the code?
-  \item Why \emph{not} look at molecular energies? Want ML to do spectroscopy too, calculations for which are much more expensive than energies/trajectories.
+  \item ``Fast machine learning models of electronic and energetic properties consistently reach approximation errors better than DFT accuracy'', arxiv.org/abs/1702.05532
+  \item Use the Graph Convolutions neural network architecture combined with the Molecular Graph input (MG/GC)
   \end{itemize}
 \end{frame}
 
-\begin{frame}{TODO}
-  \begin{center}
-    \includegraphics[width=0.75\textwidth]{./figures/gc_fig2.pdf}
-  \end{center}
+\begin{frame}{Justification for aim \#1}
+  Why choose the GC architecture over DTNN, ANAKIN-ME, ...?
+  \begin{itemize}
+  \item Want comparison against literature results (more on this later), these so far are molecular energies only.
+  \item Where is the code?
+  \end{itemize}
+  Why \emph{not} look at molecular energies?
+  \begin{itemize}
+  \item ML needs to be capable of spectroscopy, calculations for which are much more expensive than energies/trajectories.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{TODO}
-  \begin{center}
-    \includegraphics[width=0.75\textwidth]{./figures/gc_fig3.pdf}
-  \end{center}
+\begin{frame}{Molecular Graph input representation: single atom features}
+  %% \Fontsmaller
+  \begin{table}[htbp]
+    \centering
+    \begin{tabular}{@{}lp{0.50\textwidth}l@{}}
+      \toprule
+      Feature & Description & Size \\ \midrule
+      Atom type & H, C, N, O, or F (one-hot) & 5 \\
+      Chirality & R or S (one-hot or null) & 2 \\
+      Formal charge & Integer electronic charge & 1 \\
+      Partial charge & Calculated partial charge & 1 \\
+      Ring sizes & For each ring size (3-8), the number of rings that include this atom & 6 \\
+      Hybridization & sp, sp\(^2\), or sp\(^3\) (one-hot or null) & 3 \\
+      Hydrogen bonding & Whether this atom is a hydrogen bond donor and/or acceptor (binary values) & 2 \\
+      Aromaticity & Whether this atom is part of an aromatic system & 1 \\ \midrule
+      &  & 21 \\ \bottomrule
+    \end{tabular}
+  \end{table}
 \end{frame}
 
-\begin{frame}{TODO}
-  \begin{center}
-    \includegraphics[width=0.75\textwidth]{./figures/gc_fig4.pdf}
-  \end{center}
-\end{frame}
-
-\begin{frame}{TODO}
-  \begin{columns}
-    \begin{column}{0.50\textwidth}
-      \includegraphics[width=1.00\textwidth]{./figures/gc_fig6.pdf}
-    \end{column}
-    \begin{column}{0.50\textwidth}
-    \end{column}
-  \end{columns}
+\begin{frame}{Molecular Graph input representation: atom pair features}
+  %% \Fontsmaller
+  \begin{table}[htbp]
+    \centering
+    \begin{tabular}{@{}lp{0.50\textwidth}l@{}}
+      \toprule
+      Feature & Description & Size \\ \midrule
+      Bond type & Single, double, triple, or aromatic (one-hot or null) & 4 \\
+      Graph distance & For each distance (1-7), whether the shortest path between the atoms in the pair is less than or equal to that number of bonds (binary values) & 7 \\
+      Same ring & Whether the atoms in the pair are in the same ring & 1 \\
+      Spatial distance & The Euclidean distance between the two atoms & 1 \\ \midrule
+      &  & 13 \\ \bottomrule
+    \end{tabular}
+  \end{table}
 \end{frame}
 
 \begin{frame}{Definitions of trained molecular properties}
@@ -481,6 +502,8 @@
   \item Isotropic polarizability (static, \(\omega = 0\)): \(\alpha_{\text{iso}} = \bar{\alpha} \equiv \frac{1}{3} (\alpha_{xx} + \alpha_{yy} + \alpha_{zz})\)
   \end{itemize}
 \end{frame}
+
+%% In the original work (Kearnes), the GC architecture accuracy is only measured on classification, not regression, where sensitivity and specificity cannot be used as metrics for model accuracy.
 
 \begin{frame}{Aim \#2: Characterization of Existing Literature Neural Networks}
   TODO
@@ -636,9 +659,6 @@ Total        &                                         & 21           \\ \bottom
 \end{tabular}
 \end{table}\end{frame}
 
-\begin{frame}{Backup Slides}
-\end{frame}
-
 \begin{frame}{A future challenge: building databases}
   \begin{itemize}
   \item GDB9/QM9 is the most commonly-used training set, the equivalent of the MNIST set of \textasciitilde{}10,000 labeled handwritten digits.
@@ -648,19 +668,7 @@ Total        &                                         & 21           \\ \bottom
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Hyperpolarizability equations from paper}
-  When the dipole moment coincides with the \(j\)-axis, we have
-  \begin{equation}
-    \beta_{\parallel} = \frac{3}{5}\beta_j = \frac{1}{5} \sum_{i=x,y,z} (\beta_{iij} + \beta_{iji} + \beta_{jii}),
-  \end{equation}
-  or in the general case,
-  \begin{equation}
-    \beta_{\parallel} = \frac{3}{5|\mu|} \sum_{i,j=x,y,z} \beta_{iij} \mu_{j},
-  \end{equation}
-  where
-  \begin{equation}
-    \beta_{ijk} = \left<\left<\mu_{i};\mu_{j},\mu_{k}\right>\right>.
-  \end{equation}
+\begin{frame}{Backup Slides}
 \end{frame}
 
 \begin{frame}{What is a ``one-hot'' vector?}
@@ -678,15 +686,6 @@ Total        &                                         & 21           \\ \bottom
   \end{table}
   If atom type is the first feature, this is the third atom in the input, and the element is oxygen, then \(x_{1}^{(3)} = (0, 0, 0, 1, 0)\).
 \end{frame}
-
-%% \begin{frame}{Convolution}
-%%   Mathematical form:
-%%   \begin{align}
-%%     (f * g)(t) &= \int_{-\infty}^{\infty} f(\tau) g(t-\tau) \,d\tau \\
-%%                &= \int_{-\infty}^{\infty} f(t-\tau) g(\tau) \,d\tau
-%%   \end{align}
-%%   In the context of a neural network:
-%% \end{frame}
 
 \begin{frame}{Gradients of nonlinear activation functions}
   \begin{center}
@@ -732,6 +731,70 @@ Total        &                                         & 21           \\ \bottom
   \end{algorithmic}
   %% \end{algorithm}
   The regularization term with hyperparameter \(\lambda\) is set to zero if \(j = 0\) (the bias node).
+\end{frame}
+
+%% \begin{frame}{Convolution}
+%%   Mathematical form:
+%%   \begin{align}
+%%     (f * g)(t) &= \int_{-\infty}^{\infty} f(\tau) g(t-\tau) \,d\tau \\
+%%                &= \int_{-\infty}^{\infty} f(t-\tau) g(\tau) \,d\tau
+%%   \end{align}
+%%   In the context of a neural network:
+%% \end{frame}
+
+\begin{frame}{Graph convolution architecture: pairs to atoms}
+  \begin{center}
+    \includegraphics[width=0.75\textwidth]{./figures/gc_fig2.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Graph convolution architecture: atoms to pairs}
+  \begin{center}
+    \includegraphics[width=0.75\textwidth]{./figures/gc_fig3.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Graph convolution architecture: Weave module}
+  \begin{center}
+    \includegraphics[width=0.75\textwidth]{./figures/gc_fig4.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Full graph convolution architecture}
+  \begin{columns}
+    \begin{column}{0.50\textwidth}
+      \includegraphics[width=1.00\textwidth]{./figures/gc_fig6.pdf}
+    \end{column}
+    \begin{column}{0.50\textwidth}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Hyperpolarizability equations from paper}
+  When the dipole moment coincides with the \(j\)-axis, we have
+  \begin{equation*}
+    \beta_{\parallel} = \frac{3}{5}\beta_j = \frac{1}{5} \sum_{i=x,y,z} (\beta_{iij} + \beta_{iji} + \beta_{jii}),
+  \end{equation*}
+  or in the general case,
+  \begin{equation*}
+    \beta_{\parallel} = \frac{3}{5|\mu|} \sum_{i,j=x,y,z} \beta_{iij} \mu_{j},
+  \end{equation*}
+  where
+  \begin{equation*}
+    \beta_{ijk} = \left<\left<\mu_{i};\mu_{j},\mu_{k}\right>\right>.
+  \end{equation*}
+\end{frame}
+
+\begin{frame}{``Coulomb'' matrix}
+  \begin{equation*}
+    M_{IJ} = \left\{\begin{matrix}
+    0.5 Z_{I}^{2.4} & \text{for } I = J\\ 
+    \frac{Z_I Z_J}{|\mathbf{R}_I - \mathbf{R}_J|} & \text{for } I \neq J.
+    \end{matrix}\right.
+  \end{equation*}
+  \begin{quote}
+    Here, off-diagonal elements correspond to the Coulomb repulsion between atoms \(I\) and \(J\), while diagonal elements encode a polynomial fit of atomic energies to nuclear charge.
+  \end{quote}
 \end{frame}
 
 \end{document}
