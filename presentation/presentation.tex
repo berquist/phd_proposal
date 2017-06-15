@@ -55,6 +55,8 @@
 \usepackage[export]{adjustbox}
 \usepackage{booktabs}
 
+%% \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+
 %% https://tex.stackexchange.com/questions/229355/algorithm-algorithmic-algorithmicx-algorithm2e-algpseudocode-confused
 %% https://tex.stackexchange.com/questions/29429/how-to-use-algorithmicx-package#29434
 \usepackage{algorithm}
@@ -382,10 +384,14 @@
 \end{frame}
 
 \begin{frame}{Layer-wise Relevance Propagation (LRP)}
+  \underline{Current literature}: when identifying the primary contents of an image (classification), what pixels were strong evidence for its classification, and what pixels indicated that it may be something else (evidence against)?
+  \begin{itemize}
+  \item \emph{Not} what pixels were unimportant
+  \end{itemize}
   \begin{center}
     \includegraphics[width=1.00\textwidth]{./figures/2-Figure1-1.png}
   \end{center}
-  TODO short blurb
+  \textcolor{red}{Red} is evidence \textcolor{red}{for} the classification choice, \textcolor{blue}{blue} is evidence \textcolor{blue}{against}.
 \end{frame}
 
 \begin{frame}{LRP examples}
@@ -411,6 +417,13 @@
   \begin{center}
     \includegraphics[width=1.00\textwidth]{./figures/fv_vs_dnn.pdf}
   \end{center}
+\end{frame}
+
+\begin{frame}{LRP for quantum chemistry in machine learning}
+  \begin{center}
+    \includegraphics[width=1.00\textwidth]{./figures/bad_featurization.png}
+  \end{center}
+  This work will show whether models are ``learning the caption'' or ``learning the head and tail''.
 \end{frame}
 
 \begin{frame}{Aim \#1: Reproduction of Existing Literature Neural Networks}
