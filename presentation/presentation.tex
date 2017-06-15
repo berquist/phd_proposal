@@ -619,16 +619,21 @@
 \begin{frame}{Aim \#4: Characterization of Novel Neural Networks}
   Start by applying the same analysis techniques from aim \#2 to the trained networks from aim \#3.
   \begin{itemize}
-  \item The \underline{expected outcome} is that similar features show relevance for \(\bar{\alpha}/\beta_{\parallel}\) and \(E_{\text{ZPVE}}/\{\tilde{\nu}\}\).
+  \item The \underline{expected outcome} is that similar features show similar relevance patterns for \(\bar{\alpha}/\beta_{\parallel}\) and \(E_{\text{ZPVE}}/\{\tilde{\nu}\}\).
   \item If not, either the size or the fundamental components of the network architecture are insufficient for describing more complex molecular properties.
+  \item Combined with systematic changes to input features, LRP can still show \emph{where} the networks are deficient.
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Aim \#4: Characterization of Novel Neural Networks}
-  TODO
-  The original authors of Graph Convolutions found that a smaller set of features than those in the Molecular Graph
+  The original authors of Graph Convolutions found that using a smaller set of features than those in the full Molecular Graph representation still agreed \underline{quantitatively} for classification.
   \begin{itemize}
-  \item The \underline{expected outcome} is that adding an unsupervised learning stage provides a reduced-dimensionality molecular representation connecting directly to chemical intuition    
+  \item Atom type, bond type, and graph distance
+  \end{itemize}
+  Unsupervised learning with an autoencoder can automatically find if these or other input features are important.
+  \begin{itemize}
+  \item The \underline{expected outcome} is that adding an unsupervised learning stage provides a reduced-dimensionality molecular representation connecting directly to chemical intuition
+  \item If not, many aspects of the autoencoder's architecture can be systematically changed.
   \end{itemize}
 \end{frame}
 
@@ -814,7 +819,7 @@ Total        &                                         & 26           \\ \bottom
 \begin{frame}{``Coulomb'' matrix}
   \begin{equation*}
     M_{IJ} = \left\{\begin{matrix}
-    0.5 Z_{I}^{2.4} & \text{for } I = J\\ 
+    0.5 Z_{I}^{2.4} & \text{for } I = J\\
     \frac{Z_I Z_J}{|\mathbf{R}_I - \mathbf{R}_J|} & \text{for } I \neq J.
     \end{matrix}\right.
   \end{equation*}
