@@ -1,68 +1,21 @@
-%% Compile me as follows:
-%%% latexmk -pdf -xelatex -shell-escape presentation.tex
+\documentclass[compress]{beamer}
 
-\documentclass[xetex,compress]{beamer}
-%% \usetheme{Pittsburgh}
-%% \usecolortheme{seagull}
-
-%% https://www.quora.com/Presentations-What-are-the-best-beamer-themes
-\setbeamertemplate{frametitle}
-  {\begin{centering}\smallskip
-   \insertframetitle\par
-   \smallskip\end{centering}}
-\setbeamertemplate{itemize item}{\(\bullet\)}
-\setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{footline}[text line]{%
-    \hfill\strut{%
-        \scriptsize\sf\color{black!60}%
-        \quad\insertframenumber
-    }%
-    \hfill
-}
-%% \setbeamertemplate{caption}{\raggedright\insertcaption\par}
-
-\definecolor{NoteBrown}{RGB}{152,101,47}
-\definecolor{NoteBlue}{RGB}{31,91,255}
-\definecolor{NoteGreen}{RGB}{62,195,74}
-\definecolor{NoteRed}{RGB}{191,0,0}
-\definecolor{NotePurple}{RGB}{151,54,208}
-\definecolor{NoteDarkGreen}{RGB}{0,121,62}
-\definecolor{NoteGrey}{RGB}{150,150,150}
-\definecolor{NoteOrange}{RGB}{255,155,0}
-
-% Define some colors:
-\definecolor{PittBlue}{RGB}{0,43,94}
-\definecolor{PittGold}{RGB}{197,168,118}
-\definecolor{DarkFern}{HTML}{407428}
-\definecolor{DarkCharcoal}{HTML}{4D4944}
-\colorlet{Fern}{DarkFern!85!white}
-\colorlet{Charcoal}{DarkCharcoal!85!white}
-\colorlet{LightCharcoal}{Charcoal!50!white}
-\colorlet{AlertColor}{orange!80!black}
-\colorlet{DarkRed}{red!70!black}
-\colorlet{DarkBlue}{blue!70!black}
-\colorlet{DarkGreen}{green!70!black}
-% Use the colors:
-\setbeamercolor{title}{fg=PittBlue}
-\setbeamercolor{frametitle}{fg=PittBlue}
-\setbeamercolor{normal text}{fg=DarkCharcoal}
-\setbeamercolor{block title}{fg=black,bg=Fern!25!white}
-\setbeamercolor{block body}{fg=black,bg=Fern!25!white}
-\setbeamercolor{alerted text}{fg=AlertColor}
-\setbeamercolor{itemize item}{fg=Charcoal}
+\usetheme{eric}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage[export]{adjustbox}
 \usepackage{alltt}
 \usepackage{bm}
-\usepackage[normalem]{ulem}
-\usepackage{paralist}
-\usepackage{setspace}
-\usepackage{xparse}
-\usepackage{braket}
-\usepackage{wrapfig}
-\usepackage[export]{adjustbox}
 \usepackage{booktabs}
+\usepackage{braket}
+\usepackage{graphicx}
+\usepackage{microtype}
+% \usepackage{paralist}
+\usepackage{setspace}
+\usepackage{wrapfig}
+\usepackage[normalem]{ulem}
+\usepackage{xparse}
 
 %% \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
 
@@ -87,25 +40,6 @@
 \makeatletter
 \g@addto@macro\@floatboxreset\centering
 \makeatother
-
-\DeclareDocumentCommand{\vect}{m}{
-        \ensuremath{\boldsymbol{\mathbf{#1}}}
-}
-
-%%% Chemistry
-\usepackage{chemformula}
-
-\makeatletter
-\newcommand\listofframes{\@starttoc{lbf}}
-\makeatother
-
-\addtobeamertemplate{frametitle}{}{%
-  \addcontentsline{lbf}{section}{\protect\makebox[2em][l]{%
-    \protect\usebeamercolor[fg]{structure}\insertframenumber\hfill}%
-  \insertframetitle\par}%
-}
-
-\setbeamertemplate{navigation symbols}{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -204,7 +138,7 @@
 \begin{frame}{Rationale}
   Is it alright to accept the use of NNs that are not truly transferable (B3LYP, M06)? Maybe this works for prediction results, but we will repeat the history of DFT.
   \begin{center}
-    \includegraphics[width=1.00\textwidth]{./figures/obit.pdf}
+    \includegraphics[width=1.00\textwidth]{./figures/obit_gs.pdf}
   \end{center}
 \end{frame}
 

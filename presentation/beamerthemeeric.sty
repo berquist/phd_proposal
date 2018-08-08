@@ -1,0 +1,59 @@
+%% https://www.quora.com/Presentations-What-are-the-best-beamer-themes
+\setbeamertemplate{frametitle}
+  {\begin{centering}\smallskip
+   \insertframetitle\par
+   \smallskip\end{centering}}
+% \setbeamertemplate{frametitle}
+%   {\begin{centering}\insertframetitle\end{centering}}
+% https://tex.stackexchange.com/a/56541/94717
+% https://tex.stackexchange.com/q/125540/94717
+\makeatletter
+\newcommand\listofframes{\@starttoc{lbf}}
+\makeatother
+\addtobeamertemplate{frametitle}{}{%
+  \addcontentsline{lbf}{section}{\protect\makebox[2em][l]{%
+    \protect\usebeamercolor[fg]{structure}\insertframenumber\hfill}%
+  \insertframetitle\par}%
+}
+\setbeamertemplate{itemize item}{\(\bullet\)}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[text line]{%
+    \hfill\strut{%
+        \scriptsize\sf\color{black!60}%
+        \quad\insertframenumber
+    }%
+    \hfill
+}
+%% \setbeamertemplate{caption}{\raggedright\insertcaption\par}
+% https://tex.stackexchange.com/q/44994/94717
+\setbeamertemplate{section in toc}[circle]
+
+\definecolor{NoteBrown}{RGB}{152,101,47}
+\definecolor{NoteBlue}{RGB}{31,91,255}
+\definecolor{NoteGreen}{RGB}{62,195,74}
+\definecolor{NoteRed}{RGB}{191,0,0}
+\definecolor{NotePurple}{RGB}{151,54,208}
+\definecolor{NoteDarkGreen}{RGB}{0,121,62}
+\definecolor{NoteGrey}{RGB}{150,150,150}
+\definecolor{NoteOrange}{RGB}{255,155,0}
+
+% Define some colors:
+\definecolor{PittBlue}{RGB}{0,43,94}
+\definecolor{PittGold}{RGB}{197,168,118}
+\definecolor{DarkFern}{HTML}{407428}
+\definecolor{DarkCharcoal}{HTML}{4D4944}
+\colorlet{Fern}{DarkFern!85!white}
+\colorlet{Charcoal}{DarkCharcoal!85!white}
+\colorlet{LightCharcoal}{Charcoal!50!white}
+\colorlet{AlertColor}{orange!80!black}
+\colorlet{DarkRed}{red!70!black}
+\colorlet{DarkBlue}{blue!70!black}
+\colorlet{DarkGreen}{green!70!black}
+% Use the colors:
+\setbeamercolor{title}{fg=PittBlue}
+\setbeamercolor{frametitle}{fg=PittBlue}
+\setbeamercolor{normal text}{fg=DarkCharcoal}
+\setbeamercolor{block title}{fg=black,bg=Fern!25!white}
+\setbeamercolor{block body}{fg=black,bg=Fern!25!white}
+\setbeamercolor{alerted text}{fg=AlertColor}
+\setbeamercolor{itemize item}{fg=Charcoal}
